@@ -1,0 +1,37 @@
+﻿@model AddNewsFormModel
+
+@{
+    ViewData["Title"] = "Add News";
+}
+
+
+<div style="background-color:MediumSeaGreen" class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">Добавяне на новина</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Title">Заглавие</label>
+                    <input asp-for="Title" class="form-control" placeholder="Заглавие на новината">
+                    <span asp-validation-for="Title" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content">Съдържание</label>
+                    <textarea asp-for="Content" class="form-control" placeholder="Текст..." rows="5"></textarea>
+                    <span asp-validation-for="Content" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PictureUrl">Линк за снимка</label>
+                    <input asp-for="PictureUrl" class="form-control" placeholder="https://picture.Url...">
+                    <span asp-validation-for="PictureUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VideoUrl">Линк за видео</label>
+                    <input asp-for="VideoUrl" class="form-control" placeholder="https://video.Url...">
+                    <span asp-validation-for="VideoUrl" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" value="Save"/>
+            </form>
+        </div>
+    </div>
+</div>

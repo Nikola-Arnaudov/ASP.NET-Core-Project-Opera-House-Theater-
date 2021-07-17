@@ -9,7 +9,7 @@ namespace OperaHouseTheater
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using OperaHouseTheater.Data;
-
+    using OperaHouseTheater.Infrastructure;
 
     public class Startup
     {
@@ -22,7 +22,7 @@ namespace OperaHouseTheater
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options => options
+                .AddDbContext<OperaHouseTheaterDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -35,7 +35,7 @@ namespace OperaHouseTheater
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<OperaHouseTheaterDbContext>();
 
             services.AddControllersWithViews();
         }
@@ -43,6 +43,8 @@ namespace OperaHouseTheater
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,7 +53,6 @@ namespace OperaHouseTheater
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
