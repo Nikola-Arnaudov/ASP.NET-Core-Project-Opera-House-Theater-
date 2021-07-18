@@ -1,13 +1,38 @@
 ﻿namespace OperaHouseTheater.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using OperaHouseTheater.Data;
     using OperaHouseTheater.Models;
+    using OperaHouseTheater.Models.News;
     using System.Diagnostics;
-
+    using System.Linq;
 
     public class HomeController : Controller
     {
-        public IActionResult Index() => View();
+        private readonly OperaHouseTheaterDbContext data;
+
+        public HomeController(OperaHouseTheaterDbContext data) 
+            => this.data = data;
+
+
+        public IActionResult Index() 
+        {
+            var news = this.data
+                .News
+                .OrderByDescending(n => n.Id)
+                .Select(n => new NewsListingViewModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ImageUrl = n.NewsImageUrl,
+                    VideoUrl = n.NewsVideoUrl
+                })
+                .Take(3)
+                .ToList();
+
+            return View(news);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error () => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

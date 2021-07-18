@@ -4,6 +4,7 @@
     using OperaHouseTheater.Models.News;
     using Data.Models;
     using OperaHouseTheater.Data;
+    using System.Linq;
 
     public class NewsController : Controller
     {
@@ -12,10 +13,28 @@
         public NewsController(OperaHouseTheaterDbContext data)
             => this.data = data;
 
+        public IActionResult All()
+        {
+            var news = this.data
+                .News
+                .OrderByDescending(n => n.Id)
+                .Select(n => new NewsListingViewModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ImageUrl = n.NewsImageUrl,
+                    VideoUrl = n.NewsVideoUrl
+                })
+                .ToList();
+
+            return View(news);
+        }
+
         public IActionResult Add() => View();
 
         [HttpPost]
-        public IActionResult Add(AddNewsFormModel news) 
+        public IActionResult Add(AddNewsFormModel news)
         {
             if (!ModelState.IsValid)
             {
@@ -26,15 +45,15 @@
             {
                 Title = news.Title,
                 Content = news.Content,
-                NewsPictureUrl = news.PictureUrl,
+                NewsImageUrl = news.ImageUrl,
                 NewsVideoUrl = news.VideoUrl ?? null
             };
 
             this.data.News.Add(newsData);
-            
+
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
     }
 }

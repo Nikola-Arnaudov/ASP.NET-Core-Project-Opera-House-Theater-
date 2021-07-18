@@ -16,7 +16,7 @@
         public string Content { get; set; }
 
         [Required]
-        public string NewsPictureUrl { get; set; }
+        public string NewsImageUrl { get; set; }
 
         public string NewsVideoUrl { get; set; }
     }

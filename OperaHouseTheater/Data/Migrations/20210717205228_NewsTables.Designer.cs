@@ -10,7 +10,7 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Data.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210716200453_NewsTables")]
+    [Migration("20210717205228_NewsTables")]
     partial class NewsTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,7 +232,7 @@ namespace OperaHouseTheater.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NewsPictureUrl")
+                    b.Property<string>("NewsImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

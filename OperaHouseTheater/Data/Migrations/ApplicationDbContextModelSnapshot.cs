@@ -230,7 +230,7 @@ namespace OperaHouseTheater.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NewsPictureUrl")
+                    b.Property<string>("NewsImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

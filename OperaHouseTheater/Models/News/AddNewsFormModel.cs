@@ -19,7 +19,7 @@
 
         [Required]
         [Url]
-        public string PictureUrl { get; set; }
+        public string ImageUrl { get; set; }
 
         [Url]
         public string VideoUrl { get; set; }
