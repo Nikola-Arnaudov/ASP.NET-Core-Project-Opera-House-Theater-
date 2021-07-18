@@ -55,5 +55,22 @@
 
             return RedirectToAction(nameof(All));
         }
+
+        public IActionResult Details(int id) 
+        {
+            var news = data
+                .News
+                .FirstOrDefault(x => x.Id == id);
+
+            var newsData = new NewsListingViewModel
+            {
+                Content = news.Content,
+                ImageUrl = news.NewsImageUrl,
+                Title = news.Title,
+                VideoUrl = news.NewsVideoUrl
+            };
+
+            return View(newsData);
+        }
     }
 }

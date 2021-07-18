@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<NewsListingViewModel>
 
-
-
 <a class="nav-link shadow btn-primary m-4 text-center " asp-area="" asp-controller="News" asp-action="Add">
     + Добави новина
 </a>
@@ -13,7 +11,7 @@
                 <img class="card-img-top" src="@news.ImageUrl" alt="...">
                 <div class="card-body text-center">
                     <span>Opera House Theater</span>
-                    <h5 class="card-title text-center">@news.Title</h5>
+                    <h5 style="color:#ba9765" class="card-title text-center">@news.Title</h5>
                     <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
                 </div>
             </div>

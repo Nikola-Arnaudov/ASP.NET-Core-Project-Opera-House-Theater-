@@ -1,0 +1,26 @@
+﻿@model NewsListingViewModel
+
+
+<div class="articles-read">
+    <div class="image">
+        <img src="@Model.ImageUrl" class="img-fluid table-responsive-sm" width="400" height="500" alt="@Model.Title">
+        <div class="article">
+            <h3 style="color:#ba9765">@Model.Title</h3>
+            <div class="content text font-weight-normal">
+                <p>@Model.Content</p>
+            </div>
+        </div>
+        @if (Model.VideoUrl != null)
+        {
+            <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            @*<iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>*@
+            @*<div class="video">
+                <div class="video-play" id="show-video" style="display: none;">
+                </div>
+                <iframe id="ytplayer" type="text/html" width="640" height="360" src="@Model.VideoUrl=http://example.com" frameborder="0"></iframe>
+            </div>*@
+        }
+    </div>
+</div>
+
