@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.News;
 
     public class News
     {

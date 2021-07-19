@@ -5,6 +5,7 @@
     using Data.Models;
     using OperaHouseTheater.Data;
     using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
 
     public class NewsController : Controller
     {
@@ -71,6 +72,18 @@
             };
 
             return View(newsData);
+        }
+
+        public IActionResult Delete(int id) 
+        {
+            var news = data.News
+                .FirstOrDefault(x => x.Id == id);
+
+            this.data.News.Remove(news);
+
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

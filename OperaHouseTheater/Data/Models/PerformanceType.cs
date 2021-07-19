@@ -1,20 +1,19 @@
 ﻿namespace OperaHouseTheater.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
-
-    public class Role
+    public class PerformanceType
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(RoleNameMaxLength)]
-        public string RoleName { get; set; } 
+        public string Type { get; set; }
 
         public int PerformanceId { get; set; }
 
         public Performance Performance { get; set; }
 
+        public IEnumerable<Performance> Performances { get; set; } = new List<Performance>();
     }
 }

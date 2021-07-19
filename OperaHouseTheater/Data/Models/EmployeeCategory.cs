@@ -10,12 +10,8 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(EmployeeCategoryMaxLength)]
+        [MaxLength(CategoryMaxLength)]
         public string CategoryName { get; set; }
-
-        public int DepartmentId { get; set; }
-
-        public Department Department { get; set; }
         
         public ICollection<Employee> Employees{ get; set; }
     }

@@ -13,6 +13,7 @@
                     <span>Opera House Theater</span>
                     <h5 style="color:#ba9765" class="card-title text-center">@news.Title</h5>
                     <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
+                    <a asp-controller="News" asp-action="Delete" asp-route-id="@news.Id" class="btn btn-info">Delete</a>
                 </div>
             </div>
         </div>
