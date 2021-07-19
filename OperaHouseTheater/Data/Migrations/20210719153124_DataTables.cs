@@ -322,7 +322,7 @@ namespace OperaHouseTheater.Data.Migrations
                 column: "EventId",
                 principalTable: "Events",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_EventRoles_RoleParts_RoleId",

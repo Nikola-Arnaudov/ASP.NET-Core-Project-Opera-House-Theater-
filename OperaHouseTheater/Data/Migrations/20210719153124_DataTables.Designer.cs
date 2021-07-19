@@ -10,7 +10,7 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Data.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210719152454_DataTables")]
+    [Migration("20210719153124_DataTables")]
     partial class DataTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -672,7 +672,7 @@ namespace OperaHouseTheater.Data.Migrations
                     b.HasOne("OperaHouseTheater.Data.Models.Event", "Event")
                         .WithMany("EventRoles")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OperaHouseTheater.Data.Models.Role", "Role")

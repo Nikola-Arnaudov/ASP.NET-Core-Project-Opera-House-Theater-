@@ -670,7 +670,7 @@ namespace OperaHouseTheater.Data.Migrations
                     b.HasOne("OperaHouseTheater.Data.Models.Event", "Event")
                         .WithMany("EventRoles")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OperaHouseTheater.Data.Models.Role", "Role")

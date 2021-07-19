@@ -98,7 +98,8 @@
                 .Entity<EventRole>()
                 .HasOne(e => e.Event)
                 .WithMany(er => er.EventRoles)
-                .HasForeignKey(e => e.EventId);
+                .HasForeignKey(e => e.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<Ticket>()
