@@ -32,7 +32,9 @@
 
         public DbSet<Performance> Performances { get; set; }
 
-        public DbSet<Role> RoleParts { get; set; }
+        public DbSet<PerformanceType> PerformanceTypes { get; set; }
+
+        public DbSet<Role> RolesPerformance { get; set; }
 
         public DbSet<Ticket> Tickets { get; set; }
 
@@ -90,7 +92,7 @@
             builder
                 .Entity<Event>()
                 .HasOne(e => e.Performance)
-                .WithMany(p=>p.Events)
+                .WithMany(p => p.Events)
                 .HasForeignKey(e => e.PerformanceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -106,6 +108,17 @@
                 .HasOne(t => t.Member)
                 .WithMany(m => m.Tickets)
                 .HasForeignKey(t => t.MemberId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<EventRole>()
+                .HasKey(x => new { x.EmployeeId, x.RoleId });
+
+            builder
+                .Entity<EventRole>()
+                .HasOne(e => e.Employee)
+                .WithMany(er => er.EventRoles)
+                .HasForeignKey(e => e.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

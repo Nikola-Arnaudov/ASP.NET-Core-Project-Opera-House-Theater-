@@ -10,7 +10,7 @@
 
         [Required]
         [MaxLength(RoleNameMaxLength)]
-        public string RoleName { get; set; } 
+        public string RoleName { get; set; }
 
         public int PerformanceId { get; set; }
 

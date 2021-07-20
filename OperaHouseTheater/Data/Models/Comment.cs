@@ -8,7 +8,7 @@
     {
         public int Id { get; init; }
 
-        public int MemberId { get; init; }
+        public int MemberId { get; set; }
 
         public Member Member { get; set; }
 

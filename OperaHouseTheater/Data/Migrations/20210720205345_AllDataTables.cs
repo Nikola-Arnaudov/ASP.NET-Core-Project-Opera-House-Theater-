@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OperaHouseTheater.Data.Migrations
 {
-    public partial class DataTables : Migration
+    public partial class AllDataTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,6 +74,22 @@ namespace OperaHouseTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NewsImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NewsVideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -81,7 +97,7 @@ namespace OperaHouseTheater.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    ImageUrl = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Biography = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -107,21 +123,20 @@ namespace OperaHouseTheater.Data.Migrations
                 name: "EventRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventRoles", x => x.Id);
+                    table.PrimaryKey("PK_EventRoles", x => new { x.EmployeeId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_EventRoles_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,7 +146,7 @@ namespace OperaHouseTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MemberId = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false),
+                    Eventid = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -182,7 +197,7 @@ namespace OperaHouseTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PerformanceType",
+                name: "PerformanceTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -193,7 +208,7 @@ namespace OperaHouseTheater.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PerformanceType", x => x.Id);
+                    table.PrimaryKey("PK_PerformanceTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,15 +227,15 @@ namespace OperaHouseTheater.Data.Migrations
                 {
                     table.PrimaryKey("PK_Performances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Performances_PerformanceType_PerformanceTypeId",
+                        name: "FK_Performances_PerformanceTypes_PerformanceTypeId",
                         column: x => x.PerformanceTypeId,
-                        principalTable: "PerformanceType",
+                        principalTable: "PerformanceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleParts",
+                name: "RolesPerformance",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -230,9 +245,9 @@ namespace OperaHouseTheater.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleParts", x => x.Id);
+                    table.PrimaryKey("PK_RolesPerformance", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleParts_Performances_PerformanceId",
+                        name: "FK_RolesPerformance_Performances_PerformanceId",
                         column: x => x.PerformanceId,
                         principalTable: "Performances",
                         principalColumn: "Id",
@@ -266,11 +281,6 @@ namespace OperaHouseTheater.Data.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventRoles_EmployeeId",
-                table: "EventRoles",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EventRoles_EventId",
                 table: "EventRoles",
                 column: "EventId");
@@ -297,19 +307,19 @@ namespace OperaHouseTheater.Data.Migrations
                 column: "PerformanceTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PerformanceType_PerformanceId1",
-                table: "PerformanceType",
+                name: "IX_PerformanceTypes_PerformanceId1",
+                table: "PerformanceTypes",
                 column: "PerformanceId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleParts_PerformanceId",
-                table: "RoleParts",
+                name: "IX_RolesPerformance_PerformanceId",
+                table: "RolesPerformance",
                 column: "PerformanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_EventId",
+                name: "IX_Tickets_Eventid",
                 table: "Tickets",
-                column: "EventId");
+                column: "Eventid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_MemberId",
@@ -325,17 +335,17 @@ namespace OperaHouseTheater.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_EventRoles_RoleParts_RoleId",
+                name: "FK_EventRoles_RolesPerformance_RoleId",
                 table: "EventRoles",
                 column: "RoleId",
-                principalTable: "RoleParts",
+                principalTable: "RolesPerformance",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Tickets_Events_EventId",
+                name: "FK_Tickets_Events_Eventid",
                 table: "Tickets",
-                column: "EventId",
+                column: "Eventid",
                 principalTable: "Events",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -357,8 +367,8 @@ namespace OperaHouseTheater.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_PerformanceType_Performances_PerformanceId1",
-                table: "PerformanceType",
+                name: "FK_PerformanceTypes_Performances_PerformanceId1",
+                table: "PerformanceTypes",
                 column: "PerformanceId1",
                 principalTable: "Performances",
                 principalColumn: "Id",
@@ -368,8 +378,8 @@ namespace OperaHouseTheater.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_PerformanceType_Performances_PerformanceId1",
-                table: "PerformanceType");
+                name: "FK_PerformanceTypes_Performances_PerformanceId1",
+                table: "PerformanceTypes");
 
             migrationBuilder.DropTable(
                 name: "Admins");
@@ -381,13 +391,16 @@ namespace OperaHouseTheater.Data.Migrations
                 name: "EventRoles");
 
             migrationBuilder.DropTable(
+                name: "News");
+
+            migrationBuilder.DropTable(
                 name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "RoleParts");
+                name: "RolesPerformance");
 
             migrationBuilder.DropTable(
                 name: "Events");
@@ -405,7 +418,7 @@ namespace OperaHouseTheater.Data.Migrations
                 name: "Performances");
 
             migrationBuilder.DropTable(
-                name: "PerformanceType");
+                name: "PerformanceTypes");
         }
     }
 }

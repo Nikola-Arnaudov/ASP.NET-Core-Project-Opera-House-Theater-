@@ -1,5 +1,6 @@
 ﻿namespace OperaHouseTheater.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants.Employee;
@@ -18,7 +19,7 @@
 
         [Required]
         [Url]
-        public int ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
         [Required]
         [StringLength(BiographyMaxLength)]
@@ -31,5 +32,7 @@
         public int CategoryId { get; set; }
 
         public EmployeeCategory Category { get; set; }
+
+        public IEnumerable<EventRole> EventRoles { get; set; } = new List<EventRole>();
     }
 }

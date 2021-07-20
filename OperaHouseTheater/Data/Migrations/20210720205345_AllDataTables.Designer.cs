@@ -10,8 +10,8 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Data.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210719153124_DataTables")]
-    partial class DataTables
+    [Migration("20210720205345_AllDataTables")]
+    partial class AllDataTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -311,8 +311,9 @@ namespace OperaHouseTheater.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("ImageUrl")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -370,23 +371,19 @@ namespace OperaHouseTheater.Data.Migrations
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.EventRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("EmployeeId");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId", "RoleId");
 
                     b.HasIndex("EventId");
 
@@ -502,7 +499,7 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.HasIndex("PerformanceId1");
 
-                    b.ToTable("PerformanceType");
+                    b.ToTable("PerformanceTypes");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Role", b =>
@@ -524,7 +521,7 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.HasIndex("PerformanceId");
 
-                    b.ToTable("RoleParts");
+                    b.ToTable("RolesPerformance");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Ticket", b =>
@@ -537,7 +534,7 @@ namespace OperaHouseTheater.Data.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventId")
+                    b.Property<int>("Eventid")
                         .HasColumnType("int");
 
                     b.Property<int>("MemberId")
@@ -545,7 +542,7 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("Eventid");
 
                     b.HasIndex("MemberId");
 
@@ -664,9 +661,9 @@ namespace OperaHouseTheater.Data.Migrations
             modelBuilder.Entity("OperaHouseTheater.Data.Models.EventRole", b =>
                 {
                     b.HasOne("OperaHouseTheater.Data.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("EventRoles")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OperaHouseTheater.Data.Models.Event", "Event")
@@ -732,7 +729,7 @@ namespace OperaHouseTheater.Data.Migrations
                 {
                     b.HasOne("OperaHouseTheater.Data.Models.Event", "Event")
                         .WithMany()
-                        .HasForeignKey("EventId")
+                        .HasForeignKey("Eventid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -750,6 +747,11 @@ namespace OperaHouseTheater.Data.Migrations
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("OperaHouseTheater.Data.Models.Employee", b =>
+                {
+                    b.Navigation("EventRoles");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.EmployeeCategory", b =>
