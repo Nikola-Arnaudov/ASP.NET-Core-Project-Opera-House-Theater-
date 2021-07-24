@@ -483,19 +483,11 @@ namespace OperaHouseTheater.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PerformanceId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PerformanceId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PerformanceId1");
 
                     b.ToTable("PerformanceTypes");
                 });
@@ -701,15 +693,6 @@ namespace OperaHouseTheater.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("PerformanceType");
-                });
-
-            modelBuilder.Entity("OperaHouseTheater.Data.Models.PerformanceType", b =>
-                {
-                    b.HasOne("OperaHouseTheater.Data.Models.Performance", "Performance")
-                        .WithMany()
-                        .HasForeignKey("PerformanceId1");
-
-                    b.Navigation("Performance");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Role", b =>

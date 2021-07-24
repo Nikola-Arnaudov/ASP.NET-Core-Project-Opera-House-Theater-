@@ -10,10 +10,6 @@
         [Required]
         public string Type { get; set; }
 
-        public int PerformanceId { get; set; }
-
-        public Performance Performance { get; set; }
-
         public IEnumerable<Performance> Performances { get; set; } = new List<Performance>();
     }
 }

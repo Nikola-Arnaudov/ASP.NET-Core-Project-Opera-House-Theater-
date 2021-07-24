@@ -10,7 +10,7 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Data.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210724091314_AllDataTables")]
+    [Migration("20210724100711_AllDataTables")]
     partial class AllDataTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -485,19 +485,11 @@ namespace OperaHouseTheater.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PerformanceId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PerformanceId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PerformanceId1");
 
                     b.ToTable("PerformanceTypes");
                 });
@@ -703,15 +695,6 @@ namespace OperaHouseTheater.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("PerformanceType");
-                });
-
-            modelBuilder.Entity("OperaHouseTheater.Data.Models.PerformanceType", b =>
-                {
-                    b.HasOne("OperaHouseTheater.Data.Models.Performance", "Performance")
-                        .WithMany()
-                        .HasForeignKey("PerformanceId1");
-
-                    b.Navigation("Performance");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Role", b =>
