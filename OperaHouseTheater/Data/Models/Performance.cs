@@ -10,6 +10,7 @@
         public int Id { get; set; }
 
         [Required]
+        [StringLength(TitleMaxLength)]
         public string Title { get; set; }
 
         [Required]

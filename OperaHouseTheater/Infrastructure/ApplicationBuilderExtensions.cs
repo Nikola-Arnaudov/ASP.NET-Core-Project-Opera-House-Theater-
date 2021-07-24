@@ -22,8 +22,6 @@
             SeedPerformanceTypes(data);
             SeedDepartments(data);
             SeedEmployeeCategories(data);
-
-
             return app;
         }
 
@@ -52,6 +50,8 @@
                 new EmployeeCategory{CategoryName = "Главен-художник"},
                 new EmployeeCategory{CategoryName = "Главен-диригент"}
             });
+
+            data.SaveChanges();
         }
 
         public static void SeedDepartments(OperaHouseTheaterDbContext data) 

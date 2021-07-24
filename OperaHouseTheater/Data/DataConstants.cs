@@ -25,9 +25,12 @@
         public class Performance
         {
             public const int TitleMaxLength = 30;
-            public const int TitleMinLength = 3;
+            public const int TitleMinLength = 2;
             public const int ContentMinLength = 100;
+            public const int SynopsisMinLength = 100;
+            public const int SynopsisMaxLength = 5000;
             public const int ComposerNameMaxLength = 30;
+            public const int ComposerNameMinLength = 4;
         }
 
         public const int RoleNameMaxLength = 30;
