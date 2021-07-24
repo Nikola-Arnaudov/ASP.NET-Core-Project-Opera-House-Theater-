@@ -8,7 +8,7 @@
 
         public Member Member { get; set; }
 
-        public int Eventid { get; set; }
+        public int EventId { get; set; }
 
         public Event Event { get; set; }
 

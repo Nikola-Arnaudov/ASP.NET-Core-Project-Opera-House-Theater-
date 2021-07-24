@@ -10,7 +10,7 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Data.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210720205345_AllDataTables")]
+    [Migration("20210724091314_AllDataTables")]
     partial class AllDataTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -534,7 +534,7 @@ namespace OperaHouseTheater.Data.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("Eventid")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<int>("MemberId")
@@ -542,7 +542,7 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Eventid");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("MemberId");
 
@@ -728,9 +728,9 @@ namespace OperaHouseTheater.Data.Migrations
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Ticket", b =>
                 {
                     b.HasOne("OperaHouseTheater.Data.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("Eventid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("Tickets")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OperaHouseTheater.Data.Models.Member", "Member")
@@ -762,6 +762,8 @@ namespace OperaHouseTheater.Data.Migrations
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Event", b =>
                 {
                     b.Navigation("EventRoles");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.Member", b =>

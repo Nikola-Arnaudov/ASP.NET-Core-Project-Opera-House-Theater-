@@ -146,7 +146,7 @@ namespace OperaHouseTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MemberId = table.Column<int>(type: "int", nullable: false),
-                    Eventid = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -317,9 +317,9 @@ namespace OperaHouseTheater.Data.Migrations
                 column: "PerformanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_Eventid",
+                name: "IX_Tickets_EventId",
                 table: "Tickets",
-                column: "Eventid");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_MemberId",
@@ -343,12 +343,12 @@ namespace OperaHouseTheater.Data.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Tickets_Events_Eventid",
+                name: "FK_Tickets_Events_EventId",
                 table: "Tickets",
-                column: "Eventid",
+                column: "EventId",
                 principalTable: "Events",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Comments_Performances_PerformanceId",

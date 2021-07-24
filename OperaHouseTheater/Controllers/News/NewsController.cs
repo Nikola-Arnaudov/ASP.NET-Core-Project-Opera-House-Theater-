@@ -5,7 +5,6 @@
     using Data.Models;
     using OperaHouseTheater.Data;
     using System.Linq;
-    using Microsoft.AspNetCore.Authorization;
 
     public class NewsController : Controller
     {

@@ -135,6 +135,13 @@
                 .HasForeignKey(p => p.PerformanceTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Ticket>()
+                .HasOne(e => e.Event)
+                .WithMany(r => r.Tickets)
+                .HasForeignKey(e => e.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
         }
     }

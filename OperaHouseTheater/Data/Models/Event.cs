@@ -22,5 +22,7 @@
         public int TicketPrice { get; set; }
 
         public IEnumerable<EventRole> EventRoles { get; set; } = new List<EventRole>();
+
+        public IEnumerable<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

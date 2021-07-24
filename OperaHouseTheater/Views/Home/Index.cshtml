@@ -1,16 +1,25 @@
-﻿@model IEnumerable<NewsListingViewModel>
+﻿@model List<NewsListingViewModel>
 
-@{
-    ViewData["Title"] = "Home Page";
-}
+@{ ViewData["Title"] = "Home Page"; }
 
 <section class="page-home__news">
     <h2 class="border-bottom">
         <a class="nav-link text-center text-secondary text-info" asp-area="" asp-controller="News" asp-action="All">Новини</a>
     </h2>
     <div class="row">
-        @*@foreach (var news in Model)
+        @if (!Model.Any())
         {
+            <div class="jumbotron">
+                <h1 class="display-4">Welcome to Opera House Theater!</h1>
+                <p class="lead">There are no news for now.</p>
+                <hr class="my-4">
+                <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
+            </div> 
+        }
+        else
+        {
+            @foreach (var news in Model)
+            {
             <div class="col-md-4">
                 <div class="card shadow">
                     <img class="card-img-top" src="@news.ImageUrl" alt="...">
@@ -21,6 +30,9 @@
                     </div>
                 </div>
             </div>
-        }*@
+            }
+        }
     </div>
 </section>
+
+

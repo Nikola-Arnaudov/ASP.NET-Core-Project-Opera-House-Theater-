@@ -17,21 +17,21 @@
 
         public IActionResult Index() 
         {
-            //var news = this.data
-            //    .News
-            //    .OrderByDescending(n => n.Id)
-            //    .Select(n => new NewsListingViewModel()
-            //    {
-            //        Id = n.Id,
-            //        Title = n.Title,
-            //        Content = n.Content,
-            //        ImageUrl = n.NewsImageUrl,
-            //        VideoUrl = n.NewsVideoUrl
-            //    })
-            //    .Take(3)
-            //    .ToList();
+            var news = this.data
+                .News
+                .OrderByDescending(n => n.Id)
+                .Select(n => new NewsListingViewModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ImageUrl = n.NewsImageUrl,
+                    VideoUrl = n.NewsVideoUrl
+                })
+                .Take(3)
+                .ToList();
 
-            return View(/*news*/);
+            return View(news);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
