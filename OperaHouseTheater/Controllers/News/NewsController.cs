@@ -62,6 +62,9 @@
                 .News
                 .FirstOrDefault(x => x.Id == id);
 
+            //TODO: if news is null...
+
+                
             var newsData = new NewsListingViewModel
             {
                 Content = news.Content,
@@ -77,6 +80,12 @@
         {
             var news = data.News
                 .FirstOrDefault(x => x.Id == id);
+
+            //TODO: if news is null...
+            if (news == null)
+            {
+                return BadRequest();
+            }
 
             this.data.News.Remove(news);
 

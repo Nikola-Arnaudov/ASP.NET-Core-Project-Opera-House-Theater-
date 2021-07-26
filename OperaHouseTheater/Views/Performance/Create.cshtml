@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ImageUrl">Снимка</label>
-                    <input asp-for="ImageUrl" class="form-control" placeholder="https://video.Url...">
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://picture.Url...">
                     <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -35,6 +35,7 @@
                             <option value="@type.Id">@type.TypeName</option>
                         }
                     </select>
+                    <span asp-validation-for="PerformanceTypeId" class="small text-danger"></span>
                 </div>
                 <input class="btn btn-primary float-right" type="submit" value="Save" />
             </form>

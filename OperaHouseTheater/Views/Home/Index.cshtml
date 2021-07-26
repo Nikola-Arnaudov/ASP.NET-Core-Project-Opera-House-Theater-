@@ -2,6 +2,8 @@
 
 @{ ViewData["Title"] = "Home Page"; }
 
+
+
 <section class="page-home__news">
     <h2 class="border-bottom">
         <a class="nav-link text-center text-secondary text-info" asp-area="" asp-controller="News" asp-action="All">Новини</a>
@@ -9,29 +11,26 @@
     <div class="row">
         @if (!Model.Any())
         {
-            <div class="jumbotron">
-                <h1 class="display-4">Welcome to Opera House Theater!</h1>
-                <p class="lead">There are no news for now.</p>
-                <hr class="my-4">
-                <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
-            </div> 
-        }
-        else
-        {
-            @foreach (var news in Model)
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Opera House Theater!</h1>
+    <p class="lead">There are no news for now.</p>
+    <hr class="my-4">
+    <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
+</div> }
+            else
             {
-            <div class="col-md-4">
-                <div class="card shadow">
-                    <img class="card-img-top" src="@news.ImageUrl" alt="...">
-                    <div class="card-body text-center">
-                        <span>Opera House Theater</span>
-                        <h5 class="card-title text-center" style="color:#ba9765">@news.Title</h5>
-                        <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
-                    </div>
-                </div>
-            </div>
-            }
-        }
+@foreach (var news in Model)
+{
+<div class="col-md-4">
+    <div class="card shadow">
+        <img class="card-img-top" src="@news.ImageUrl" alt="...">
+        <div class="card-body text-center">
+            <span>Opera House Theater</span>
+            <h5 class="card-title text-center" style="color:#ba9765">@news.Title</h5>
+            <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
+        </div>
+    </div>
+</div>}}
     </div>
 </section>
 

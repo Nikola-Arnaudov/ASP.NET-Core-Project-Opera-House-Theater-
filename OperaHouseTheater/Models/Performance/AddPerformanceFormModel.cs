@@ -1,6 +1,5 @@
-﻿namespace OperaHouseTheater.Models.Performacne
+﻿namespace OperaHouseTheater.Models.Performance
 {
-    using OperaHouseTheater.Models.Performance;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 

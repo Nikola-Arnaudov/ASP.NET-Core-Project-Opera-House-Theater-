@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PerformanceListingViewModel>
+
+@{ViewData["Title"] = "Репертоар"; }
+
+<div class="row">
+    @foreach (var performance in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3 shadow">
+                <img class="card-img-top" src="@performance.ImageUrl" alt="...">
+                <div class="card-body text-center">
+                    <h5 style="color:#ba9765" class="card-title text-center">@performance.Title</h5>
+                    <span class="text-center">@performance.PerformanceType от @performance.Composer</span>
+                    <div>
+                        <a asp-controller="Performance" asp-action="Details" asp-route-id="@performance.Id" class="btn btn-info">Виж повече</a>
+                        <a asp-controller="Performance" asp-action="Delete" asp-route-id="@performance.Id" class="btn btn-info">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
