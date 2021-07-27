@@ -1,5 +1,8 @@
 ﻿@model PerformanceDetailsViewModel
 
+@{ViewData["Title"] = $"{Model.Title}"; }
+
+
 <div class="articles-read">
     <div class="image img-thumbnail">
         <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Title">
@@ -16,17 +19,17 @@
         </a>
         @if (Model.Roles.Any())
         {
-                @foreach (var role in Model.Roles)
-                {
-                    <div class="row row ml-3 mr-3 mt-2">
-                        <div class="col">
-                            <p>@role.RoleName</p>
-                        </div>
-                        <div class="col">
-                            <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
-                        </div>
+            @foreach (var role in Model.Roles)
+            {
+                <div class="row row ml-3 mr-3 mt-2">
+                    <div class="col">
+                        <p>@role.RoleName</p>
                     </div>
-                }
+                    <div class="col">
+                        <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>

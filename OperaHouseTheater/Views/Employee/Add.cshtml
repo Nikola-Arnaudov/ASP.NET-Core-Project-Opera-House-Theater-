@@ -1,0 +1,55 @@
+﻿@model AddEmployeeFormModel
+
+@{ViewData["Title"] = "Add new Employee"; }
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">Добавяне на служител</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="FirstName">Име</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Име...">
+                    <span asp-validation-for="FirstName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName">Фамилия</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Фамилия...">
+                    <span asp-validation-for="LastName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Biography">Биография</label>
+                    <textarea asp-for="Biography" class="form-control" rows="5" placeholder="Текст..."></textarea>
+                    <span asp-validation-for="Biography" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Снимка</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://picture.Url...">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId">Категория</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.EmployeeCategories)
+                        {
+                            <option value="@category.Id">@category.CategoryName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DepartmentId">Отдел</label>
+                    <select asp-for="DepartmentId" class="form-control">
+                        @foreach (var department in Model.EmployeeDepartments)
+                        {
+                            <option value="@department.Id">@department.DepartmentName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" value="Save" />
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@
         public class Employee 
         {
             public const int NameMaxLength = 30;
-            public const int NameMinLength = 3;
+            public const int NameMinLength = 2;
             public const int BiographyMinLength = 20;
             public const int BiographyMaxLength = 200;
         }

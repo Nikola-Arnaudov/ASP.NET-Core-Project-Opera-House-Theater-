@@ -13,7 +13,6 @@
             ErrorMessage = "Role name must be between {2} & {1} symbols.")]
         public string Name { get; set; }
 
-
         public int PerformanceId { get; set; }
 
         public IEnumerable<PerformanceTitleViewModel> PerformanceTitles { get; set; }

@@ -75,6 +75,5 @@
                    Title = p.Title
                })
                .ToList();
-
     }
 }

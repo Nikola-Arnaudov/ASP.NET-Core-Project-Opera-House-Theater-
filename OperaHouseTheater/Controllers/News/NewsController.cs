@@ -78,7 +78,7 @@
 
         public IActionResult Delete(int id) 
         {
-            var news = data.News
+            var news = this.data.News
                 .FirstOrDefault(x => x.Id == id);
 
             //TODO: if news is null...
