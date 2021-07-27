@@ -34,9 +34,7 @@
         }
 
         public const int RoleNameMaxLength = 30;
-
-
-
+        public const int RoleNameMinLength = 2;
 
         public const int CategoryMaxLength = 50;
 

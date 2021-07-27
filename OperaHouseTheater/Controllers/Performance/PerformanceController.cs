@@ -27,6 +27,11 @@
                 this.ModelState.AddModelError(nameof(performance.PerformanceTypeId), "This type does not exist.");
             }
 
+            if (this.data.Performances.FirstOrDefault(p=> p.Title == performance.Title) != null)
+            {
+                this.ModelState.AddModelError(nameof(performance.Title), "Performance with that title already exist.");
+            }
+
             if (!ModelState.IsValid)
             {
                 performance.PerformanceTypes = this.GetPerformanceTypes();
@@ -155,5 +160,7 @@
                     TypeName = p.Type
                 })
                 .ToList();
+
+       
     }
 }

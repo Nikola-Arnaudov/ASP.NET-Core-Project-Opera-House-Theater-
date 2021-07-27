@@ -1,8 +1,5 @@
 ﻿namespace OperaHouseTheater.Models.Performance
 {
-    using OperaHouseTheater.Data.Models;
-    using System.Collections.Generic;
-
 
     public class PerformanceListingViewModel
     {
