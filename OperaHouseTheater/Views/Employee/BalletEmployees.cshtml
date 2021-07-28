@@ -3,60 +3,60 @@
 @{ViewData["Title"] = "Балет"; }
 
 <h4 class="text-center mb-2">БАЛЕТ</h4>
-<span class="d-block p-2 bg-primary text-white text-center mb-3">Прими и Премиери</span>
+<span class="d-block p-2 bg-info text-white text-center mb-3">Прими и Премиери</span>
 <div class="row">
     @foreach (var employee in Model.Where(x => x.Category == "Примабалерина" || x.Category == "Премиер-солист"))
     {
         <div class="col-md-4">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow h-90 w-50">
                 <img class="card-img-top" src="@employee.ImageUrl" alt="...">
                 <div class="card-body text-center">
-                    <a href="@Url.Action("Details","Employee",new { id= $"{employee.Id}"})" style="color:#ba9765" class="card-title text-center">@employee.FirstName @employee.LastName</a>
+                    <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">@employee.FirstName @employee.LastName</a></h5>
                     <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
     }
 </div>
-<span class="d-block p-2 bg-primary text-white text-center mb-3">Солисти</span>
+<span class="d-block p-2 bg-info text-white text-center mb-3">Солисти</span>
 <div class="row">
     @foreach (var employee in Model.Where(x => x.Category == "Солист"))
     {
         <div class="col-md-4">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow h-90 w-50">
                 <img class="card-img-top" src="@employee.ImageUrl" alt="...">
                 <div class="card-body text-center">
-                    <a href="@Url.Action("Details","Employee",new { id= $"{employee.Id}"})" style="color:#ba9765" class="card-title text-center">@employee.FirstName @employee.LastName</a>
+                    <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">@employee.FirstName @employee.LastName</a></h5>
                     <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
     }
 </div>
-<span class="d-block p-2 bg-primary text-white text-center mb-3">Ансамбъл</span>
+<span class="d-block p-2 bg-info text-white text-center mb-3">Ансамбъл</span>
 <div class="row">
     @foreach (var employee in Model.Where(x => x.Category == "Ансамбъл"))
     {
         <div class="col-md-4">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow h-90 w-50">
                 <img class="card-img-top" src="@employee.ImageUrl" alt="...">
                 <div class="card-body text-center">
-                    <a href="@Url.Action("Details","Employee",new { id= $"{employee.Id}"})" style="color:#ba9765" class="card-title text-center">@employee.FirstName @employee.LastName</a>
+                    <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">@employee.FirstName @employee.LastName</a></h5>
                     <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
     }
 </div>
-<span class="d-block p-2 bg-primary text-white text-center mb-3">Гост-солисти</span>
+<span class="d-block p-2 bg-info text-white text-center mb-3">Гост-солисти</span>
 <div class="row">
     @foreach (var employee in Model.Where(x => x.Category == "Гост-Солист"))
     {
         <div class="col-md-4">
-            <div class="card mb-3 shadow">
+            <div class="card mb-3 shadow h-90 w-50">
                 <img class="card-img-top" src="@employee.ImageUrl" alt="...">
                 <div class="card-body text-center">
-                    <a href="@Url.Action("Details","Employee",new { id= $"{employee.Id}"})" style="color:#ba9765" class="card-title text-center">@employee.FirstName @employee.LastName</a>
+                    <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">@employee.FirstName @employee.LastName</a></h5>
                     <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>

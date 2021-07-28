@@ -1,4 +1,5 @@
-﻿namespace OperaHouseTheater.Models.Performance
+﻿
+namespace OperaHouseTheater.Models.Performance
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

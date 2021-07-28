@@ -1,0 +1,35 @@
+﻿@model SetEventRoleFormModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">Добавяне на Роля</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="RoleId" class="text-center">Роля</label>
+                    <select asp-for="RoleId" class="form-control">
+                        <option value="Избери спектакъл">Избери роля</option>
+                        @foreach (var role in Model.Roles)
+                        {
+                            <option value="@role.Id">@role.RoleName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="RoleId" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmployeeId" class="text-center">Изпълнител</label>
+                    <select asp-for="EmployeeId" class="form-control">
+                        <option value="Избери спектакъл">Избери роля</option>
+                        @foreach (var employee in Model.Employees)
+                        {
+                            <option value="@employee.Id">@employee.FirstName @employee.LastName - @employee.Category</option>
+                        }
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>

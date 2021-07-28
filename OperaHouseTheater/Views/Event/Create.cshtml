@@ -1,0 +1,39 @@
+﻿@model CreateEventFormModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">Добавяне на събитие</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="PerformanceId" class="text-center">Заглавие</label>
+                    <select asp-for="PerformanceId" class="form-control">
+                        <option value="Избери спектакъл" >Избери спектакъл</option>
+                        @foreach (var title in Model.PerformanceTitles)
+                        {
+                            <option value="@title.Id">@title.Title</option>
+                        }
+                    </select>
+                    <span asp-validation-for="PerformanceId" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TicketPrice">Цена на билета</label>
+                    <select asp-for="TicketPrice" class="form-control">
+                        <option value="20">20.00</option>
+                        <option value="30">30.00</option>
+                        <option value="50">50.00</option>
+                    </select>
+                    <span asp-validation-for="TicketPrice" class="small text-danger"></span>
+                </div>
+                <div class="md-form md-outline input-with-post-icon datepicker">
+                    <label asp-for="Date" for="example">Дата на събитието</label>
+                    <input asp-for="Date" placeholder="Select date" type="date" id="example" class="form-control">
+                </div>
+                <span asp-validation-for="Date" class="small text-danger"></span>
+                <input class="btn btn-primary float-right" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>
+
