@@ -14,8 +14,9 @@
         public string ImageUrl { get; set; }
 
         public int RoleId { get; set; }
-        
+
         public string RoleName { get; set; }
 
+        public int EventId { get; set; }
     }
 }

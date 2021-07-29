@@ -55,7 +55,7 @@
             this.data.Events.Add(eventData);
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
 
         public IActionResult All()
@@ -107,8 +107,9 @@
                             RoleName = r.Role.RoleName,
                             EmployeeFirstName = r.Employee.FirstName,
                             EmployeeLastName = r.Employee.LastName,
-                            ImageUrl = r.Employee.ImageUrl
-
+                            ImageUrl = r.Employee.ImageUrl,
+                            EmployeeId = r.EmployeeId,
+                            EventId = r.EventId
                         }).ToList(),
             };
 
@@ -140,20 +141,24 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult SetRole(string ids) => View(new SetEventRoleFormModel
+        public IActionResult SetRole(int performanceId) => View(new SetEventRoleFormModel
         {
-            //PerformanceId = id,
-            //Employees = this.GetEmployees(),
-            //Roles = this.GetRolesNames(id)
+            Employees = this.GetEmployees(),
+            Roles = this.GetRolesNames(performanceId)
+
         });
 
         [HttpPost]
         public IActionResult SetRole(SetEventRoleFormModel role) 
         {
-            //TODO: Return Error message if there is no performance with this id
             if (!this.data.Performances.Any(x=> x.Id == role.PerformanceId))
             {
-                
+                this.ModelState.AddModelError(nameof(role.PerformanceId), "This Performance does not exist.");
+            }
+
+            if (!this.data.RolesPerformance.Any(r => r.Id == role.RoleId))
+            {
+                this.ModelState.AddModelError(nameof(role.RoleId), "This role does not exist.");
             }
 
             if (!this.data.RolesPerformance.Any(r => r.Id == role.RoleId))
@@ -169,17 +174,42 @@
                 return View(role);
             }
 
+            var roledataroleId = role.RoleId;
+            var roledatapergormanceeId = role.PerformanceId;
+            var roledataEventId = role.EventId;
+
             var roleData = new EventRole
             {
                 RoleId = role.RoleId,
-                EmployeeId = role.EmployeeId
+                EmployeeId = role.EmployeeId,
+                EventId = role.EventId,
             };
 
             this.data.EventRoles.Add(roleData);
             this.data.SaveChanges();
 
-            return Redirect($"/Performance/Details/{role.PerformanceId}");
+            return Redirect($"/Event/Details/{role.EventId}");
         }
+
+        public IActionResult DeleteEventRole(int id)
+        {
+            var crrEventRole = this.data.EventRoles
+                .FirstOrDefault(e => e.Id == id);
+
+            //TODO Message
+
+            if (crrEventRole == null)
+            {
+                return BadRequest();
+            }
+
+            this.data.EventRoles.Remove(crrEventRole);
+            this.data.SaveChanges();
+
+            return Redirect($"/Event/Details/{crrEventRole.EventId}");
+        }
+
+
 
         private IEnumerable<EventEmployeeModel> GetEmployees()
             => this.data.Employees
