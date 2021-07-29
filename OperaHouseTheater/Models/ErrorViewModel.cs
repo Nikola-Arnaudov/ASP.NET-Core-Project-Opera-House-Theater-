@@ -1,7 +1,8 @@
-using System;
-
 namespace OperaHouseTheater.Models
 {
+    using System;
+
+
     public class ErrorViewModel
     {
         public string RequestId { get; set; }

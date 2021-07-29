@@ -13,5 +13,8 @@
         public string PerformanceType { get; set; }
 
         public string Composer { get; set; }
+
+        public string ImageUrl { get; set; }
+
     }
 }

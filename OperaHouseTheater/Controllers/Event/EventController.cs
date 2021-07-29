@@ -69,7 +69,8 @@
                     EventName = e.Performance.Title,
                     Composer = e.Performance.Composer,
                     PerformanceType = e.Performance.PerformanceType.Type,
-                    Date = e.Date
+                    Date = e.Date,
+                    ImageUrl = e.Performance.ImageUrl
                 })
                 .ToList();
 
