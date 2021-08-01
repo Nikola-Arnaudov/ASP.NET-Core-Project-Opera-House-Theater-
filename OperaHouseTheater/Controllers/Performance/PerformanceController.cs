@@ -54,10 +54,24 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All() 
+        public IActionResult All([FromQuery]AllPerformancesQueryModel query) 
         {
-            var performances = this.data
-                .Performances
+            var performanceQuery = this.data.Performances.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                performanceQuery = performanceQuery.Where(n =>
+                    n.Title.ToLower().Contains(query.SearchTerm.ToLower())
+                    || n.Composer.ToLower().Contains(query.SearchTerm.ToLower())
+                    || n.PerformanceType.Type.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Type))
+            {
+                performanceQuery = performanceQuery.Where(p => p.PerformanceType.Type == query.Type);
+            }
+
+            var performances = performanceQuery
                 .OrderByDescending(x => x.Id)
                 .Select(p => new PerformanceListingViewModel
                 {
@@ -68,7 +82,15 @@
                     PerformanceType = p.PerformanceType.Type
                 }).ToList();
 
-            return View(performances);
+            var types = this.data
+                .PerformanceTypes
+                .Select(t => t.Type)
+                .ToList();
+
+            query.Types = types;
+            query.Performances = performances;
+
+            return View(query);
         }
 
         public IActionResult Details(int id) 

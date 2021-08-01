@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NewsListingViewModel>
+﻿@model AllNewsQueryModel
 
 @{ViewData["Title"] = "Новини"; }
 
@@ -6,14 +6,19 @@
     + Добави новина
 </a>
 
+<form method="get">
+    <div class="row mb-2 ">
+        <div class="col float-right">
+            <div style="float:right" class="form-group col-md-3 text-right">
+                <label asp-for="SearchTerm" class="text-right"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Some text" />
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="row">
-
-
-</div>
-
-
-<div class="row">
-    @foreach (var news in Model)
+    @foreach (var news in Model.News)
     {
         <div class="col-md-4">
             <div class="card mb-3 shadow">
@@ -29,5 +34,44 @@
     }
 </div>
 
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
 
+    var lastPage = Math.Ceiling((double)Model.NewsCount / AllNewsQueryModel.NewsPerPage);
+ }
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination align-self-center">
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
+            <a class="page-link disabled" asp-controller="News"
+               asp-action="All" asp-route-searchTerm="@Model.SearchTerm" asp-route-currentPage="@previousPage">Previous</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" asp-controller="News" asp-action="All" asp-route-searchTerm="@Model.SearchTerm" asp-route-currentPage="1">1</a>
+        </li>
+        @for (int i = Model.CurrentPage + 1; i < Model.CurrentPage + 5; i++)
+        {
+            @if (i < lastPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="News" asp-action="All" asp-route-searchTerm="@Model.SearchTerm" asp-route-currentPage="@i">@i</a>
+                </li>
+            }
+        }
+        @if (lastPage != 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-controller="News" asp-action="All" asp-route-searchTerm="@Model.SearchTerm" asp-route-currentPage="@lastPage">@lastPage</a>
+            </li>
+        }
+        <li class="page-item @(Model.CurrentPage == lastPage ? "disabled" : string.Empty)">
+            <a class="page-link" asp-controller="News"
+               asp-action="All" asp-route-searchTerm="@Model.SearchTerm" asp-route-currentPage="@(Model.CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>
 

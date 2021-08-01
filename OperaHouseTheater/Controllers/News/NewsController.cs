@@ -5,6 +5,7 @@
     using Data.Models;
     using OperaHouseTheater.Data;
     using System.Linq;
+    using System;
 
     public class NewsController : Controller
     {
@@ -13,11 +14,21 @@
         public NewsController(OperaHouseTheaterDbContext data)
             => this.data = data;
 
-        public IActionResult All()
+        public IActionResult All([FromQuery]AllNewsQueryModel query)
         {
-            var news = this.data
-                .News
+            var newsQuery = this.data.News.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                newsQuery = newsQuery.Where(n =>
+                    n.Title.ToLower().Contains(query.SearchTerm.ToLower())
+                    || n.Content.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            var news = newsQuery
                 .OrderByDescending(n => n.Id)
+                .Skip((query.CurrentPage - 1) * AllNewsQueryModel.NewsPerPage)
+                .Take(AllNewsQueryModel.NewsPerPage)
                 .Select(n => new NewsListingViewModel()
                 {
                     Id = n.Id,
@@ -28,7 +39,10 @@
                 })
                 .ToList();
 
-            return View(news);
+            query.News = news;
+            query.NewsCount = newsQuery.Count();
+
+            return View(query);
         }
 
         public IActionResult Add() => View();

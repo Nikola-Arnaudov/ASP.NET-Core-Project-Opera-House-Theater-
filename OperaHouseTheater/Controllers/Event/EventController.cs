@@ -58,11 +58,27 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery]AllEventsQueryModel query)
         {
-            var events = this.data
-                .Events
+            var eventsQuery = this.data.Events.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                eventsQuery = eventsQuery.Where(e =>
+                    e.Performance.Title.ToLower().Contains(query.SearchTerm.ToLower())
+                    || e.Performance.Composer.ToLower().Contains(query.SearchTerm.ToLower())
+                    || e.Performance.PerformanceType.Type.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Type))
+            {
+                eventsQuery = eventsQuery.Where(e => e.Performance.PerformanceType.Type == query.Type);
+            }
+
+            var events = eventsQuery
                 .OrderBy(e => e.Date)
+                .Skip((query.CurrentPage - 1) * AllEventsQueryModel.EventsPerPage)
+                .Take(AllEventsQueryModel.EventsPerPage)
                 .Select(e => new EventsListingViewModel()
                 {
                     Id = e.Id,
@@ -74,7 +90,16 @@
                 })
                 .ToList();
 
-            return View(events);
+            var types = this.data
+                .PerformanceTypes
+                .Select(t => t.Type)
+                .ToList();
+
+            query.Types = types;
+            query.Events = events;
+            query.EventsCount = eventsQuery.Count();
+
+            return View(query);
         }
 
         public IActionResult Details(int id) 
