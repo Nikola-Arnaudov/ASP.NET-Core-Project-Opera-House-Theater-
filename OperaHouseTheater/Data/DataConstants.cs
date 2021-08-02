@@ -12,7 +12,7 @@
             public const int NameMaxLength = 30;
             public const int NameMinLength = 2;
             public const int BiographyMinLength = 20;
-            public const int BiographyMaxLength = 200;
+            public const int BiographyMaxLength = 700;
         }
 
         public class News 
@@ -24,7 +24,7 @@
 
         public class Performance
         {
-            public const int TitleMaxLength = 30;
+            public const int TitleMaxLength = 50;
             public const int TitleMinLength = 2;
             public const int ContentMinLength = 100;
             public const int SynopsisMinLength = 100;
@@ -38,10 +38,13 @@
 
         public const int CategoryMaxLength = 50;
 
-        public const int CommentMaxLength = 100;
+        public const int CommentMaxLength = 300;
 
         public const int MemberNameMaxLength = 30;
+        public const int MemberNameMinLength = 2;
+        public const int PhoneNumberMaxLength = 20;
+        public const int PhoneNumberMinLength = 5;
 
-
+        public const int DefaultFreeSeats = 500;
     }
 }

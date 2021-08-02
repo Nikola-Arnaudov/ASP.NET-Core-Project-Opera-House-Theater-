@@ -22,6 +22,11 @@
         [HttpPost]
         public IActionResult Create(AddPerformanceFormModel performance) 
         {
+            if (performance.PerformanceTypeId == 0)
+            {
+                this.ModelState.AddModelError(nameof(performance.PerformanceTypeId), "You must chose a type.");
+            }
+
             if (!this.data.PerformanceTypes.Any(t=> t.Id == performance.PerformanceTypeId))
             {
                 this.ModelState.AddModelError(nameof(performance.PerformanceTypeId), "This type does not exist.");

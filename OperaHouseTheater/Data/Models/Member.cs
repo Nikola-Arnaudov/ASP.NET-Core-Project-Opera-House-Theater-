@@ -13,6 +13,10 @@
         public string MemberName { get; set; }
 
         [Required]
+        [MaxLength(PhoneNumberMaxLength)]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         public string UserId { get; set; }
 
         public IEnumerable<Comment> Comments { get; init; } = new List<Comment>();

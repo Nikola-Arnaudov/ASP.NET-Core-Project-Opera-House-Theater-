@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OperaHouseTheater.Data;
 
-namespace OperaHouseTheater.Data.Migrations
+namespace OperaHouseTheater.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class OperaHouseTheaterDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -252,8 +252,8 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
@@ -295,8 +295,8 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.Property<string>("Biography")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -354,6 +354,9 @@ namespace OperaHouseTheater.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FreeSeats")
+                        .HasColumnType("int");
+
                     b.Property<int>("PerformanceId")
                         .HasColumnType("int");
 
@@ -401,6 +404,11 @@ namespace OperaHouseTheater.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -467,7 +475,8 @@ namespace OperaHouseTheater.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -521,14 +530,34 @@ namespace OperaHouseTheater.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Count")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Composer")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PerformanceType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SeatsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

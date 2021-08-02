@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<EmployeeListingViewModel>
 
-@{ViewData["Title"] = "Балет"; }
+@{ViewBag.Title = "Балет"; }
 
-<h4 class="text-center mb-2">БАЛЕТ</h4>
+<h4 class="text-center mb-2">@ViewBag.Title</h4>
 <span class="d-block p-2 bg-info text-white text-center mb-3">Прими и Премиери</span>
 <div class="row">
     @foreach (var employee in Model.Where(x => x.Category == "Примабалерина" || x.Category == "Премиер-солист"))

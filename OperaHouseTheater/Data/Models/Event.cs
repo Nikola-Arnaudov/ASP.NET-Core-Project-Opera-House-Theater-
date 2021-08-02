@@ -15,9 +15,7 @@
 
         public DateTime Date { get; set; }
 
-        public int FreeSeats { get; } = 500;
-
-        public int SeatsTaken { get; } = 0;
+        public int FreeSeats { get; set; } = 500;
 
         public int TicketPrice { get; set; }
 

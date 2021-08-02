@@ -73,6 +73,11 @@
     }
 
     var lastPage = Math.Ceiling((double)Model.EventsCount / AllEventsQueryModel.EventsPerPage);
+
+    if (lastPage == 0)
+    {
+        lastPage = 1;
+    }
 }
 
 <nav aria-label="Page navigation example">

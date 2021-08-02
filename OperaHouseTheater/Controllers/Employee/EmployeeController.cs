@@ -168,11 +168,7 @@
                 .Admins
                 .Any(x => x.UserId == this.User.GetId());
 
-        private bool UserIsMember()
-            => this.data
-                .Members
-                .Any(x => x.UserId == this.User.GetId());
-
+        
         private IEnumerable<EmployeeDepartmentViewModel> GetEmployeeDepartments()
             => this.data
                 .Departments

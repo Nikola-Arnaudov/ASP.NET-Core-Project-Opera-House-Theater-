@@ -45,6 +45,11 @@
     }
 
     var lastPage = Math.Ceiling((double)Model.NewsCount / AllNewsQueryModel.NewsPerPage);
+
+    if (lastPage == 0)
+    {
+        lastPage = 1;
+    }
 }
 
 <nav aria-label="Page navigation example">

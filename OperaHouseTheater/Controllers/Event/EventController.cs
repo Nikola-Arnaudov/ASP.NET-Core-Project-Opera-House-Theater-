@@ -9,6 +9,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using static Data.DataConstants;
+
     public class EventController : Controller
     {
         private readonly OperaHouseTheaterDbContext data;
@@ -48,7 +50,8 @@
                 PerformanceId = eventInput.PerformanceId,
                 Date = eventInput.Date,
                 TicketPrice = eventInput.TicketPrice,
-                Performance = data.Performances.FirstOrDefault(x => x.Id == eventInput.PerformanceId)
+                Performance = data.Performances.FirstOrDefault(x => x.Id == eventInput.PerformanceId),
+                FreeSeats = DefaultFreeSeats
             };
 
             this.data.Events.Add(eventData);
