@@ -1,8 +1,10 @@
 ﻿namespace OperaHouseTheater.Controllers.Employee
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
+    using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Employee;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,14 +16,24 @@
         public EmployeeController(OperaHouseTheaterDbContext data)
             => this.data = data;
 
-
-        public IActionResult Add() => View(new AddEmployeeFormModel
+        [Authorize]
+        public IActionResult Add() 
         {
-            EmployeeCategories = this.GetEmployeeCategories(),
-            EmployeeDepartments = this. GetEmployeeDepartments()
-        });
+            if (!UserIsAdmin())
+            {
+
+            }
+
+
+            return View(new AddEmployeeFormModel
+            {
+                EmployeeCategories = this.GetEmployeeCategories(),
+                EmployeeDepartments = this.GetEmployeeDepartments()
+            });
+        }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddEmployeeFormModel employeeInput) 
         {
             if (!this.data.Departments.Any(d=> d.Id == employeeInput.DepartmentId))
@@ -150,6 +162,16 @@
 
             return RedirectToAction("Index","Home");
         }
+
+        private bool UserIsAdmin()
+            => this.data
+                .Admins
+                .Any(x => x.UserId == this.User.GetId());
+
+        private bool UserIsMember()
+            => this.data
+                .Members
+                .Any(x => x.UserId == this.User.GetId());
 
         private IEnumerable<EmployeeDepartmentViewModel> GetEmployeeDepartments()
             => this.data

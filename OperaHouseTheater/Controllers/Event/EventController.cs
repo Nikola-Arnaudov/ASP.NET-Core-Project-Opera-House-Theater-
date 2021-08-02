@@ -9,7 +9,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-
     public class EventController : Controller
     {
         private readonly OperaHouseTheaterDbContext data;
@@ -108,7 +107,6 @@
                 .Events
                 .FirstOrDefault(x => x.Id == id);
 
-            var crrPerformance = this.data.Performances.FirstOrDefault(x => x.Id == crrEvent.PerformanceId);
 
             //TODO: view with error message
 
@@ -116,6 +114,8 @@
             {
                 return BadRequest();
             }
+
+            var crrPerformance = this.data.Performances.FirstOrDefault(x => x.Id == crrEvent.PerformanceId);
 
             var eventData = new EventDetailsViewModel
             {
@@ -171,7 +171,6 @@
         {
             Employees = this.GetEmployees(),
             Roles = this.GetRolesNames(performanceId)
-
         });
 
         [HttpPost]

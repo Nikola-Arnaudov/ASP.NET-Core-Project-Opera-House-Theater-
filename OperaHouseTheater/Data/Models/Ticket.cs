@@ -12,6 +12,10 @@
 
         public Event Event { get; set; }
 
+        //Rename to seatsCount
         public int Count { get; set; }
+
+        // add property
+        //public decimal Amount {get;set;}
     }
 }

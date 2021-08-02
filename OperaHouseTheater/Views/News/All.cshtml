@@ -2,6 +2,9 @@
 
 @{ViewData["Title"] = "Новини"; }
 
+<div class="mt-3"></div>
+    <h2 class="text-center text-info">Новини</h2>
+
 <a class="nav-link shadow btn-primary m-4 text-center " asp-area="" asp-controller="News" asp-action="Add">
     + Добави новина
 </a>
@@ -42,7 +45,7 @@
     }
 
     var lastPage = Math.Ceiling((double)Model.NewsCount / AllNewsQueryModel.NewsPerPage);
- }
+}
 
 <nav aria-label="Page navigation example">
     <ul class="pagination align-self-center">
