@@ -9,7 +9,6 @@
     using OperaHouseTheater.Models.Ticket;
     using System.Linq;
 
-
     public class TicketController : Controller
     {
         private readonly OperaHouseTheaterDbContext data;
@@ -25,7 +24,7 @@
             var memberId = this.data
                 .Members
                 .Where(m => m.UserId == this.User.GetId())
-                .Select(m=> m.Id)
+                .Select(m => m.Id)
                 .FirstOrDefault();
 
             if (memberId == 0)
@@ -33,7 +32,7 @@
                 //TODO
                 //this.TempData
 
-                return RedirectToAction(nameof(MemberController.Become),"Member");
+                return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
             var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == id);
@@ -114,13 +113,62 @@
             this.data.Tickets.Add(ticketData);
             this.data.SaveChanges();
 
-            return RedirectToAction("All","Event");
+            return RedirectToAction("All", "Event");
+        }
+
+        [Authorize]
+        public IActionResult All()
+        {
+            var member = this.data
+                .Members
+                .FirstOrDefault(m => m.UserId == this.User.GetId());
+
+            if (member == null)
+            {
+                //TODO Error Message
+
+                return BadRequest();
+            }
+
+            var myTicketsData = new MyTicketsViewModel
+            {
+                Id = member.Id,
+                MemberName = member.MemberName,
+                Tickets = this.data.Tickets
+                        .Where(t => t.MemberId == member.Id)
+                        .OrderBy(t => t.Date)
+                        .Select(t => new TicketListingViewModel
+                        {
+                            SeatsCount = t.SeatsCount,
+                            Amount = t.Amount,
+                            Date = t.Date,
+                            Title = t.Title,
+                            Id = t.Id,
+                            EventId = t.EventId
+                        })
+                        .ToList()
+            };
+
+            return View(myTicketsData);
         }
 
 
-        //public IActionResult Delete()
-        //{
-        //};
+        public IActionResult Delete(int id)
+        {
+            var ticket = this.data.Tickets.FirstOrDefault(t => t.Id == id);
+
+            if (ticket == null)
+            {
+                //TODO Message
+
+                return BadRequest();
+            }
+
+            this.data.Tickets.Remove(ticket);
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(All), "Ticket");
+        }
 
 
         private bool UserIsMember()

@@ -7,10 +7,7 @@
     using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Comment;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
 
     public class CommentController : Controller
@@ -107,8 +104,6 @@
 
             return Redirect($"/Performance/Details/{comment.PerformanceId}");
         }
-
-
 
         private bool UserIsMember()
             => this.data

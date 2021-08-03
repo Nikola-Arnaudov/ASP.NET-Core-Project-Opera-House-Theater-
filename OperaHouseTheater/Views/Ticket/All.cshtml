@@ -1,0 +1,51 @@
+﻿@model MyTicketsViewModel
+
+@{ ViewBag.Title = "My tickets"; }
+
+<div class="container">
+    <h2 class="text-center mb-2">@ViewBag.Title</h2>
+    @if (!Model.Tickets.Any())
+    {
+        <div class="jumbotron">
+            <h1 class="display-4">Hello, @Model.MemberName!</h1>
+            <p class="lead">You don't have any tickets for now.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </div>
+    }
+    else
+    {
+        @foreach (var ticket in Model.Tickets)
+        {
+            <div class="card text-center mb-2">
+                <div class="card-header text-center" style="background-color:antiquewhite">
+                    Opera House Theater
+                </div>
+                <div class="card-body" style="background-color:wheat">
+                    <h3 class="card-title mb-2">@ticket.Title</h3>
+                    <p class="card-text"></p>
+                    <div class="row">
+                        <p class="col">Date: @ticket.Date.ToString("d") 19:00</p>
+                        <p class="col">Places: @ticket.SeatsCount</p>
+                        <p class="col">Amount: @ticket.Amount.00</p>
+                    </div>
+                    <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Details</a>
+                    @if (ticket.Date < DateTime.Today)
+                    {
+                        <a href="#" class="btn btn-primary">Delete</a>
+                    }
+                </div>
+                <div class="card-footer text-muted" style="background-color:antiquewhite">
+                    Opera House Theater Adress: Sofia 1000, 30 "Knyaz Aleksandar Dondukov" Blvd
+                </div>
+            </div>
+        }
+
+
+    }
+
+</div>
+
+
+

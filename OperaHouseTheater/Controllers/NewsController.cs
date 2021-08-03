@@ -5,7 +5,6 @@
     using Data.Models;
     using OperaHouseTheater.Data;
     using System.Linq;
-    using System;
 
     public class NewsController : Controller
     {

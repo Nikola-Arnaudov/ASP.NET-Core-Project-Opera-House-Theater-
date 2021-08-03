@@ -191,7 +191,5 @@
                     TypeName = p.Type
                 })
                 .ToList();
-
-       
     }
 }
