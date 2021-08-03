@@ -39,6 +39,7 @@
         public const int CategoryMaxLength = 50;
 
         public const int CommentMaxLength = 300;
+        public const int CommentMinLength = 4;
 
         public const int MemberNameMaxLength = 30;
         public const int MemberNameMinLength = 2;

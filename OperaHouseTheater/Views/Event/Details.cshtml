@@ -7,7 +7,17 @@
         <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Title">
         <div class="article">
             <h2 class="text-center" style="color:#ba9765">@Model.Title</h2>
-            <h5 class="text mt-2 mb-3 m-2" style="color:#ba9765">Композитор: @Model.Composer</h5>
+            
+            <div class="row">
+
+                <h5 class="text mt-2 mb-3 m-2" style="color:#ba9765">Композитор: @Model.Composer</h5>
+                <div class="" style="text-align: center">
+                    <a asp-controller="Ticket" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary btn-sm ">Buy ticket</a>
+                </div>
+
+            </div>
+
+            
             <div class="content text text-center font-weight-normal">
                 <p>@Model.Synopsis</p>
             </div>
@@ -18,24 +28,24 @@
         </a>
         @if (Model.EventRoles.Any())
         {
-            @foreach (var role in Model.EventRoles)
-            {
-                <div class="col-md-4">
-                    <div class="card mb-3 shadow h-90 w-50">
-                        <img class="card-img-top" src="@role.ImageUrl" alt="...">
-                        <div class="card-body text-center">
-                            <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@role.EmployeeId">@role.EmployeeFirstName @role.EmployeeLastName</a></h5>
-                            <p class="text-center">@role.RoleName</p>
-                            <a asp-controller="Event" asp-action="DeleteEventRole" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+            <div class="row">
+                @foreach (var role in Model.EventRoles)
+                {
+                    <div class="col-md-3">
+                        <div class="card mb-3 shadow h-90 w-50">
+                            <img class="card-img-top" src="@role.ImageUrl" alt="...">
+                            <div class="card-body text-center">
+                                <h5><a class="text-center" style="color:#ba9765" asp-controller="Employee" asp-action="Details" asp-route-id="@role.EmployeeId">@role.EmployeeFirstName @role.EmployeeLastName</a></h5>
+                                <p class="text-center">@role.RoleName</p>
+                                <a asp-controller="Event" asp-action="DeleteEventRole" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         }
     </div>
 </div>
-
-
 
 
 

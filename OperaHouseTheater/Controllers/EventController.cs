@@ -57,7 +57,8 @@
             this.data.Events.Add(eventData);
             this.data.SaveChanges();
 
-            return RedirectToAction(nameof(All));
+            return Redirect($"/Event/Details/{eventData.Id}");
+            //return Redirect($"/Performance/Details/{role.PerformanceId}");
         }
 
         public IActionResult All([FromQuery]AllEventsQueryModel query)

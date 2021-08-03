@@ -114,20 +114,24 @@
                 Composer = performance.Composer,
                 Synopsis = performance.Synopsis,
                 ImageUrl = performance.ImageUrl,
-                Roles = data.RolesPerformance.Where(r => r.PerformanceId == performance.Id)
+                Roles = this.data.RolesPerformance
+                        .Where(r => r.PerformanceId == performance.Id)
                         .Select(r => new RoleListingViewModel
                         {
                             Id = r.Id,
                             RoleName = r.RoleName
                         }).ToList(),
-                Events = data.Events.Where(e => e.PerformanceId == performance.Id)
+                Events = this.data.Events
+                        .Where(e => e.PerformanceId == performance.Id)
                         .Select(e => new EventListingViewModel
                         {
                             Id = e.Id,
                             Date = e.Date
                         })
                         .ToList(),
-                Comments = data.Comments.Where(c => c.PerformanceId == performance.Id)
+                Comments = this.data.Comments
+                        .OrderByDescending(x=> x.Id)
+                        .Where(c => c.PerformanceId == performance.Id)
                         .Select(c => new CommentListingViewModel
                         {
                             Id = c.Id,

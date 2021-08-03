@@ -5,7 +5,7 @@
 
     public class AllNewsQueryModel
     {
-        public const int NewsPerPage = 2;
+        public const int NewsPerPage = 9;
 
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }

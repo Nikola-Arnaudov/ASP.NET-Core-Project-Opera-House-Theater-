@@ -10,7 +10,7 @@
             <div class="card-body">
                 <h3 class="card-title">@Model.Title</h3>
                 <h6 class="card-title">@Model.PerformanceType от @Model.Composer</h6>
-                <h6 class="card-title">Дата: @Model.Date 19:00</h6>
+                <h6 class="card-title">Дата: @Model.Date.ToString("d") 19:00</h6>
                 <p class="card-text">Free seats: @Model.FreeSeats</p>
                 <p class="card-text">Ticket price: @Model.TicketPrice.00</p>
                 <div class="container">

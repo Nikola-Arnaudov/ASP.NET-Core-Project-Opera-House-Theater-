@@ -1,7 +1,6 @@
 ﻿@model PerformanceDetailsViewModel
 
-@{ViewData["Title"] = $"{Model.Title}"; }
-
+@{ViewBag.Title = $"{Model.Title}"; }
 
 <div class="articles-read">
     <div class="image img-thumbnail">
@@ -13,6 +12,27 @@
                 <p>@Model.Synopsis</p>
             </div>
         </div>
+        @if (Model.Events.Any())
+        {
+            <h2 class="text-center">Events</h2>
+            <div class="row">
+                @foreach (var crrEvent in Model.Events)
+                {
+                    <div class="col-md-3">
+                        <div class="card mb-3 shadow h-90 w-50">
+                            <h5>
+                                <a class="text-center" style="color:#ba9765"
+                                   asp-controller="Event" asp-action="Details"
+                                   asp-route-id="@crrEvent.Id">
+                                    @crrEvent.Date.ToString("d")
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
         <h3 class="text-center">Роли</h3>
         <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole">
             + Добави роля
@@ -31,6 +51,33 @@
                 </div>
             }
         }
+        <div class="rom mb-2"></div>
+        <h3 class="text-center mb-4">Comments</h3>
+        <div class="" style="text-align: center">
+            <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+        </div>
+        <div style="height:300px;overflow-y:scroll">
+            @if (!Model.Comments.Any())
+            {
+                <h3 class="text-center mb-2">There are still no comments for this performance.</h3>
+                <h5 class="text-center">You can be the first one with comment here!</h5>
+            }
+            else
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            @comment.CreatorName
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@comment.Content</p>
+                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="btn btn-outline-danger float-right">Delete</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
 </div>
 

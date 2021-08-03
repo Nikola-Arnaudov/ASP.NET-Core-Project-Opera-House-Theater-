@@ -7,10 +7,7 @@
     using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Ticket;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
 
     public class TicketController : Controller
@@ -25,7 +22,13 @@
         [Authorize]
         public IActionResult Buy(int id)
         {
-            if (!this.UserIsMember())
+            var memberId = this.data
+                .Members
+                .Where(m => m.UserId == this.User.GetId())
+                .Select(m=> m.Id)
+                .FirstOrDefault();
+
+            if (memberId == 0)
             {
                 //TODO
                 //this.TempData
@@ -91,8 +94,6 @@
             var member = this.data
                 .Members
                 .FirstOrDefault(x => x.UserId == userId);
-
-            //var eventId = int.Parse(ticket.CurrEventId);
 
             var ticketData = new Ticket
             {
