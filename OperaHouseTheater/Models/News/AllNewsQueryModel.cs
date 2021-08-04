@@ -1,5 +1,6 @@
 ﻿namespace OperaHouseTheater.Models.News
 {
+    using OperaHouseTheater.Services.News;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -14,6 +15,6 @@
 
         public int NewsCount { get; set; }
 
-        public IEnumerable<NewsListingViewModel> News { get; set; }
+        public IEnumerable<NewsServiceModel> News { get; set; }
     }
 }

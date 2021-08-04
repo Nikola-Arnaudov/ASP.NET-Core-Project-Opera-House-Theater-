@@ -6,6 +6,7 @@
     using OperaHouseTheater.Models.Event;
     using OperaHouseTheater.Models.Home;
     using OperaHouseTheater.Models.News;
+    using OperaHouseTheater.Services.News;
     using System.Diagnostics;
     using System.Linq;
 
@@ -39,7 +40,7 @@
                 News = this.data
                         .News
                         .OrderByDescending(x => x.Id)
-                        .Select(n => new NewsListingViewModel
+                        .Select(n => new NewsServiceModel
                         {
                             Id = n.Id,
                             Title = n.Title,

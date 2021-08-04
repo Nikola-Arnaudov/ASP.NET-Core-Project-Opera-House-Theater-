@@ -9,6 +9,9 @@ namespace OperaHouseTheater
     using Microsoft.Extensions.Hosting;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Services.Members;
+    using OperaHouseTheater.Services.News;
+    using OperaHouseTheater.Services.Tickets;
 
     public class Startup
     {
@@ -37,6 +40,10 @@ namespace OperaHouseTheater
                 .AddEntityFrameworkStores<OperaHouseTheaterDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddTransient<INewsService, NewsService>();
+            services.AddTransient<IMemberService, MemberService>();
+            services.AddTransient<ITicketService, TicketService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

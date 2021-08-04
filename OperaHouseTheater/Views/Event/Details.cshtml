@@ -10,19 +10,18 @@
             
             <div class="row">
 
-                <h5 class="text mt-2 mb-3 m-2" style="color:#ba9765">Композитор: @Model.Composer</h5>
+                <h5 class="text mt-2 mb-4 m-2 ml-3" style="color:#ba9765">Композитор: @Model.Composer</h5>
                 <div class="" style="text-align: center">
-                    <a asp-controller="Ticket" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary btn-sm ">Buy ticket</a>
+                    <a asp-controller="Ticket" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary"style="float: right;">Buy ticket</a>
                 </div>
-
             </div>
 
-            
+            <h4 class="text-center mb-2 mt-2">Синопсис</h4>
             <div class="content text text-center font-weight-normal">
                 <p>@Model.Synopsis</p>
             </div>
         </div>
-        <h3 class="text-center">Състав</h3>
+        <h3 class="text-center mb-2">Състав</h3>
         <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Event" asp-action="SetRole" asp-route-eventId="@Model.Id" asp-route-performanceId="@Model.PerformanceId">
             + Добави роля
         </a>

@@ -7,15 +7,18 @@
     using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Ticket;
+    using OperaHouseTheater.Services.Tickets;
     using System.Linq;
 
     public class TicketController : Controller
     {
         private readonly OperaHouseTheaterDbContext data;
+        private readonly ITicketService tickets; 
 
-        public TicketController(OperaHouseTheaterDbContext data)
+        public TicketController(OperaHouseTheaterDbContext data,ITicketService tickets)
         {
             this.data = data;
+            this.tickets = tickets;
         }
 
         [Authorize]
@@ -119,37 +122,41 @@
         [Authorize]
         public IActionResult All()
         {
-            var member = this.data
-                .Members
-                .FirstOrDefault(m => m.UserId == this.User.GetId());
+            var myTickets = this.tickets.All(this.User.GetId());
 
-            if (member == null)
-            {
-                //TODO Error Message
+            //var member = this.data
+            //    .Members
+            //    .FirstOrDefault(m => m.UserId == this.User.GetId());
 
-                return BadRequest();
-            }
+            //if (member == null)
+            //{
+            //    //TODO Error Message
 
-            var myTicketsData = new MyTicketsViewModel
-            {
-                Id = member.Id,
-                MemberName = member.MemberName,
-                Tickets = this.data.Tickets
-                        .Where(t => t.MemberId == member.Id)
-                        .OrderBy(t => t.Date)
-                        .Select(t => new TicketListingViewModel
-                        {
-                            SeatsCount = t.SeatsCount,
-                            Amount = t.Amount,
-                            Date = t.Date,
-                            Title = t.Title,
-                            Id = t.Id,
-                            EventId = t.EventId
-                        })
-                        .ToList()
-            };
+            //    return BadRequest();
+            //}
 
-            return View(myTicketsData);
+
+
+            //var myTicketsData = new MyTicketsViewModel
+            //{
+            //    Id = member.Id,
+            //    MemberName = member.MemberName,
+            //    Tickets = this.data.Tickets
+            //            .Where(t => t.MemberId == member.Id)
+            //            .OrderBy(t => t.Date)
+            //            .Select(t => new TicketListingViewModel
+            //            {
+            //                SeatsCount = t.SeatsCount,
+            //                Amount = t.Amount,
+            //                Date = t.Date,
+            //                Title = t.Title,
+            //                Id = t.Id,
+            //                EventId = t.EventId
+            //            })
+            //            .ToList()
+            //};
+
+            return View(myTickets);
         }
 
 

@@ -24,7 +24,6 @@
 
             }
 
-
             return View(new AddEmployeeFormModel
             {
                 EmployeeCategories = this.GetEmployeeCategories(),

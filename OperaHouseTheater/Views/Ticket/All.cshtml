@@ -1,9 +1,10 @@
-﻿@model MyTicketsViewModel
+﻿@*@model MyTicketsViewModel*@
+@model TicketQueryServiceModel
 
 @{ ViewBag.Title = "My tickets"; }
 
 <div class="container">
-    <h2 class="text-center mb-2">@ViewBag.Title</h2>
+    <h2 class="text-center mb-4">@ViewBag.Title</h2>
     @if (!Model.Tickets.Any())
     {
         <div class="jumbotron">
@@ -23,17 +24,20 @@
                     Opera House Theater
                 </div>
                 <div class="card-body" style="background-color:wheat">
-                    <h3 class="card-title mb-2">@ticket.Title</h3>
+                    <h3 class="card-title mb-2 font-weight-bold font-italic">@ticket.Title</h3>
                     <p class="card-text"></p>
                     <div class="row">
-                        <p class="col">Date: @ticket.Date.ToString("d") 19:00</p>
-                        <p class="col">Places: @ticket.SeatsCount</p>
-                        <p class="col">Amount: @ticket.Amount.00</p>
+                        <p class="col font-weight-bold font-italic">Date: @ticket.Date.ToString("d") 19:00</p>
+                        <p class="col font-weight-bold">Places: @ticket.SeatsCount</p>
+                        <p class="col font-weight-bold">Amount: @ticket.Amount.00</p>
                     </div>
                     <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Details</a>
                     @if (ticket.Date < DateTime.Today)
                     {
-                        <a href="#" class="btn btn-primary">Delete</a>
+                        <div class="badge badge-danger text-wrap" style="width: 9rem;">
+                            The ticket has expired.
+                        </div>
+                        <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger">Delete</a>
                     }
                 </div>
                 <div class="card-footer text-muted" style="background-color:antiquewhite">

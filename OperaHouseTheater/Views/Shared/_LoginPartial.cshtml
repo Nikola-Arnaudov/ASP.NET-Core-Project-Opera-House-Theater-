@@ -1,18 +1,35 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using OperaHouseTheater.Services.Members
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IMemberService Members
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+
+            var userId = this.User.GetId();
+            var userIsMember = Members.IsMember(userId);
+        
+
+        @if (userIsMember)
+        {
+            <li class="nav-item float-right">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="All">My Tickets</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become Member</a>
+            </li>
+        }
+        @*<li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="Create">I'm Admin</a>
+            </li>*@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Acount</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become Member</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="Create">I'm Admin</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

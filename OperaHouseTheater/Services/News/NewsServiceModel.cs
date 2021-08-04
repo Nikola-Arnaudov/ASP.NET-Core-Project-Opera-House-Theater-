@@ -1,7 +1,6 @@
-﻿namespace OperaHouseTheater.Models.News
+﻿namespace OperaHouseTheater.Services.News
 {
-
-    public class NewsListingViewModel
+    public class NewsServiceModel
     {
         public int Id { get; set; }
 

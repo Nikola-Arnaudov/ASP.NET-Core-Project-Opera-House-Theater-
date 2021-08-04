@@ -15,7 +15,7 @@
         <div class="form-group col-md-3 text-right">
             <div class="form-group">
                 <label asp-for="Type"></label>
-                <select asp-for="Type" class="form-control">
+                <select asp-for="Type" class="form-control" id="select-option">
                     <option value="@null">All</option>
                     @foreach (var type in Model.Types)
                     {
@@ -50,3 +50,14 @@
         </div>
     }
 </div>
+
+
+@*@section Scripts{
+    <script>
+        $('#select-option').on('click', ev => {
+            
+        });
+
+    </script>
+
+ }*@

@@ -5,84 +5,79 @@
 
 
 <form method="post">
-        <div class="card" style="width: 18rem;">
-            <img src="@Model.ImageUrl" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h3 class="card-title">@Model.Title</h3>
-                <h6 class="card-title">@Model.PerformanceType от @Model.Composer</h6>
-                <h6 class="card-title">Дата: @Model.Date.ToString("d") 19:00</h6>
-                <p class="card-text">Free seats: @Model.FreeSeats</p>
-                <p class="card-text">Ticket price: @Model.TicketPrice.00</p>
-                <div class="container">
-                    @*<div class="row">*@
-                        @*<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">*@
-                            <h2 class="heading-margin text-center">Buy ticket</h2>
-                            @*<form method="post">*@
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="Title" class="text-center">Заглавие</label>
-                                    <select asp-for="Title" class="form-control">
-                                        <option value="@Model.Title">@Model.Title</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="ImageUrl" class="text-center">Снимка</label>
-                                    <select asp-for="ImageUrl" class="form-control">
-                                        <option value="@Model.ImageUrl">@Model.ImageUrl</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="PerformanceType">Тип представление</label>
-                                    <select asp-for="PerformanceType" class="form-control">
-                                        <option value="@Model.PerformanceType">@Model.PerformanceType</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="Composer">Композитор</label>
-                                    <select asp-for="Composer" class="form-control">
-                                        <option value="@Model.Composer">@Model.Composer</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="Date">Дата</label>
-                                    <select asp-for="Date" class="form-control">
-                                        <option value="@Model.Date">@Model.Date.ToString("d") 19:00</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="FreeSeats">Свободни места</label>
-                                    <select asp-for="FreeSeats" class="form-control">
-                                        <option value="@Model.FreeSeats">@Model.FreeSeats</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="TicketPrice">Цена на билета</label>
-                                    <select asp-for="TicketPrice" class="form-control">
-                                        <option value="@Model.TicketPrice">@Model.TicketPrice</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label asp-for="CurrEventId">Събитие</label>
-                                    <select asp-for="CurrEventId" class="form-control">
-                                        <option value="@Model.CurrEventId">@Model.CurrEventId</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="SeatsCount">Tickets you want?</label>
-                                    <select asp-for="SeatsCount" class="form-control">
-                                        @for (int i = 0; i <= 50; i++)
-                                        {
-                                            <option value="@i">@i</option>
-                                        }
-                                    </select>
-                                    <span asp-validation-for="SeatsCount" class="small text-danger"></span>
-                                </div>
-                                <input class="btn btn-primary float-right" type="submit" value="Buy" />
-                            @*</form>*@
-                        @*</div>*@
-                    @*</div>*@
+    <div class="card" style="width: 18rem;background-color:wheat">
+        <img src="@Model.ImageUrl" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3 class="card-title">@Model.Title</h3>
+            <h6 class="card-title">@Model.PerformanceType от @Model.Composer</h6>
+            <h6 class="card-title">Дата: @Model.Date.ToString("d") 19:00</h6>
+            <p class="card-text">Free seats: @Model.FreeSeats</p>
+            <p class="card-text">Ticket price: @Model.TicketPrice.00</p>
+            <div class="container">
+                <h2 class="heading-margin text-center">Buy ticket</h2>
+
+                <div class="form-group" style="display:none">
+                    <label asp-for="Title" class="text-center">Заглавие</label>
+                    <select asp-for="Title" class="form-control">
+                        <option value="@Model.Title">@Model.Title</option>
+                    </select>
                 </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="ImageUrl" class="text-center">Снимка</label>
+                    <select asp-for="ImageUrl" class="form-control">
+                        <option value="@Model.ImageUrl">@Model.ImageUrl</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="PerformanceType">Тип представление</label>
+                    <select asp-for="PerformanceType" class="form-control">
+                        <option value="@Model.PerformanceType">@Model.PerformanceType</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="Composer">Композитор</label>
+                    <select asp-for="Composer" class="form-control">
+                        <option value="@Model.Composer">@Model.Composer</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="Date">Дата</label>
+                    <select asp-for="Date" class="form-control">
+                        <option value="@Model.Date">@Model.Date.ToString("d") 19:00</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="FreeSeats">Свободни места</label>
+                    <select asp-for="FreeSeats" class="form-control">
+                        <option value="@Model.FreeSeats">@Model.FreeSeats</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="TicketPrice">Цена на билета</label>
+                    <select asp-for="TicketPrice" class="form-control">
+                        <option value="@Model.TicketPrice">@Model.TicketPrice</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="CurrEventId">Събитие</label>
+                    <select asp-for="CurrEventId" class="form-control">
+                        <option value="@Model.CurrEventId">@Model.CurrEventId</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeatsCount">Tickets you want?</label>
+                    <select asp-for="SeatsCount" class="form-control">
+                        @for (int i = 0; i <= 50; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="SeatsCount" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" value="Buy" />
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
 

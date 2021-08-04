@@ -2,44 +2,55 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Models.News;
+    using OperaHouseTheater.Services.News;
     using Data.Models;
     using OperaHouseTheater.Data;
     using System.Linq;
 
     public class NewsController : Controller
     {
+        private readonly INewsService news;
         private readonly OperaHouseTheaterDbContext data;
 
-        public NewsController(OperaHouseTheaterDbContext data)
-            => this.data = data;
-
+        public NewsController(INewsService news, OperaHouseTheaterDbContext data)
+        {
+            this.news = news;
+            this.data = data;
+        }
         public IActionResult All([FromQuery]AllNewsQueryModel query)
         {
-            var newsQuery = this.data.News.AsQueryable();
+            var queryResult = this.news.All(
+                query.SearchTerm,
+                query.CurrentPage,
+                AllNewsQueryModel.NewsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                newsQuery = newsQuery.Where(n =>
-                    n.Title.ToLower().Contains(query.SearchTerm.ToLower())
-                    || n.Content.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
+            query.News = queryResult.News;
 
-            var news = newsQuery
-                .OrderByDescending(n => n.Id)
-                .Skip((query.CurrentPage - 1) * AllNewsQueryModel.NewsPerPage)
-                .Take(AllNewsQueryModel.NewsPerPage)
-                .Select(n => new NewsListingViewModel()
-                {
-                    Id = n.Id,
-                    Title = n.Title,
-                    Content = n.Content,
-                    ImageUrl = n.NewsImageUrl,
-                    VideoUrl = n.NewsVideoUrl
-                })
-                .ToList();
+            //var newsQuery = this.data.News.AsQueryable();
 
-            query.News = news;
-            query.NewsCount = newsQuery.Count();
+            //if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            //{
+            //    newsQuery = newsQuery.Where(n =>
+            //        n.Title.ToLower().Contains(query.SearchTerm.ToLower())
+            //        || n.Content.ToLower().Contains(query.SearchTerm.ToLower()));
+            //}
+
+            //var news = newsQuery
+            //    .OrderByDescending(n => n.Id)
+            //    .Skip((query.CurrentPage - 1) * AllNewsQueryModel.NewsPerPage)
+            //    .Take(AllNewsQueryModel.NewsPerPage)
+            //    .Select(n => new NewsListingViewModel()
+            //    {
+            //        Id = n.Id,
+            //        Title = n.Title,
+            //        Content = n.Content,
+            //        ImageUrl = n.NewsImageUrl,
+            //        VideoUrl = n.NewsVideoUrl
+            //    })
+            //    .ToList();
+
+            //query.News = news;
+            //query.NewsCount = newsQuery.Count();
 
             return View(query);
         }
@@ -76,9 +87,14 @@
                 .FirstOrDefault(x => x.Id == id);
 
             //TODO: if news is null...
+            if (news == null)
+            {
+                //TODO Error message
 
+                return BadRequest();
+            }
                 
-            var newsData = new NewsListingViewModel
+            var newsData = new NewsServiceModel
             {
                 Content = news.Content,
                 ImageUrl = news.NewsImageUrl,
@@ -91,6 +107,8 @@
 
         public IActionResult Delete(int id) 
         {
+
+
             var news = this.data.News
                 .FirstOrDefault(x => x.Id == id);
 
