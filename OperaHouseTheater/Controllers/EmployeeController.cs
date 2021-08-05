@@ -6,15 +6,20 @@
     using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Employee;
+    using OperaHouseTheater.Services.Employees;
     using System.Collections.Generic;
     using System.Linq;
 
     public class EmployeeController : Controller
     {
         private readonly OperaHouseTheaterDbContext data;
+        private readonly IEmployeeService employees;
 
-        public EmployeeController(OperaHouseTheaterDbContext data)
-            => this.data = data;
+        public EmployeeController(OperaHouseTheaterDbContext data, IEmployeeService employees)
+        {
+            this.data = data;
+            this.employees = employees;
+        }
 
         [Authorize]
         public IActionResult Add() 
@@ -71,56 +76,62 @@
 
         public IActionResult BalletEmployees()
         {
-            var employees = this.data.Employees
-                .Where(e => e.Department.DepartmentName == "Балет")
-                .Select(e => new EmployeeListingViewModel
-                {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Category = e.Category.CategoryName,
-                    ImageUrl = e.ImageUrl,
-                })
-                .OrderBy(x=>x.FirstName)
-                .ToList();
+            //var employees = this.data.Employees
+            //    .Where(e => e.Department.DepartmentName == "Балет")
+            //    .Select(e => new EmployeeListingViewModel
+            //    {
+            //        Id = e.Id,
+            //        FirstName = e.FirstName,
+            //        LastName = e.LastName,
+            //        Category = e.Category.CategoryName,
+            //        ImageUrl = e.ImageUrl,
+            //    })
+            //    .OrderBy(x=>x.FirstName)
+            //    .ToList();
 
-            return View(employees);
+            var balletEmployees = this.employees.BalletEmployees();
+
+            return View(balletEmployees);
         }
 
         public IActionResult OperaEmployees()
         {
-            var employees = this.data.Employees
-                .Where(e => e.Department.DepartmentName == "Опера")
-                .Select(e => new EmployeeListingViewModel
-                {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Category = e.Category.CategoryName,
-                    ImageUrl = e.ImageUrl,
-                })
-                .OrderBy(x => x.FirstName)
-                .ToList();
+            //var employees = this.data.Employees
+            //    .Where(e => e.Department.DepartmentName == "Опера")
+            //    .Select(e => new EmployeeListingViewModel
+            //    {
+            //        Id = e.Id,
+            //        FirstName = e.FirstName,
+            //        LastName = e.LastName,
+            //        Category = e.Category.CategoryName,
+            //        ImageUrl = e.ImageUrl,
+            //    })
+            //    .OrderBy(x => x.FirstName)
+            //    .ToList();
 
-            return View(employees);
+            var operaEmployees = this.employees.OperaEmployees();
+
+            return View(operaEmployees);
         }
 
         public IActionResult ManagementEmployees()
         {
-            var employees = this.data.Employees
-                .Where(e => e.Department.DepartmentName == "Мениджмънд")
-                .Select(e => new EmployeeListingViewModel
-                {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Category = e.Category.CategoryName,
-                    ImageUrl = e.ImageUrl,
-                })
-                .OrderBy(x => x.FirstName)
-                .ToList();
+            //var employees = this.data.Employees
+            //    .Where(e => e.Department.DepartmentName == "Мениджмънд")
+            //    .Select(e => new EmployeeListingViewModel
+            //    {
+            //        Id = e.Id,
+            //        FirstName = e.FirstName,
+            //        LastName = e.LastName,
+            //        Category = e.Category.CategoryName,
+            //        ImageUrl = e.ImageUrl,
+            //    })
+            //    .OrderBy(x => x.FirstName)
+            //    .ToList();
 
-            return View(employees);
+            var managementEmployees = this.employees.МanagementEmployees();
+
+            return View(managementEmployees);
         }
 
         public IActionResult Details(int id) 

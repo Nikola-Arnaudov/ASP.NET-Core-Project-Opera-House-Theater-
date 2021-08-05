@@ -8,6 +8,7 @@
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Ticket;
     using OperaHouseTheater.Services.Tickets;
+    using System;
     using System.Linq;
 
     public class TicketController : Controller
@@ -86,6 +87,11 @@
                 this.ModelState.AddModelError(nameof(ticket.SeatsCount), $"There are only {ticket.FreeSeats} free seats left.");
             }
 
+            if (ticket.Date < DateTime.Today)
+            {
+                this.ModelState.AddModelError(nameof(ticket.SeatsCount), $"The show is over.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(ticket);
@@ -124,16 +130,18 @@
         {
             var myTickets = this.tickets.All(this.User.GetId());
 
+
+
             //var member = this.data
             //    .Members
             //    .FirstOrDefault(m => m.UserId == this.User.GetId());
 
-            //if (member == null)
-            //{
-            //    //TODO Error Message
+            if (myTickets == null)
+            {
+                //TODO Error Message
 
-            //    return BadRequest();
-            //}
+                return BadRequest();
+            }
 
 
 

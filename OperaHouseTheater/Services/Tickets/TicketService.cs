@@ -19,12 +19,12 @@
                 .Members
                 .FirstOrDefault(m => m.UserId == userId);
 
-            //if (member == null)
-            //{
-            //    //TODO Error Message
+            if (member == null)
+            {
+                //TODO Error Message
 
-            //    return BadRequest();
-            //}
+                return null;
+            }
 
             var myTicketsData = new TicketQueryServiceModel
             {
