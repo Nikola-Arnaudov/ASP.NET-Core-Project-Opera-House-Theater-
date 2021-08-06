@@ -47,5 +47,22 @@
 
             return myTicketsData;
         }
+
+        public bool Delete(int id)
+        {
+            var ticket = this.data.Tickets.FirstOrDefault(t => t.Id == id);
+
+            if (ticket == null)
+            {
+                return false;
+            }
+            else
+            {
+                this.data.Tickets.Remove(ticket);
+                this.data.SaveChanges();
+            }
+
+            return true;
+        }
     }
 }

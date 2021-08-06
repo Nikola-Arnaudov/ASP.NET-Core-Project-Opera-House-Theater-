@@ -1,6 +1,7 @@
 ﻿namespace OperaHouseTheater.Models.Event
 {
     using OperaHouseTheater.Models.Performance;
+    using OperaHouseTheater.Services.Events.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@
         [Required(ErrorMessage ="This field is required.")]
         public int TicketPrice { get; set; }
 
-        public IEnumerable<PerformanceTitleViewModel> PerformanceTitles { get; set; }
+        public IEnumerable<PerformanceTitleServiceModel> PerformanceTitles { get; set; }
 
     }
 }

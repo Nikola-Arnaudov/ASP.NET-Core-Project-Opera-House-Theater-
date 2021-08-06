@@ -1,5 +1,6 @@
 ﻿namespace OperaHouseTheater.Models.Employee
 {
+    using OperaHouseTheater.Services.Employees;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -32,14 +33,15 @@
             ErrorMessage = "Biography must be between {2} & {1} symbols.")]
         public string Biography { get; set; }
 
-        [Display(Name ="Department")]
         public int DepartmentId { get; set; }
 
         public int CategoryId { get; set; }
 
-        public IEnumerable<EmployeeCategoryViewModel> EmployeeCategories { get; set; }
+        //public IEnumerable<EmployeeCategoryViewModel> EmployeeCategories { get; set; }
+        public IEnumerable<EmployeeCategoryServiceModel> EmployeeCategories { get; set; }
 
-        public IEnumerable<EmployeeDepartmentViewModel> EmployeeDepartments { get; set; }
+        //public IEnumerable<EmployeeDepartmentViewModel> EmployeeDepartments { get; set; }
+        public IEnumerable<EmployeeDepartmentServiceModel> EmployeeDepartments { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

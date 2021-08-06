@@ -1,5 +1,7 @@
 ﻿namespace OperaHouseTheater.Models.Event
 {
+    using OperaHouseTheater.Services.Events;
+    using OperaHouseTheater.Services.Events.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -15,8 +17,8 @@
 
         public int EmployeeId { get; set; }
 
-        public IEnumerable<EventRoleModel> Roles { get; set; }
+        public IEnumerable<EventRoleServiceDropdownModel> Roles { get; set; }
 
-        public IEnumerable<EventEmployeeModel> Employees { get; set; }
+        public IEnumerable<EventEmployeeServiceModel> Employees { get; set; }
     }
 }

@@ -406,14 +406,15 @@ namespace OperaHouseTheater.Migrations
                 name: "EventRoles",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventRoles", x => new { x.EmployeeId, x.RoleId });
+                    table.PrimaryKey("PK_EventRoles", x => x.Id);
                     table.ForeignKey(
                         name: "FK_EventRoles_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -498,6 +499,11 @@ namespace OperaHouseTheater.Migrations
                 name: "IX_Employees_DepartmentId",
                 table: "Employees",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventRoles_EmployeeId",
+                table: "EventRoles",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventRoles_EventId",

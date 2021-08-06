@@ -372,19 +372,23 @@ namespace OperaHouseTheater.Migrations
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.EventRole", b =>
                 {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "RoleId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("EventId");
 

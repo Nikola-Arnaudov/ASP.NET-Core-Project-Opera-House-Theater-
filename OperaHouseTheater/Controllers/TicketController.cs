@@ -167,20 +167,16 @@
             return View(myTickets);
         }
 
-
         public IActionResult Delete(int id)
         {
-            var ticket = this.data.Tickets.FirstOrDefault(t => t.Id == id);
+            var ticketExist = this.tickets.Delete(id);
 
-            if (ticket == null)
+            if (ticketExist == false)
             {
                 //TODO Message
 
                 return BadRequest();
             }
-
-            this.data.Tickets.Remove(ticket);
-            this.data.SaveChanges();
 
             return RedirectToAction(nameof(All), "Ticket");
         }

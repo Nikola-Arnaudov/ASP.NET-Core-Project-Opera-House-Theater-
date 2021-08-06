@@ -5,5 +5,7 @@
     {
         TicketQueryServiceModel All(string userId);
 
+        bool Delete(int id);
+
     }
 }

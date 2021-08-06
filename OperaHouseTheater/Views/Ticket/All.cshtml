@@ -34,7 +34,7 @@
                     <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Details</a>
                     @if (ticket.Date < DateTime.Today)
                     {
-                        <div class="badge badge-danger text-wrap" style="width: 9rem;">
+                        <div class="badge badge-warning text-wrap" style="width: 9rem;">
                             The ticket has expired.
                         </div>
                         <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger">Delete</a>

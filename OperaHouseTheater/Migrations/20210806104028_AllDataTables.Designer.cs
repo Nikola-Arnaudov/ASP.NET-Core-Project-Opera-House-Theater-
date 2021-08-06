@@ -10,7 +10,7 @@ using OperaHouseTheater.Data;
 namespace OperaHouseTheater.Migrations
 {
     [DbContext(typeof(OperaHouseTheaterDbContext))]
-    [Migration("20210802114007_AllDataTables")]
+    [Migration("20210806104028_AllDataTables")]
     partial class AllDataTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -374,19 +374,23 @@ namespace OperaHouseTheater.Migrations
 
             modelBuilder.Entity("OperaHouseTheater.Data.Models.EventRole", b =>
                 {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "RoleId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("EventId");
 

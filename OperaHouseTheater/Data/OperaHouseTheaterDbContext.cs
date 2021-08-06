@@ -110,9 +110,6 @@
                 .HasForeignKey(t => t.MemberId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder
-                .Entity<EventRole>()
-                .HasKey(x => new { x.EmployeeId, x.RoleId });
 
             builder
                 .Entity<EventRole>()

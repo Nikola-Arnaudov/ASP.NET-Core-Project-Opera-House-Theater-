@@ -10,6 +10,7 @@ namespace OperaHouseTheater
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Services.Employees;
+    using OperaHouseTheater.Services.Events;
     using OperaHouseTheater.Services.Members;
     using OperaHouseTheater.Services.News;
     using OperaHouseTheater.Services.Tickets;
@@ -46,6 +47,7 @@ namespace OperaHouseTheater
             services.AddTransient<IMemberService, MemberService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEventService, EventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

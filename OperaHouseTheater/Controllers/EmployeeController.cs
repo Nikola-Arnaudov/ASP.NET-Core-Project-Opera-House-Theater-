@@ -12,27 +12,30 @@
 
     public class EmployeeController : Controller
     {
-        private readonly OperaHouseTheaterDbContext data;
+        //private readonly OperaHouseTheaterDbContext data;
         private readonly IEmployeeService employees;
 
-        public EmployeeController(OperaHouseTheaterDbContext data, IEmployeeService employees)
+        public EmployeeController(/*OperaHouseTheaterDbContext data,*/ IEmployeeService employees)
         {
-            this.data = data;
+            //this.data = data;
             this.employees = employees;
         }
 
         [Authorize]
         public IActionResult Add() 
         {
-            if (!UserIsAdmin())
+            if (!ThisUserIsAdmin())
             {
+                //TODO Error message
 
+                return BadRequest();
             }
 
             return View(new AddEmployeeFormModel
             {
-                EmployeeCategories = this.GetEmployeeCategories(),
-                EmployeeDepartments = this.GetEmployeeDepartments()
+                
+                EmployeeCategories = this.employees.GetEmployeeCategories(),
+                EmployeeDepartments = this.employees.GetEmployeeDepartments(),
             });
         }
 
@@ -40,55 +43,53 @@
         [Authorize]
         public IActionResult Add(AddEmployeeFormModel employeeInput) 
         {
-            if (!this.data.Departments.Any(d=> d.Id == employeeInput.DepartmentId))
+            if (!ThisUserIsAdmin())
+            {
+                //TODO Error message
+                return BadRequest();
+            }
+
+            if (employeeInput.DepartmentId == 0)
+            {
+                this.ModelState.AddModelError(nameof(employeeInput.DepartmentId), "You must chose department.");
+            }
+
+            if (employeeInput.CategoryId == 0)
+            {
+                this.ModelState.AddModelError(nameof(employeeInput.CategoryId), "You must chose category.");
+            }
+
+            if (!this.employees.GetEmployeeDepartments().Any(d => d.Id == employeeInput.DepartmentId))
             {
                 this.ModelState.AddModelError(nameof(employeeInput.DepartmentId), "This department does not exist.");
             }
 
-            if (!this.data.EmployeeCategories.Any(ec => ec.Id == employeeInput.CategoryId))
+            if (!this.employees.GetEmployeeCategories().Any(ec => ec.Id == employeeInput.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(employeeInput.CategoryId), "This category does not exist.");
             }
-
+            
             if (!ModelState.IsValid)
             {
-                employeeInput.EmployeeCategories = GetEmployeeCategories();
-                employeeInput.EmployeeDepartments = GetEmployeeDepartments();
+                employeeInput.EmployeeCategories = this.employees.GetEmployeeCategories();
+                employeeInput.EmployeeDepartments =this.employees.GetEmployeeDepartments();
 
                 return View(employeeInput);
             }
 
-            var employeeData = new Employee
-            { 
-                FirstName = employeeInput.FirstName,
-                LastName = employeeInput.LastName,
-                ImageUrl = employeeInput.ImageUrl,
-                Biography = employeeInput.Biography,
-                DepartmentId = employeeInput.DepartmentId,
-                CategoryId = employeeInput.CategoryId
-            };
-
-            this.data.Employees.Add(employeeData);
-            this.data.SaveChanges();
+            employees.Add(
+                employeeInput.FirstName,
+                employeeInput.LastName,
+                employeeInput.ImageUrl,
+                employeeInput.Biography,
+                employeeInput.DepartmentId,
+                employeeInput.CategoryId);
 
             return RedirectToAction("Index", "Home");
         }
 
         public IActionResult BalletEmployees()
         {
-            //var employees = this.data.Employees
-            //    .Where(e => e.Department.DepartmentName == "Балет")
-            //    .Select(e => new EmployeeListingViewModel
-            //    {
-            //        Id = e.Id,
-            //        FirstName = e.FirstName,
-            //        LastName = e.LastName,
-            //        Category = e.Category.CategoryName,
-            //        ImageUrl = e.ImageUrl,
-            //    })
-            //    .OrderBy(x=>x.FirstName)
-            //    .ToList();
-
             var balletEmployees = this.employees.BalletEmployees();
 
             return View(balletEmployees);
@@ -96,39 +97,14 @@
 
         public IActionResult OperaEmployees()
         {
-            //var employees = this.data.Employees
-            //    .Where(e => e.Department.DepartmentName == "Опера")
-            //    .Select(e => new EmployeeListingViewModel
-            //    {
-            //        Id = e.Id,
-            //        FirstName = e.FirstName,
-            //        LastName = e.LastName,
-            //        Category = e.Category.CategoryName,
-            //        ImageUrl = e.ImageUrl,
-            //    })
-            //    .OrderBy(x => x.FirstName)
-            //    .ToList();
-
             var operaEmployees = this.employees.OperaEmployees();
 
             return View(operaEmployees);
+
         }
 
         public IActionResult ManagementEmployees()
         {
-            //var employees = this.data.Employees
-            //    .Where(e => e.Department.DepartmentName == "Мениджмънд")
-            //    .Select(e => new EmployeeListingViewModel
-            //    {
-            //        Id = e.Id,
-            //        FirstName = e.FirstName,
-            //        LastName = e.LastName,
-            //        Category = e.Category.CategoryName,
-            //        ImageUrl = e.ImageUrl,
-            //    })
-            //    .OrderBy(x => x.FirstName)
-            //    .ToList();
-
             var managementEmployees = this.employees.МanagementEmployees();
 
             return View(managementEmployees);
@@ -136,67 +112,44 @@
 
         public IActionResult Details(int id) 
         {
-            var employee = this.data
-                .Employees
-                .FirstOrDefault(e => e.Id == id);
+            var employeeData = this.employees.Details(id);
 
-            if (employee == null)
+            if (employeeData == null)
             {
+                // TODO Error Message
+
                 return BadRequest();
             }
-
-            var employeeData = new EmployeeDetailsViewModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Biography = employee.Biography,
-                ImageUrl = employee.ImageUrl
-            };
 
             return View(employeeData);
         }
 
+        [Authorize]
         public IActionResult Delete(int id)
         {
-            var employee = this.data.Employees
-                .FirstOrDefault(e => e.Id == id);
 
-            if (employee == null)
+
+            if (!ThisUserIsAdmin())
             {
+                //TODO Error message
+
                 return BadRequest();
             }
 
-            this.data.Employees.Remove(employee);
-            this.data.SaveChanges();
+            var employeeExist = this.employees.Delete(id);
+
+            if (employeeExist == false)
+            {
+                //TODO Error message
+
+                return BadRequest();
+            }
 
             return RedirectToAction("Index","Home");
         }
 
-        private bool UserIsAdmin()
-            => this.data
-                .Admins
-                .Any(x => x.UserId == this.User.GetId());
+        private bool ThisUserIsAdmin()
+            => this.employees.UserIsAdmin(this.User.GetId());
 
-        
-        private IEnumerable<EmployeeDepartmentViewModel> GetEmployeeDepartments()
-            => this.data
-                .Departments
-                .Select(d => new EmployeeDepartmentViewModel
-                {
-                    Id = d.Id,
-                    DepartmentName = d.DepartmentName
-                })
-                .ToList();
-
-        private IEnumerable<EmployeeCategoryViewModel> GetEmployeeCategories()
-            => this.data
-                .EmployeeCategories
-                .Select(p => new EmployeeCategoryViewModel
-                {
-                    Id = p.Id,
-                    CategoryName = p.CategoryName
-                })
-                .ToList();
     }
 }
