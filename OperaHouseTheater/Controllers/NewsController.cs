@@ -65,26 +65,26 @@
                 return View(news);
             }
 
-            var newsData = new News
-            {
-                Title = news.Title,
-                Content = news.Content,
-                NewsImageUrl = news.ImageUrl,
-                NewsVideoUrl = news.VideoUrl ?? null
-            };
+            //var newsData = new News
+            //{
+            //    Title = news.Title,
+            //    Content = news.Content,
+            //    NewsImageUrl = news.ImageUrl,
+            //    NewsVideoUrl = news.VideoUrl ?? null
+            //};
 
-            this.data.News.Add(newsData);
+            //this.data.News.Add(newsData);
 
-            this.data.SaveChanges();
+            //this.data.SaveChanges();
+
+            this.news.Add(news.Title, news.Content, news.ImageUrl, news.VideoUrl);
 
             return RedirectToAction(nameof(All));
         }
 
         public IActionResult Details(int id) 
         {
-            var news = data
-                .News
-                .FirstOrDefault(x => x.Id == id);
+            var news = this.news.GetNewsById(id);
 
             //TODO: if news is null...
             if (news == null)
@@ -107,10 +107,10 @@
 
         public IActionResult Delete(int id) 
         {
+            //var news = this.data.News
+            //    .FirstOrDefault(x => x.Id == id);
 
-
-            var news = this.data.News
-                .FirstOrDefault(x => x.Id == id);
+            var news = this.news.GetNewsById(id);
 
             //TODO: if news is null...
             if (news == null)
@@ -118,9 +118,12 @@
                 return BadRequest();
             }
 
-            this.data.News.Remove(news);
+            //this.data.News.Remove(news);
 
-            this.data.SaveChanges();
+            //this.data.SaveChanges();
+
+
+            this.news.Delete(id);
 
             return RedirectToAction(nameof(All));
         }

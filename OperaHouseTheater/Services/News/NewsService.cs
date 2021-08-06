@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using OperaHouseTheater.Data;
+    using OperaHouseTheater.Data.Models;
 
 
     public class NewsService : INewsService
@@ -10,6 +11,8 @@
 
         public NewsService(OperaHouseTheaterDbContext data) 
             => this.data = data;
+
+       
 
         public NewsQueryServiceModel All(
             string searchTerm,
@@ -45,8 +48,33 @@
             };
         }
 
-        
+        public void Add(string title, string content, string imageUrl, string videoUrl)
+        {
+            var newsData = new News
+            {
+                Title = title,
+                Content = content,
+                NewsImageUrl = imageUrl,
+                NewsVideoUrl = videoUrl ?? null
+            };
 
-        
+            this.data.News.Add(newsData);
+
+            this.data.SaveChanges();
+        }
+
+        public News GetNewsById(int id)
+            => this.data
+                .News
+                .FirstOrDefault(x => x.Id == id);
+
+        public void Delete(int id)
+        {
+            var news = this.GetNewsById(id);
+
+            this.data.News.Remove(news);
+
+            this.data.SaveChanges();
+        }
     }
 }

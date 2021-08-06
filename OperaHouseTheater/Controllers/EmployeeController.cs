@@ -2,12 +2,9 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Employee;
     using OperaHouseTheater.Services.Employees;
-    using System.Collections.Generic;
     using System.Linq;
 
     public class EmployeeController : Controller
@@ -100,7 +97,6 @@
             var operaEmployees = this.employees.OperaEmployees();
 
             return View(operaEmployees);
-
         }
 
         public IActionResult ManagementEmployees()
@@ -127,8 +123,6 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-
-
             if (!ThisUserIsAdmin())
             {
                 //TODO Error message
@@ -150,6 +144,5 @@
 
         private bool ThisUserIsAdmin()
             => this.employees.UserIsAdmin(this.User.GetId());
-
     }
 }

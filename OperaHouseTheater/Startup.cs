@@ -9,6 +9,7 @@ namespace OperaHouseTheater
     using Microsoft.Extensions.Hosting;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Services.Comments;
     using OperaHouseTheater.Services.Employees;
     using OperaHouseTheater.Services.Events;
     using OperaHouseTheater.Services.Members;
@@ -48,6 +49,7 @@ namespace OperaHouseTheater
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

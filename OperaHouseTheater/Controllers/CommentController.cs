@@ -3,25 +3,25 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Controllers.Member;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Comment;
-    using System.Linq;
-
+    using OperaHouseTheater.Services.Comments;
 
     public class CommentController : Controller
     {
-        private readonly OperaHouseTheaterDbContext data;
+        //private readonly OperaHouseTheaterDbContext data;
+        private readonly ICommentService comments;
 
-        public CommentController(OperaHouseTheaterDbContext data) 
-            => this.data = data;
-
+        public CommentController(/*OperaHouseTheaterDbContext data,*/ ICommentService comments)
+        {
+            //this.data = data;
+            this.comments = comments;
+        }
 
         [Authorize]
         public IActionResult Create(int id) 
         {
-            var memberId = GetMemberId();
+            var memberId = this.comments.GetMemberId(this.User.GetId());
 
             if (memberId == 0)
             {
@@ -31,10 +31,10 @@
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
-            var crrPerformance = this.data.Performances.FirstOrDefault(p => p.Id == id);
+            var crrPerformance = this.comments.CurrentPerformanceExist(id);
 
             //TODO: Error message
-            if (crrPerformance == null)
+            if (crrPerformance == 0)
             {
                 return BadRequest();
             }
@@ -42,7 +42,7 @@
             var commentData = new CreateCommentFormModel
             {
                 MemberId = memberId,
-                PerformanceId = crrPerformance.Id
+                PerformanceId = crrPerformance
             };
 
             return View(commentData);
@@ -52,7 +52,9 @@
         [HttpPost]
         public IActionResult Create(CreateCommentFormModel comment) 
         {
-            if (!this.UserIsMember())
+            var memberId = this.comments.GetMemberId(this.User.GetId());
+
+            if (memberId == 0)
             {
                 //TODO
                 //this.TempData
@@ -65,15 +67,7 @@
                 return View(comment);
             }
 
-            var commentData = new Comment
-            {
-                MemberId = comment.MemberId,
-                PerformanceId = comment.PerformanceId,
-                Content = comment.Text
-            };
-
-            this.data.Comments.Add(commentData);
-            this.data.SaveChanges();
+            this.comments.Create(comment.MemberId, comment.PerformanceId, comment.Text);
 
             return Redirect($"/Performance/Details/{comment.PerformanceId}");
         }
@@ -81,9 +75,9 @@
         [Authorize]
         public IActionResult Delete(int id) 
         {
-            var memberId = GetMemberId();
+            var memberId = this.comments.GetMemberId(this.User.GetId());
 
-            var comment = this.data.Comments.FirstOrDefault(c => c.Id == id);
+            var comment = this.comments.GetCommentById(id);
 
             if (comment == null)
             {
@@ -99,22 +93,10 @@
                 return BadRequest();
             }
 
-            this.data.Comments.Remove(comment);
-            this.data.SaveChanges();
+            this.comments.Delete(id);
 
             return Redirect($"/Performance/Details/{comment.PerformanceId}");
         }
 
-        private bool UserIsMember()
-            => this.data
-                .Members
-                .Any(x => x.UserId == this.User.GetId());
-
-        private int GetMemberId()
-            => this.data
-                .Members
-                .Where(m => m.UserId == this.User.GetId())
-                .Select(m => m.Id)
-                .FirstOrDefault();
     }
 }

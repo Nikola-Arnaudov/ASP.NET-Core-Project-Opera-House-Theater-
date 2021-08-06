@@ -2,20 +2,20 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Member;
-    using System.Linq;
+    using OperaHouseTheater.Services.Members;
 
     using static Data.DataConstants;
 
     public class MemberController : Controller
     {
-        private readonly OperaHouseTheaterDbContext data;
+        private readonly IMemberService members;
 
-        public MemberController(OperaHouseTheaterDbContext data) 
-            => this.data = data;
+        public MemberController(IMemberService members)
+        {
+            this.members = members;
+        }
 
         [Authorize]
         public IActionResult Become() => View();
@@ -26,7 +26,7 @@
         {
             var userId = this.User.GetId();
 
-            var userIdAlreadyMember = this.data.Members.Any(x => x.UserId == userId);
+            var userIdAlreadyMember = this.members.IsMember(userId);
 
             if (userIdAlreadyMember)
             {
@@ -44,21 +44,9 @@
                 return View(member);
             }
 
-            var memberData = new Member
-            {
-                MemberName = member.MemberName,
-                PhoneNumber = member.PhoneNumber,
-                UserId = userId
-            };
-
-            this.data.Members.Add(memberData);
-            this.data.SaveChanges();
+            this.members.BecameMember(member.MemberName,member.PhoneNumber,userId);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-
-
-
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace OperaHouseTheater.Controllers.Event
 {
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Data;
     using OperaHouseTheater.Models.Event;
     using OperaHouseTheater.Services.Events;
     using System;
@@ -172,20 +171,6 @@
 
             this.events.SetRole(role.RoleId, role.EmployeeId, role.EventId);
 
-            //var roledataroleId = role.RoleId;
-            //var roledatapergormanceeId = role.PerformanceId;
-            //var roledataEventId = role.EventId;
-
-            //var roleData = new EventRole
-            //{
-            //    RoleId = role.RoleId,
-            //    EmployeeId = role.EmployeeId,
-            //    EventId = role.EventId,
-            //};
-
-            //this.data.EventRoles.Add(roleData);
-            //this.data.SaveChanges();
-
             return Redirect($"/Event/Details/{role.EventId}");
         }
 
@@ -210,37 +195,6 @@
 
             return Redirect($"/Event/Details/{crrEvent}");
         }
-
-
-
-        //private IEnumerable<EventEmployeeModel> GetEmployees()
-        //    => this.data.Employees
-        //        .Select(e => new EventEmployeeModel
-        //        {
-        //            Id = e.Id,
-        //            FirstName = e.FirstName,
-        //            LastName = e.LastName,
-        //            Category = e.Category.CategoryName
-        //        });
-
-        //private IEnumerable<EventRoleModel> GetRolesNames(int id)
-        //    => this.data.RolesPerformance
-        //        .Where(r => r.PerformanceId == id)
-        //        .Select(r => new EventRoleModel
-        //        {
-        //            Id = r.Id,
-        //            RoleName = r.RoleName,
-        //        });
-
-        //private IEnumerable<PerformanceTitleViewModel> GetPerformanceTitles()
-        //   => this.data
-        //       .Performances
-        //       .Select(p => new PerformanceTitleViewModel
-        //       {
-        //           Id = p.Id,
-        //           Title = p.Title
-        //       })
-        //       .ToList();
 
         private bool ThisUserIsAdmin()
             => this.events.UserIsAdmin(this.User.GetId());
