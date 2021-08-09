@@ -1,4 +1,4 @@
-﻿@model PerformanceDetailsViewModel
+﻿@model PerformanceDetailsServiceModel
 
 @{ViewBag.Title = $"{Model.Title}"; }
 
@@ -34,7 +34,10 @@
         }
 
         <h3 class="text-center">Роли</h3>
-        <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole">
+        @*<a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole">
+            + Добави роля
+        </a>*@
+        <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
             + Добави роля
         </a>
         @if (Model.Roles.Any())

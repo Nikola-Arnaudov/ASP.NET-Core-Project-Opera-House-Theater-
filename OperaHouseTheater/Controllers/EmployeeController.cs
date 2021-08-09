@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Employee;
+    using OperaHouseTheater.Services.Admins;
     using OperaHouseTheater.Services.Employees;
     using System.Linq;
 
@@ -11,17 +12,22 @@
     {
         //private readonly OperaHouseTheaterDbContext data;
         private readonly IEmployeeService employees;
+        private readonly IAdminService admins;
 
-        public EmployeeController(/*OperaHouseTheaterDbContext data,*/ IEmployeeService employees)
+        public EmployeeController(/*OperaHouseTheaterDbContext data,*/ 
+            IEmployeeService employees,
+            IAdminService admins)
         {
             //this.data = data;
             this.employees = employees;
+            this.admins = admins;
         }
 
         [Authorize]
+        //only Admin
         public IActionResult Add() 
         {
-            if (!ThisUserIsAdmin())
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
             {
                 //TODO Error message
 
@@ -30,7 +36,6 @@
 
             return View(new AddEmployeeFormModel
             {
-                
                 EmployeeCategories = this.employees.GetEmployeeCategories(),
                 EmployeeDepartments = this.employees.GetEmployeeDepartments(),
             });
@@ -38,9 +43,10 @@
 
         [HttpPost]
         [Authorize]
+        //only Admin
         public IActionResult Add(AddEmployeeFormModel employeeInput) 
         {
-            if (!ThisUserIsAdmin())
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
             {
                 //TODO Error message
                 return BadRequest();
@@ -121,9 +127,10 @@
         }
 
         [Authorize]
+        //only Admin
         public IActionResult Delete(int id)
         {
-            if (!ThisUserIsAdmin())
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
             {
                 //TODO Error message
 
@@ -142,7 +149,7 @@
             return RedirectToAction("Index","Home");
         }
 
-        private bool ThisUserIsAdmin()
-            => this.employees.UserIsAdmin(this.User.GetId());
+        //private bool ThisUserIsAdmin()
+        //    => this.employees.UserIsAdmin(this.User.GetId());
     }
 }

@@ -38,7 +38,7 @@
                 .OrderBy(e => e.Date)
                 .Skip((currentPage - 1) * eventsPerPage)
                 .Take(eventsPerPage)
-                .Select(e => new EventServiceModel()
+                .Select(e => new EventListingServiceModel()
                 {
                     Id = e.Id,
                     EventName = e.Performance.Title,
@@ -212,10 +212,23 @@
         public bool RolesPerformanceExist(int id)
             => this.data.RolesPerformance.Any(r => r.Id == id);
 
-        public bool UserIsAdmin(string userId)
-            => this.data
-                .Admins
-                .Any(x => x.UserId == userId);
+        public EventTicketServiceModel GetEventById(int id)
+            => this.data.Events
+            .Where(x => x.Id == id)
+            .Select(x=>new EventTicketServiceModel
+            {
+                Id= x.Id,
+                FreeSeats = x.FreeSeats,
+                TicketPrice = x.TicketPrice,
+                Date = x.Date,
+                PerformanceId = x.PerformanceId
+            })
+            .FirstOrDefault();
+
+        //public bool UserIsAdmin(string userId)
+        //    => this.data
+        //        .Admins
+        //        .Any(x => x.UserId == userId);
 
         
     }

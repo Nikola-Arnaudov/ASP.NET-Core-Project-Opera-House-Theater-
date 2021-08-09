@@ -1,6 +1,7 @@
 ﻿
 namespace OperaHouseTheater.Models.Performance
 {
+    using OperaHouseTheater.Services.Performances.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -33,6 +34,6 @@ namespace OperaHouseTheater.Models.Performance
         [Display(Name = "Тип")]
         public int PerformanceTypeId { get; set; }
 
-        public IEnumerable<PerformanceTypeViewModel> PerformanceTypes { get; set; }
+        public IEnumerable<PerformanceTypeServiceModel> PerformanceTypes { get; set; }
     }
 }

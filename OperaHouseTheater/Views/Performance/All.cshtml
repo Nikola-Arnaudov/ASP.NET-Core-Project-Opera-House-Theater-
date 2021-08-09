@@ -33,6 +33,10 @@
 
 
 <div class="row">
+    @if (!Model.Performances.Any())
+    {
+    <h3>We are sorry, but there is no such performance according to the given criteria.</h3>
+    }
     @foreach (var performance in Model.Performances)
     {
         <div class="col-md-4">

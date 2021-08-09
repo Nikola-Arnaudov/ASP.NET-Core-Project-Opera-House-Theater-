@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Comments\Models\" />
+    <Folder Include="Services\Roles\Models\" />
   </ItemGroup>
 
 </Project>

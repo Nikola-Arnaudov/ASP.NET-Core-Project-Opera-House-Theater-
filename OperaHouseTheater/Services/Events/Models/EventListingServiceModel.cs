@@ -3,7 +3,7 @@
     using System;
 
 
-    public class EventServiceModel
+    public class EventListingServiceModel
     {
         public int Id { get; set; }
 

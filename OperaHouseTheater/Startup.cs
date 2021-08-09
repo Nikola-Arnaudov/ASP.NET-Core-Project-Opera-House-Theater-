@@ -9,11 +9,15 @@ namespace OperaHouseTheater
     using Microsoft.Extensions.Hosting;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Services.Admins;
     using OperaHouseTheater.Services.Comments;
     using OperaHouseTheater.Services.Employees;
     using OperaHouseTheater.Services.Events;
+    using OperaHouseTheater.Services.Home;
     using OperaHouseTheater.Services.Members;
     using OperaHouseTheater.Services.News;
+    using OperaHouseTheater.Services.Performances;
+    using OperaHouseTheater.Services.Roles;
     using OperaHouseTheater.Services.Tickets;
 
     public class Startup
@@ -50,6 +54,10 @@ namespace OperaHouseTheater
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IPerformanceService, PerformanceService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IHomeService, HomeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

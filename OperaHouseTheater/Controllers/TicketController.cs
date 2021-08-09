@@ -7,31 +7,46 @@
     using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Ticket;
+    using OperaHouseTheater.Services.Events;
+    using OperaHouseTheater.Services.Members;
+    using OperaHouseTheater.Services.Performances;
     using OperaHouseTheater.Services.Tickets;
     using System;
     using System.Linq;
 
     public class TicketController : Controller
     {
-        private readonly OperaHouseTheaterDbContext data;
+        //private readonly OperaHouseTheaterDbContext data;
+        private readonly IMemberService members;
         private readonly ITicketService tickets; 
+        private readonly IEventService events;
+        private readonly IPerformanceService performances;
 
-        public TicketController(OperaHouseTheaterDbContext data,ITicketService tickets)
+        public TicketController(/*OperaHouseTheaterDbContext data,*/
+            ITicketService tickets, 
+            IMemberService members,
+            IEventService events, 
+            IPerformanceService performances)
         {
-            this.data = data;
+            //this.data = data;
             this.tickets = tickets;
+            this.members = members;
+            this.events = events;
+            this.performances = performances;
         }
 
         [Authorize]
         public IActionResult Buy(int id)
         {
-            var memberId = this.data
-                .Members
-                .Where(m => m.UserId == this.User.GetId())
-                .Select(m => m.Id)
-                .FirstOrDefault();
+            //var memberId = this.data
+            //    .Members
+            //    .Where(m => m.UserId == this.User.GetId())
+            //    .Select(m => m.Id)
+            //    .FirstOrDefault();
 
-            if (memberId == 0)
+            var isMember = this.members.UserIsMember(this.User.GetId());
+
+            if (!isMember)
             {
                 //TODO
                 //this.TempData
@@ -39,7 +54,9 @@
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
-            var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == id);
+            //var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == id);
+
+            var crrEvent = this.events.GetEventById(id); 
 
             //TODO: Error message
             if (crrEvent == null)
@@ -47,16 +64,18 @@
                 return BadRequest();
             }
 
-            var eventPerformance = this.data.Performances.FirstOrDefault(x => x.Id == crrEvent.PerformanceId);
-            var performanceType = this.data.PerformanceTypes.FirstOrDefault(x => x.Id == eventPerformance.PerformanceTypeId).Type;
+            //var eventPerformance = this.data.Performances.FirstOrDefault(x => x.Id == crrEvent.PerformanceId);
+            var eventPerformance = this.performances.GetPerformanceById(crrEvent.PerformanceId);
+            //var performanceType = this.data.PerformanceTypes.FirstOrDefault(x => x.Id == eventPerformance.PerformanceTypeId).Type;
 
             var ticketData = new BuyTicketFormModel
             {
                 Title = eventPerformance.Title,
-                PerformanceType = performanceType,
                 Composer = eventPerformance.Composer,
-                Date = crrEvent.Date,
                 ImageUrl = eventPerformance.ImageUrl,
+                //PerformanceType = performanceType,
+                PerformanceType = eventPerformance.PerformanceType,
+                Date = crrEvent.Date,
                 FreeSeats = crrEvent.FreeSeats,
                 CurrEventId = crrEvent.Id,
                 TicketPrice = crrEvent.TicketPrice,
@@ -69,7 +88,7 @@
         [HttpPost]
         public IActionResult Buy(BuyTicketFormModel ticket)
         {
-            if (!this.UserIsMember())
+            if (!this.members.UserIsMember(this.User.GetId()))
             {
                 //TODO
                 //this.TempData
@@ -99,28 +118,36 @@
 
             var userId = this.User.GetId();
 
-            var member = this.data
-                .Members
-                .FirstOrDefault(x => x.UserId == userId);
+            //var member = this.data
+            //    .Members
+            //    .FirstOrDefault(x => x.UserId == userId);
 
-            var ticketData = new Ticket
-            {
-                Amount = ticket.TicketPrice * ticket.SeatsCount,
-                Composer = ticket.Composer,
-                Title = ticket.Title,
-                SeatsCount = ticket.SeatsCount,
-                Date = ticket.Date,
-                PerformanceType = ticket.PerformanceType,
-                EventId = ticket.CurrEventId,
-                MemberId = member.Id
-            };
+            //var ticketData = new Ticket
+            //{
+            //    Amount = ticket.TicketPrice * ticket.SeatsCount,
+            //    Composer = ticket.Composer,
+            //    Title = ticket.Title,
+            //    SeatsCount = ticket.SeatsCount,
+            //    Date = ticket.Date,
+            //    PerformanceType = ticket.PerformanceType,
+            //    EventId = ticket.CurrEventId,
+            //    MemberId = member.Id
+            //};
 
-            var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == ticketData.EventId);
-            crrEvent.FreeSeats -= ticket.SeatsCount;
-            data.SaveChanges();
+            //var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == ticketData.EventId);
+            //crrEvent.FreeSeats -= ticket.SeatsCount;
+            //data.SaveChanges();
 
-            this.data.Tickets.Add(ticketData);
-            this.data.SaveChanges();
+            //this.data.Tickets.Add(ticketData);
+            //this.data.SaveChanges();
+
+            this.tickets.Buy(userId, ticket.TicketPrice,
+                ticket.SeatsCount,
+                ticket.Composer,
+                ticket.Title,
+                ticket.Date,
+                ticket.PerformanceType,
+                ticket.CurrEventId);
 
             return RedirectToAction("All", "Event");
         }
@@ -129,8 +156,6 @@
         public IActionResult All()
         {
             var myTickets = this.tickets.All(this.User.GetId());
-
-
 
             //var member = this.data
             //    .Members
@@ -142,8 +167,6 @@
 
                 return BadRequest();
             }
-
-
 
             //var myTicketsData = new MyTicketsViewModel
             //{
@@ -169,6 +192,15 @@
 
         public IActionResult Delete(int id)
         {
+            var memberId = this.members.GetMemberId(this.User.GetId());
+
+            if (!this.tickets.IsCurrMembersTicket(id,memberId))
+            {
+                //TODO Message
+
+                return BadRequest();
+            }
+
             var ticketExist = this.tickets.Delete(id);
 
             if (ticketExist == false)
@@ -181,10 +213,5 @@
             return RedirectToAction(nameof(All), "Ticket");
         }
 
-
-        private bool UserIsMember()
-            => this.data
-                .Members
-                .Any(x => x.UserId == this.User.GetId());
     }
 }

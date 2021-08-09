@@ -24,10 +24,12 @@
 
         IEnumerable<PerformanceTitleServiceModel> GetPerformanceTitles();
 
+        EventTicketServiceModel GetEventById(int id);
+
         int DeleteEventRole(int id);
 
         bool RolesPerformanceExist(int id);
 
-        bool UserIsAdmin(string userId);
+        //bool UserIsAdmin(string userId);
     }
 }

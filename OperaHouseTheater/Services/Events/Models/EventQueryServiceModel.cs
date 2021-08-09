@@ -8,6 +8,6 @@
 
         public IEnumerable<string> Types { get; init; }
 
-        public IEnumerable<EventServiceModel> Events { get; init; }
+        public IEnumerable<EventListingServiceModel> Events { get; init; }
     }
 }

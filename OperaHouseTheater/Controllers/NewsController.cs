@@ -3,20 +3,22 @@
     using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Models.News;
     using OperaHouseTheater.Services.News;
-    using Data.Models;
-    using OperaHouseTheater.Data;
-    using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
+    using OperaHouseTheater.Services.Admins;
+    using OperaHouseTheater.Infrastructure;
 
     public class NewsController : Controller
     {
         private readonly INewsService news;
-        private readonly OperaHouseTheaterDbContext data;
+        private readonly IAdminService admins;
 
-        public NewsController(INewsService news, OperaHouseTheaterDbContext data)
+        public NewsController(INewsService news,
+            IAdminService admins)
         {
             this.news = news;
-            this.data = data;
+            this.admins = admins;
         }
+
         public IActionResult All([FromQuery]AllNewsQueryModel query)
         {
             var queryResult = this.news.All(
@@ -26,56 +28,37 @@
 
             query.News = queryResult.News;
 
-            //var newsQuery = this.data.News.AsQueryable();
-
-            //if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            //{
-            //    newsQuery = newsQuery.Where(n =>
-            //        n.Title.ToLower().Contains(query.SearchTerm.ToLower())
-            //        || n.Content.ToLower().Contains(query.SearchTerm.ToLower()));
-            //}
-
-            //var news = newsQuery
-            //    .OrderByDescending(n => n.Id)
-            //    .Skip((query.CurrentPage - 1) * AllNewsQueryModel.NewsPerPage)
-            //    .Take(AllNewsQueryModel.NewsPerPage)
-            //    .Select(n => new NewsListingViewModel()
-            //    {
-            //        Id = n.Id,
-            //        Title = n.Title,
-            //        Content = n.Content,
-            //        ImageUrl = n.NewsImageUrl,
-            //        VideoUrl = n.NewsVideoUrl
-            //    })
-            //    .ToList();
-
-            //query.News = news;
-            //query.NewsCount = newsQuery.Count();
-
             return View(query);
         }
 
-        public IActionResult Add() => View();
+        [Authorize]
+        //only Admin
+        public IActionResult Add() 
+        {
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            {
+                //TODO Error message
+                return BadRequest();
+            }
 
+            return View();
+        }
+
+        [Authorize]
         [HttpPost]
+        //only Admin
         public IActionResult Add(AddNewsFormModel news)
         {
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            {
+                //TODO Error message
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(news);
             }
-
-            //var newsData = new News
-            //{
-            //    Title = news.Title,
-            //    Content = news.Content,
-            //    NewsImageUrl = news.ImageUrl,
-            //    NewsVideoUrl = news.VideoUrl ?? null
-            //};
-
-            //this.data.News.Add(newsData);
-
-            //this.data.SaveChanges();
 
             this.news.Add(news.Title, news.Content, news.ImageUrl, news.VideoUrl);
 
@@ -105,10 +88,15 @@
             return View(newsData);
         }
 
+        [Authorize]
+        //only Admin
         public IActionResult Delete(int id) 
         {
-            //var news = this.data.News
-            //    .FirstOrDefault(x => x.Id == id);
+            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            {
+                //TODO Error message
+                return BadRequest();
+            }
 
             var news = this.news.GetNewsById(id);
 
@@ -117,11 +105,6 @@
             {
                 return BadRequest();
             }
-
-            //this.data.News.Remove(news);
-
-            //this.data.SaveChanges();
-
 
             this.news.Delete(id);
 

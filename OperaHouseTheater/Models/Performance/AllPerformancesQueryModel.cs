@@ -1,5 +1,6 @@
 ﻿namespace OperaHouseTheater.Models.Performance
 {
+    using OperaHouseTheater.Services.Performances.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,6 @@
 
         public IEnumerable<string> Types { get; set; }
 
-        public IEnumerable<PerformanceListingViewModel> Performances { get; set; }
+        public IEnumerable<PerformanceServiceModel> Performances { get; set; }
     }
 }

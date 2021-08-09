@@ -19,6 +19,7 @@
         }
 
         [Authorize]
+        //only Admin and member
         public IActionResult Create(int id) 
         {
             var memberId = this.comments.GetMemberId(this.User.GetId());
@@ -50,6 +51,7 @@
 
         [Authorize]
         [HttpPost]
+        //only Admin and member
         public IActionResult Create(CreateCommentFormModel comment) 
         {
             var memberId = this.comments.GetMemberId(this.User.GetId());
@@ -73,6 +75,7 @@
         }
 
         [Authorize]
+        //only Admin and member
         public IActionResult Delete(int id) 
         {
             var memberId = this.comments.GetMemberId(this.User.GetId());

@@ -20,6 +20,6 @@
 
         public IEnumerable<string> Types { get; set; }
 
-        public IEnumerable<EventServiceModel> Events { get; set; }
+        public IEnumerable<EventListingServiceModel> Events { get; set; }
     }
 }

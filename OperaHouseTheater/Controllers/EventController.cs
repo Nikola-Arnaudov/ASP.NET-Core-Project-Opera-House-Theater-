@@ -8,22 +8,26 @@
     using Microsoft.AspNetCore.Authorization;
 
     using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Services.Admins;
 
     public class EventController : Controller
     {
         private readonly IEventService events;
+        private readonly IAdminService admins;
         //private readonly OperaHouseTheaterDbContext data;
 
-        public EventController(IEventService events/*OperaHouseTheaterDbContext data*/)
+        public EventController(IEventService events, IAdminService admins/*OperaHouseTheaterDbContext data*/)
         {
             this.events = events;
+            this.admins = admins;
             //this.data = data;
         }
 
         [Authorize]
+        //only Admin
         public IActionResult Create() 
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -38,9 +42,10 @@
 
         [Authorize]
         [HttpPost]
+        //only Admin
         public IActionResult Create(CreateEventFormModel eventInput)
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -102,9 +107,10 @@
         }
 
         [Authorize]
+        //only Admin
         public IActionResult Delete(int id)
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -124,9 +130,10 @@
         }
 
         [Authorize]
+        //only Admin
         public IActionResult SetRole(int performanceId) 
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -142,9 +149,10 @@
 
         [Authorize]
         [HttpPost]
+        //only Admin
         public IActionResult SetRole(SetEventRoleFormModel role) 
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -175,9 +183,10 @@
         }
 
         [Authorize]
+        //only Admin
         public IActionResult DeleteEventRole(int id)
         {
-            //if (!ThisUserIsAdmin())
+            //if (!this.admins.UserIsAdmin(this.User.GetId())
             //{
             //    //TODO Error message
 
@@ -196,7 +205,7 @@
             return Redirect($"/Event/Details/{crrEvent}");
         }
 
-        private bool ThisUserIsAdmin()
-            => this.events.UserIsAdmin(this.User.GetId());
+        //private bool ThisUserIsAdmin()
+        //    => this.events.UserIsAdmin(this.User.GetId());
     }
 }

@@ -26,10 +26,12 @@
         {
             var userId = this.User.GetId();
 
-            var userIdAlreadyMember = this.members.IsMember(userId);
+            var userIdAlreadyMember = this.members.UserIsMember(userId);
 
             if (userIdAlreadyMember)
             {
+                //TODO Error message
+
                 return BadRequest();
             }
 
@@ -48,5 +50,7 @@
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+
     }
 }

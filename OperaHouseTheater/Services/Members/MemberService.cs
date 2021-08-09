@@ -28,9 +28,16 @@
             this.data.SaveChanges();
         }
 
-        public bool IsMember(string userId)
+        public bool UserIsMember(string userId)
             => this.data
             .Members
             .Any(m => m.UserId == userId);
+
+        public int GetMemberId(string userId)
+            => this.data
+            .Members
+            .Where(m => m.UserId == userId)
+            .Select(m => m.Id)
+            .FirstOrDefault();
     }
 }
