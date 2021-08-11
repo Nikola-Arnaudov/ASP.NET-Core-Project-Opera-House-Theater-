@@ -59,7 +59,7 @@
         public EmployeeQueryServiceModel МanagementEmployees()
         {
             var managementEmployees = GetEmployees(this.data.Employees
-                .Where(e => e.Department.DepartmentName == "Мениджмънд"));
+                .Where(e => e.Department.DepartmentName == "Мениджмънт"));
 
             return new EmployeeQueryServiceModel
             {

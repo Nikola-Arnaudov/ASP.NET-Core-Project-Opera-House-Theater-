@@ -8,6 +8,7 @@ namespace OperaHouseTheater
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using OperaHouseTheater.Data;
+    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Services.Admins;
     using OperaHouseTheater.Services.Comments;
@@ -36,14 +37,17 @@ namespace OperaHouseTheater
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            //services.AddTransient<UserManager<User>>();
+
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<OperaHouseTheaterDbContext>();
 
             services.AddControllersWithViews();
@@ -58,6 +62,9 @@ namespace OperaHouseTheater
             services.AddTransient<IPerformanceService, PerformanceService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IHomeService, HomeService>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

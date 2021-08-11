@@ -1,17 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using OperaHouseTheater.Services.Members
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@*NEW ONE:*@
+@using OperaHouseTheater.Data.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IMemberService Members
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
 
-            var userId = this.User.GetId();
-            var userIsMember = Members.UserIsMember(userId);
-        
+        var userId = this.User.GetId();
+        var userIsMember = Members.UserIsMember(userId);
+
 
         @if (userIsMember)
         {

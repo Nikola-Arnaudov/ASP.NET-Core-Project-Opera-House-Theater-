@@ -7,33 +7,123 @@
     using OperaHouseTheater.Data.Models;
     using System;
     using System.Linq;
+    using OperaHouseTheater.Infrastructure;
+    using Microsoft.AspNetCore.Identity;
+
+    using static WebConstants;
+    using System.Threading.Tasks;
 
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder PrepareDatabase(
-            this IApplicationBuilder app) 
+            this IApplicationBuilder app)
         {
-            using var scopedServices = app.ApplicationServices.CreateScope();
+            // using var scopedServices = app.ApplicationServices.CreateScope();
 
-           var data = scopedServices.ServiceProvider.GetService<OperaHouseTheaterDbContext>();
+            //var data = scopedServices.ServiceProvider.GetService<OperaHouseTheaterDbContext>();
 
-            data.Database.Migrate();
+            //new one:
+            using var serviceScope = app.ApplicationServices.CreateScope();
 
-            SeedPerformanceTypes(data);
-            SeedDepartments(data);
-            SeedEmployeeCategories(data);
+            var services = serviceScope.ServiceProvider;
+
+            MigrateDatabase(services);
+
+
+            SeedPerformanceTypes(services);
+            SeedDepartments(services);
+            SeedEmployeeCategories(services);
+
+
+            SeedAdministrator(services);
+            //
+
+
+
+
+            //data.Database.Migrate();
+
+            //SeedPerformanceTypes(data);
+            //SeedDepartments(data);
+            //SeedEmployeeCategories(data);
+
+            //new one:
+            //
             return app;
         }
 
-        private static void SeedEmployeeCategories(OperaHouseTheaterDbContext data)
+
+
+
+        //new one:
+        private static void MigrateDatabase(IServiceProvider services)
         {
+            var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
+
+            data.Database.Migrate();
+        }
+
+        //
+
+
+
+
+
+
+        //new one:
+        private static void SeedAdministrator(IServiceProvider services)
+        {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            Task
+                .Run(async () =>
+                {
+                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+                    {
+                        return;
+                    }
+
+                    var role = new IdentityRole { Name = AdministratorRoleName };
+
+                    await roleManager.CreateAsync(role);
+
+                    const string adminEmail = "admin@oht.com";
+                    const string adminPassword = "admin123";
+
+                    var user = new User
+                    {
+                        Email = adminEmail,
+                        UserName = adminEmail,
+                        FullName = "Administrator"
+                    };
+
+                    await userManager.CreateAsync(user, adminPassword);
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+                })
+                .GetAwaiter()
+                .GetResult();
+
+
+        }
+        //
+
+        private static void SeedEmployeeCategories(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
+        {
+            //new one:
+            var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
+            //
+
+
+
             if (data.EmployeeCategories.Any())
             {
                 return;
             }
 
             data.EmployeeCategories.AddRange(new[]
-            { 
+            {
                 new EmployeeCategory{CategoryName = "Примабалерина"},
                 new EmployeeCategory{CategoryName = "Премиер-солист"},
                 new EmployeeCategory{CategoryName = "Солист"},
@@ -54,8 +144,13 @@
             data.SaveChanges();
         }
 
-        public static void SeedDepartments(OperaHouseTheaterDbContext data) 
+        public static void SeedDepartments(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
         {
+            //new one:
+            var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
+            //
+
+
             if (data.Departments.Any())
             {
                 return;
@@ -65,14 +160,18 @@
             {
                 new Department{ DepartmentName = "Балет"},
                 new Department{ DepartmentName = "Опера"},
-                new Department{ DepartmentName = "Мениджмънд"},
+                new Department{ DepartmentName = "Мениджмънт"},
             });
 
             data.SaveChanges();
         }
 
-        public static void SeedPerformanceTypes(OperaHouseTheaterDbContext data) 
+        public static void SeedPerformanceTypes(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
         {
+            //new one:
+            var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
+            //
+
             if (data.PerformanceTypes.Any())
             {
                 return;
@@ -86,7 +185,5 @@
 
             data.SaveChanges();
         }
-
-
     }
 }
