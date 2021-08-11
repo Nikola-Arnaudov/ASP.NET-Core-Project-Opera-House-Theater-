@@ -7,7 +7,6 @@
     using OperaHouseTheater.Data.Models;
     using System;
     using System.Linq;
-    using OperaHouseTheater.Infrastructure;
     using Microsoft.AspNetCore.Identity;
 
     using static WebConstants;
@@ -38,9 +37,6 @@
             SeedAdministrator(services);
             //
 
-
-
-
             //data.Database.Migrate();
 
             //SeedPerformanceTypes(data);
@@ -52,9 +48,6 @@
             return app;
         }
 
-
-
-
         //new one:
         private static void MigrateDatabase(IServiceProvider services)
         {
@@ -64,11 +57,6 @@
         }
 
         //
-
-
-
-
-
 
         //new one:
         private static void SeedAdministrator(IServiceProvider services)
@@ -104,8 +92,6 @@
                 })
                 .GetAwaiter()
                 .GetResult();
-
-
         }
         //
 
@@ -114,8 +100,6 @@
             //new one:
             var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
             //
-
-
 
             if (data.EmployeeCategories.Any())
             {

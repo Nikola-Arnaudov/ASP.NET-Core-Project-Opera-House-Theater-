@@ -14,14 +14,10 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        //private readonly SignInManager<IdentityUser> signInManager;
-        //private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
         public RegisterModel(
-            //UserManager<IdentityUser> userManager,
-            //SignInManager<IdentityUser> signInManager
             UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
