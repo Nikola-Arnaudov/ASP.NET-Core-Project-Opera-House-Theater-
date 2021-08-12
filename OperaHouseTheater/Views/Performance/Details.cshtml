@@ -1,5 +1,9 @@
 ﻿@model PerformanceDetailsServiceModel
 
+@inject IMemberService Members
+
+@using static OperaHouseTheater.WebConstants
+
 @{ViewBag.Title = $"{Model.Title}"; }
 
 <div class="articles-read">
@@ -33,32 +37,57 @@
             </div>
         }
 
-        <h3 class="text-center">Роли</h3>
-        @*<a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole">
-            + Добави роля
-        </a>*@
-        <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
-            + Добави роля
-        </a>
-        @if (Model.Roles.Any())
+        @if (User.IsInRole("Administrator"))
         {
-            @foreach (var role in Model.Roles)
+            <h3 class="text-center">Роли</h3>
+            <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
+                + Добави роля
+            </a>
+            @if (Model.Roles.Any())
             {
-                <div class="row row ml-3 mr-3 mt-2">
-                    <div class="col">
-                        <p>@role.RoleName</p>
+                @foreach (var role in Model.Roles)
+                {
+                    <div class="row row ml-3 mr-3 mt-2">
+                        <div class="col">
+                            <p>@role.RoleName</p>
+                        </div>
+                        <div class="col">
+                            <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                        </div>
                     </div>
-                    <div class="col">
-                        <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
-                    </div>
-                </div>
+                }
             }
         }
+
+        @*<h3 class="text-center">Роли</h3>
+            <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
+                + Добави роля
+            </a>
+            @if (Model.Roles.Any())
+            {
+                @foreach (var role in Model.Roles)
+                {
+                    <div class="row row ml-3 mr-3 mt-2">
+                        <div class="col">
+                            <p>@role.RoleName</p>
+                        </div>
+                        <div class="col">
+                            <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                }
+            }*@
         <div class="rom mb-2"></div>
         <h3 class="text-center mb-4">Comments</h3>
-        <div class="" style="text-align: center">
-            <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
-        </div>
+        @{
+            var userIsMember = Members.UserIsMember(User.GetId());
+        }
+        @if (userIsMember || User.IsInRole(AdministratorRoleName))
+        {
+            <div class="" style="text-align: center">
+                <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+            </div>
+        }
         <div style="height:300px;overflow-y:scroll">
             @if (!Model.Comments.Any())
             {
@@ -67,6 +96,8 @@
             }
             else
             {
+                var memberId = Members.GetMemberId(User.GetId());
+
                 @foreach (var comment in Model.Comments)
                 {
                     <div class="card">
@@ -75,7 +106,11 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">@comment.Content</p>
-                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="btn btn-outline-danger float-right">Delete</a>
+                            @if (comment.CreatorId == memberId || User.IsInRole(AdministratorRoleName))
+                            {
+                                <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="btn btn-outline-danger float-right">Delete</a>
+
+                            }
                         </div>
                     </div>
                 }

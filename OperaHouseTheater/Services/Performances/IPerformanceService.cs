@@ -13,6 +13,14 @@
             string imageUrl,
             int performanceTypeId);
 
+        bool Edit(
+            int id,
+            string title,
+            string composer,
+            string synopsis,
+            string imageUrl,
+            int performanceTypeId);
+
         PerformanceDetailsServiceModel Details(int id);
 
         bool Delete(int id);

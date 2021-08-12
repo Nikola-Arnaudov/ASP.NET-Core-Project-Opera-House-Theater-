@@ -7,7 +7,7 @@ namespace OperaHouseTheater.Models.Performance
 
     using static Data.DataConstants.Performance;
 
-    public class AddPerformanceFormModel
+    public class PerformanceFormModel
     {
         [Required(ErrorMessage = "This field is required")]
         [StringLength(TitleMaxLength,

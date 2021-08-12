@@ -8,6 +8,10 @@
 
         public string PerformanceType { get; set; }
 
+        public int PerformanceTypeId { get; set; }
+
+        public string Synopsis { get; set; }
+
         public string Composer { get; set; }
 
         public string ImageUrl { get; set; }

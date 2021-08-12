@@ -11,7 +11,7 @@ namespace OperaHouseTheater.Services.Comments
 
         int CurrentPerformanceExist(int id);
 
-        int GetMemberId(string userId);
+        //int GetMemberId(string userId);
 
         Comment GetCommentById(int id);
     }

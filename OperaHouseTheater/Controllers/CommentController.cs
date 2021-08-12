@@ -6,25 +6,29 @@
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Comment;
     using OperaHouseTheater.Services.Comments;
+    using OperaHouseTheater.Services.Members;
+    using static WebConstants;
 
     public class CommentController : Controller
     {
-        //private readonly OperaHouseTheaterDbContext data;
         private readonly ICommentService comments;
+        private readonly IMemberService members;
 
-        public CommentController(/*OperaHouseTheaterDbContext data,*/ ICommentService comments)
+        public CommentController(
+            ICommentService comments, 
+            IMemberService members)
         {
-            //this.data = data;
             this.comments = comments;
+            this.members = members;
         }
 
         [Authorize]
         //only Admin and member
         public IActionResult Create(int id) 
         {
-            var memberId = this.comments.GetMemberId(this.User.GetId());
+            var memberId = this.members.GetMemberId(this.User.GetId());
 
-            if (memberId == 0)
+            if (memberId == 0 && !User.IsInRole(AdministratorRoleName))
             {
                 //TODO
                 //this.TempData
@@ -54,7 +58,7 @@
         //only Admin and member
         public IActionResult Create(CreateCommentFormModel comment) 
         {
-            var memberId = this.comments.GetMemberId(this.User.GetId());
+            var memberId = this.members.GetMemberId(this.User.GetId());
 
             if (memberId == 0)
             {
@@ -78,7 +82,7 @@
         //only Admin and member
         public IActionResult Delete(int id) 
         {
-            var memberId = this.comments.GetMemberId(this.User.GetId());
+            var memberId = this.members.GetMemberId(this.User.GetId());
 
             var comment = this.comments.GetCommentById(id);
 

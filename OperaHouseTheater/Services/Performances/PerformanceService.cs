@@ -37,6 +37,33 @@
             this.data.SaveChanges();
         }
 
+        public bool Edit(
+            int id,
+            string title,
+           string composer,
+           string synopsis,
+           string imageUrl,
+           int performanceTypeId)
+        {
+            var performanceData = this.data.Performances.Where(p => p.Id == id).FirstOrDefault();
+
+            if (performanceData == null)
+            {
+                return false;
+            }
+
+            performanceData.Title = title;
+            performanceData.Composer = composer;
+            performanceData.Synopsis = synopsis;
+            performanceData.ImageUrl = imageUrl;
+            performanceData.PerformanceTypeId = performanceTypeId;
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+
         public PerformanceQueryServiceModel All(string searchTerm, string type)
         {
             var performanceQuery = this.data.Performances.AsQueryable();
@@ -117,7 +144,8 @@
                         {
                             Id = c.Id,
                             Content = c.Content,
-                            CreatorName = c.Member.MemberName
+                            CreatorName = c.Member.MemberName,
+                            CreatorId = c.MemberId
                         }).ToList()
             };
 
@@ -207,6 +235,8 @@
                 Composer = x.Composer,
                 ImageUrl = x.ImageUrl,
                 PerformanceType = x.PerformanceType.Type,
+                PerformanceTypeId = x.PerformanceTypeId,
+                Synopsis = x.Synopsis,
                 Title = x.Title
             })
             .FirstOrDefault();
