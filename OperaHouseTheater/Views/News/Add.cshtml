@@ -29,10 +29,13 @@
                     <input asp-for="VideoUrl" class="form-control" placeholder="https://video.Url...">
                     <span asp-validation-for="VideoUrl" class="small text-danger"></span>
                 </div>
-                <input class="btn btn-primary float-right" type="submit" value="Save"/>
+                <input class="btn btn-primary float-right" type="submit" value="Save" />
             </form>
         </div>
     </div>
 </div>
 
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

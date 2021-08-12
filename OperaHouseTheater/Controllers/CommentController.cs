@@ -7,6 +7,7 @@
     using OperaHouseTheater.Models.Comment;
     using OperaHouseTheater.Services.Comments;
     using OperaHouseTheater.Services.Members;
+
     using static WebConstants;
 
     public class CommentController : Controller
@@ -28,10 +29,11 @@
         {
             var memberId = this.members.GetMemberId(this.User.GetId());
 
-            if (memberId == 0 && !User.IsInRole(AdministratorRoleName))
+            if (memberId == 0 && !User.IsAdmin())
             {
                 //TODO
                 //this.TempData
+
 
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
@@ -41,7 +43,7 @@
             //TODO: Error message
             if (crrPerformance == 0)
             {
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             var commentData = new CreateCommentFormModel
@@ -60,7 +62,7 @@
         {
             var memberId = this.members.GetMemberId(this.User.GetId());
 
-            if (memberId == 0)
+            if (memberId == 0 && !User.IsAdmin())
             {
                 //TODO
                 //this.TempData
@@ -90,14 +92,14 @@
             {
                 //TODO: Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
-            if (comment.MemberId != memberId)
+            if (comment.MemberId != memberId && !User.IsAdmin())
             {
                 //TODO: Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             this.comments.Delete(id);

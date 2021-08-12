@@ -14,6 +14,8 @@
     using System;
     using System.Linq;
 
+    using static WebConstants;
+
     public class TicketController : Controller
     {
         //private readonly OperaHouseTheaterDbContext data;
@@ -46,7 +48,7 @@
 
             var isMember = this.members.UserIsMember(this.User.GetId());
 
-            if (!isMember)
+            if (!isMember && !User.IsAdmin())
             {
                 //TODO
                 //this.TempData
@@ -54,19 +56,15 @@
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
-            //var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == id);
-
             var crrEvent = this.events.GetEventById(id); 
 
             //TODO: Error message
             if (crrEvent == null)
             {
-                return BadRequest();
+                return RedirectToAction("Error","Home");
             }
 
-            //var eventPerformance = this.data.Performances.FirstOrDefault(x => x.Id == crrEvent.PerformanceId);
             var eventPerformance = this.performances.GetPerformanceById(crrEvent.PerformanceId);
-            //var performanceType = this.data.PerformanceTypes.FirstOrDefault(x => x.Id == eventPerformance.PerformanceTypeId).Type;
 
             var ticketData = new BuyTicketFormModel
             {
@@ -88,7 +86,7 @@
         [HttpPost]
         public IActionResult Buy(BuyTicketFormModel ticket)
         {
-            if (!this.members.UserIsMember(this.User.GetId()))
+            if (!this.members.UserIsMember(this.User.GetId()) && !User.IsAdmin())
             {
                 //TODO
                 //this.TempData
@@ -141,7 +139,8 @@
             //this.data.Tickets.Add(ticketData);
             //this.data.SaveChanges();
 
-            this.tickets.Buy(userId, ticket.TicketPrice,
+            this.tickets.Buy(userId, 
+                ticket.TicketPrice,
                 ticket.SeatsCount,
                 ticket.Composer,
                 ticket.Title,

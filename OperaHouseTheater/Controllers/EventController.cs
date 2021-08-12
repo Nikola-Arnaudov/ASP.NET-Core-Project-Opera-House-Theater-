@@ -1,38 +1,38 @@
 ﻿namespace OperaHouseTheater.Controllers.Event
 {
-    using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Models.Event;
-    using OperaHouseTheater.Services.Events;
     using System;
     using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-
-    using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Models.Event;
+    using OperaHouseTheater.Services.Events;
     using OperaHouseTheater.Services.Admins;
+    using OperaHouseTheater.Infrastructure;
+    
+    using static WebConstants;
 
     public class EventController : Controller
     {
         private readonly IEventService events;
         private readonly IAdminService admins;
-        //private readonly OperaHouseTheaterDbContext data;
 
-        public EventController(IEventService events, IAdminService admins/*OperaHouseTheaterDbContext data*/)
+        public EventController( IEventService events,
+            IAdminService admins)
         {
             this.events = events;
             this.admins = admins;
-            //this.data = data;
         }
 
         [Authorize]
         //only Admin
         public IActionResult Create() 
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             return View(new CreateEventFormModel
             {
@@ -45,12 +45,12 @@
         //only Admin
         public IActionResult Create(CreateEventFormModel eventInput)
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             if (!this.events.GetPerformanceTitles().Any(p => p.Id == eventInput.PerformanceId))
             {
@@ -100,7 +100,7 @@
             {
                 //TODO Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(eventData);
@@ -110,12 +110,12 @@
         //only Admin
         public IActionResult Delete(int id)
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             var eventExist = this.events.Delete(id);
 
@@ -123,7 +123,7 @@
             {
                 //TODO Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return RedirectToAction(nameof(All));
@@ -133,12 +133,12 @@
         //only Admin
         public IActionResult SetRole(int performanceId) 
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             return View(new SetEventRoleFormModel
             {
@@ -152,12 +152,12 @@
         //only Admin
         public IActionResult SetRole(SetEventRoleFormModel role) 
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             if (!this.events.GetPerformanceTitles().Any(x => x.Id == role.PerformanceId))
             {
@@ -186,12 +186,12 @@
         //only Admin
         public IActionResult DeleteEventRole(int id)
         {
-            //if (!this.admins.UserIsAdmin(this.User.GetId())
-            //{
-            //    //TODO Error message
+            if (!User.IsAdmin())
+            {
+                //TODO Error message
 
-            //    return BadRequest();
-            //}
+                return RedirectToAction("Error", "Home");
+            }
 
             var crrEvent = this.events.DeleteEventRole(id);
 
@@ -199,13 +199,10 @@
 
             if (crrEvent == 0)
             {
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return Redirect($"/Event/Details/{crrEvent}");
         }
-
-        //private bool ThisUserIsAdmin()
-        //    => this.events.UserIsAdmin(this.User.GetId());
     }
 }

@@ -12,6 +12,7 @@
 
         var userId = this.User.GetId();
         var userIsMember = Members.UserIsMember(userId);
+        var userIsAdmin = User.IsAdmin();
 
         @if (userIsMember)
         {
@@ -21,9 +22,12 @@
         }
         else
         {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become Member</a>
-            </li>
+            @if (!userIsAdmin)
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become Member</a>
+                </li>
+            }
         }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Acount</a>

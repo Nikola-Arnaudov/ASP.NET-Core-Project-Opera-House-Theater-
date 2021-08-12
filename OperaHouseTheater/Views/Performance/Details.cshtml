@@ -37,7 +37,7 @@
             </div>
         }
 
-        @if (User.IsInRole("Administrator"))
+        @if (User.IsAdmin())
         {
             <h3 class="text-center">Роли</h3>
             <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
@@ -59,24 +59,6 @@
             }
         }
 
-        @*<h3 class="text-center">Роли</h3>
-            <a class="nav-link shadow btn-primary m-4 text-center " asp-controller="Role" asp-action="AddRole" asp-route-performanceId="@Model.Id">
-                + Добави роля
-            </a>
-            @if (Model.Roles.Any())
-            {
-                @foreach (var role in Model.Roles)
-                {
-                    <div class="row row ml-3 mr-3 mt-2">
-                        <div class="col">
-                            <p>@role.RoleName</p>
-                        </div>
-                        <div class="col">
-                            <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
-                        </div>
-                    </div>
-                }
-            }*@
         <div class="rom mb-2"></div>
         <h3 class="text-center mb-4">Comments</h3>
         @{
@@ -85,7 +67,9 @@
         @if (userIsMember || User.IsInRole(AdministratorRoleName))
         {
             <div class="" style="text-align: center">
-                <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+                <a asp-controller="Comment" 
+                   asp-action="Create" 
+                   asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
             </div>
         }
         <div style="height:300px;overflow-y:scroll">
@@ -106,10 +90,11 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">@comment.Content</p>
-                            @if (comment.CreatorId == memberId || User.IsInRole(AdministratorRoleName))
+                            @if (comment.CreatorId == memberId || User.IsAdmin())
                             {
-                                <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="btn btn-outline-danger float-right">Delete</a>
-
+                                <a asp-controller="Comment" asp-action="Delete" 
+                                   asp-route-id="@comment.Id" 
+                                   class="btn btn-outline-danger float-right">Delete</a>
                             }
                         </div>
                     </div>

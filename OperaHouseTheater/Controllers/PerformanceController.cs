@@ -2,12 +2,10 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Models.Performance;
     using OperaHouseTheater.Services.Performances;
     using OperaHouseTheater.Services.Tickets;
-    using System.Collections.Generic;
+    using OperaHouseTheater.Infrastructure;
     using System.Linq;
 
     using static WebConstants;
@@ -31,7 +29,7 @@
         //only Admin
         public IActionResult Create() 
         {
-            if (!User.IsInRole(AdministratorRoleName))
+            if (!User.IsAdmin())
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -47,7 +45,7 @@
         //only Admin
         public IActionResult Create(PerformanceFormModel performance) 
         {
-            if (!User.IsInRole(AdministratorRoleName))
+            if (!User.IsAdmin())
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -86,7 +84,7 @@
         [Authorize]
         public IActionResult Edit(int id)
         {
-            if (!User.IsInRole(AdministratorRoleName))
+            if (!User.IsAdmin())
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -113,7 +111,7 @@
         [HttpPost]
         public IActionResult Edit(int id,PerformanceFormModel performance) 
         {
-            if (!User.IsInRole(AdministratorRoleName))
+            if (!User.IsAdmin())
             {
                 return RedirectToAction("Error", "Home");
             }

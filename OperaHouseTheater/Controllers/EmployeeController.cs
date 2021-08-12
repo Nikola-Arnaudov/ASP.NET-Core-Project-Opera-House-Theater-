@@ -1,37 +1,32 @@
 ﻿namespace OperaHouseTheater.Controllers.Employee
 {
+    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Employee;
-    using OperaHouseTheater.Services.Admins;
     using OperaHouseTheater.Services.Employees;
-    using System.Linq;
+    using OperaHouseTheater.Infrastructure;
+
+    using static WebConstants;
 
     public class EmployeeController : Controller
     {
-        //private readonly OperaHouseTheaterDbContext data;
         private readonly IEmployeeService employees;
-        private readonly IAdminService admins;
 
-        public EmployeeController(/*OperaHouseTheaterDbContext data,*/ 
-            IEmployeeService employees,
-            IAdminService admins)
-        {
-            //this.data = data;
-            this.employees = employees;
-            this.admins = admins;
-        }
+        public EmployeeController(IEmployeeService employees)
+            => this.employees = employees;
 
         [Authorize]
         //only Admin
-        public IActionResult Add() 
+        public IActionResult Add()
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (!User.IsAdmin())
             {
                 //TODO Error message
 
-                return BadRequest();
+                TempData["ErrorMessage"] = "Some text";
+
+                return RedirectToAction("Error", "Home");
             }
 
             return View(new AddEmployeeFormModel
@@ -44,12 +39,13 @@
         [HttpPost]
         [Authorize]
         //only Admin
-        public IActionResult Add(AddEmployeeFormModel employeeInput) 
+        public IActionResult Add(AddEmployeeFormModel employeeInput)
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (!User.IsAdmin())
             {
                 //TODO Error message
-                return BadRequest();
+
+                return RedirectToAction("Error", "Home");
             }
 
             if (employeeInput.DepartmentId == 0)
@@ -71,11 +67,11 @@
             {
                 this.ModelState.AddModelError(nameof(employeeInput.CategoryId), "This category does not exist.");
             }
-            
+
             if (!ModelState.IsValid)
             {
                 employeeInput.EmployeeCategories = this.employees.GetEmployeeCategories();
-                employeeInput.EmployeeDepartments =this.employees.GetEmployeeDepartments();
+                employeeInput.EmployeeDepartments = this.employees.GetEmployeeDepartments();
 
                 return View(employeeInput);
             }
@@ -112,7 +108,7 @@
             return View(managementEmployees);
         }
 
-        public IActionResult Details(int id) 
+        public IActionResult Details(int id)
         {
             var employeeData = this.employees.Details(id);
 
@@ -120,7 +116,7 @@
             {
                 // TODO Error Message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(employeeData);
@@ -130,11 +126,11 @@
         //only Admin
         public IActionResult Delete(int id)
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (User.IsAdmin())
             {
                 //TODO Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             var employeeExist = this.employees.Delete(id);
@@ -143,13 +139,10 @@
             {
                 //TODO Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
-
-        //private bool ThisUserIsAdmin()
-        //    => this.employees.UserIsAdmin(this.User.GetId());
     }
 }

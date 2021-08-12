@@ -35,10 +35,10 @@
         //only Admin
         public IActionResult Add() 
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (!User.IsAdmin())
             {
                 //TODO Error message
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return View();
@@ -49,7 +49,7 @@
         //only Admin
         public IActionResult Add(AddNewsFormModel news)
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (!User.IsAdmin())
             {
                 //TODO Error message
                 return BadRequest();
@@ -92,7 +92,7 @@
         //only Admin
         public IActionResult Delete(int id) 
         {
-            if (!this.admins.UserIsAdmin(this.User.GetId()))
+            if (!User.IsAdmin())
             {
                 //TODO Error message
                 return BadRequest();

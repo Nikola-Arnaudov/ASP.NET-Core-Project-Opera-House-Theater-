@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label asp-for="PerformanceId" class="text-center">Заглавие</label>
                     <select asp-for="PerformanceId" class="form-control">
-                        <option value="Избери спектакъл" >Избери спектакъл</option>
+                        <option value="Избери спектакъл">Избери спектакъл</option>
                         @foreach (var title in Model.PerformanceTitles)
                         {
                             <option value="@title.Id">@title.Title</option>
@@ -37,3 +37,6 @@
     </div>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

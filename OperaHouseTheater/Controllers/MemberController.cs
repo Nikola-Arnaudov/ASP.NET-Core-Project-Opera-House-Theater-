@@ -32,7 +32,7 @@
             {
                 //TODO Error message
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             if (member.MemberName.Length < MemberNameMinLength || member.MemberName.Length > MemberNameMaxLength )
