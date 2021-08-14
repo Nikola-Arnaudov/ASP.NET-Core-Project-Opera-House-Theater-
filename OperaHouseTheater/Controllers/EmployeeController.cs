@@ -22,9 +22,7 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
-
-                TempData["ErrorMessage"] = "Some text";
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -43,19 +41,19 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
 
             if (employeeInput.DepartmentId == 0)
             {
-                this.ModelState.AddModelError(nameof(employeeInput.DepartmentId), "You must chose department.");
+                this.ModelState.AddModelError(nameof(employeeInput.DepartmentId), "You must chose a department.");
             }
 
             if (employeeInput.CategoryId == 0)
             {
-                this.ModelState.AddModelError(nameof(employeeInput.CategoryId), "You must chose category.");
+                this.ModelState.AddModelError(nameof(employeeInput.CategoryId), "You must chose a category.");
             }
 
             if (!this.employees.GetEmployeeDepartments().Any(d => d.Id == employeeInput.DepartmentId))
@@ -114,7 +112,7 @@
 
             if (employeeData == null)
             {
-                // TODO Error Message
+                TempData["ErrorMessage"] = "Тhis person does not exist.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -128,7 +126,7 @@
         {
             if (User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -137,7 +135,7 @@
 
             if (employeeExist == false)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Employee with that id does not exist.";
 
                 return RedirectToAction("Error", "Home");
             }

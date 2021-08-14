@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using OperaHouseTheater.Services.Performances.Models;
+
 
     public class PerformanceDetailsViewModel
     {
@@ -15,11 +17,11 @@
 
         public string ImageUrl { get; set; }
 
-        public IEnumerable<RoleListingViewModel> Roles { get; set; }
+        public IEnumerable<RoleServiceModel> Roles { get; set; }
 
-        public IEnumerable<EventListingViewModel> Events { get; set; }
+        public IEnumerable<EventServiceModel> Events { get; set; }
 
-        public IEnumerable<CommentListingViewModel> Comments { get; set; }
+        public IEnumerable<CommentServiceModel> Comments { get; set; }
 
     }
 }

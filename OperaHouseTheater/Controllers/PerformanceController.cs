@@ -1,26 +1,24 @@
 ﻿namespace OperaHouseTheater.Controllers.Performance
 {
-    using Microsoft.AspNetCore.Authorization;
+    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using OperaHouseTheater.Models.Performance;
     using OperaHouseTheater.Services.Performances;
     using OperaHouseTheater.Services.Tickets;
     using OperaHouseTheater.Infrastructure;
-    using System.Linq;
 
     using static WebConstants;
 
     public class PerformanceController : Controller
     {
-        //private readonly OperaHouseTheaterDbContext data;
         private readonly IPerformanceService performances;
         private readonly ITicketService tickets;
 
-        public PerformanceController(/*OperaHouseTheaterDbContext data,*/ 
+        public PerformanceController(
             IPerformanceService performances, 
             ITicketService tickets)
         {
-            //this.data = data;
             this.performances = performances;
             this.tickets = tickets;
         }
@@ -31,6 +29,8 @@
         {
             if (!User.IsAdmin())
             {
+                TempData["ErrorMessage"] = "Аccess denied.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -47,6 +47,8 @@
         {
             if (!User.IsAdmin())
             {
+                TempData["ErrorMessage"] = "Аccess denied.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -86,6 +88,8 @@
         {
             if (!User.IsAdmin())
             {
+                TempData["ErrorMessage"] = "Аccess denied.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -93,6 +97,8 @@
 
             if (performance == null)
             {
+                TempData["ErrorMessage"] = "Performance with that id does not exist.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -113,6 +119,8 @@
         {
             if (!User.IsAdmin())
             {
+                TempData["ErrorMessage"] = "Аccess denied.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -123,7 +131,7 @@
 
             if (!this.performances.GetPerformanceTypes().Any(t => t.Id == performance.PerformanceTypeId))
             {
-                this.ModelState.AddModelError(nameof(performance.PerformanceTypeId), "This type does not exist.");
+                this.ModelState.AddModelError(nameof(performance.PerformanceTypeId), "This type doesn't exist.");
             }
 
             if (!ModelState.IsValid)
@@ -143,6 +151,8 @@
 
             if (!performanceIsEdited)
             {
+                TempData["ErrorMessage"] = "This performance doesn't exist.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -163,12 +173,26 @@
         {
             var crrPerformance = this.performances.Details(id);
 
-            //TODO Error Message
             if (crrPerformance == null)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = "This performance doesn't exist.";
+
+                return RedirectToAction("Error", "Home");
             }
 
+            //var performanceData = new PerformanceDetailsViewModel
+            //{
+            //    Synopsis = crrPerformance.Synopsis,
+            //    Comments = crrPerformance.Comments,
+            //    Composer = crrPerformance.Composer,
+            //    Events = crrPerformance.Events,
+            //    ImageUrl = crrPerformance.ImageUrl,
+            //    Id = crrPerformance.Id,
+            //    Roles = crrPerformance.Roles,
+            //    Title = crrPerformance.Title
+            //};
+
+            //return View(performanceData);
             return View(crrPerformance);
         }
 
@@ -176,16 +200,20 @@
         //only Admin
         public IActionResult Delete(int id) 
         {
-            
+            if (!User.IsAdmin())
+            {
+                TempData["ErrorMessage"] = "Аccess denied.";
 
-            var ticketsExist = this.tickets.TicketsExists(id);
+                return RedirectToAction("Error", "Home");
+            }
+
+            var ticketsExist = this.tickets.PerformanceTicketsExists(id);
 
             if (ticketsExist)
             {
-                //TODO Message: There are sold tickets for that performance.You can't delete it 
-                // before all the events are finished!
+                TempData["ErrorMessage"] = "There are sold tickets for that performance.You can't delete it before all the events are finished!";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
             else
             {
@@ -196,9 +224,9 @@
 
             if (performance == false)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "The performance with that id it doesn't exist.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return RedirectToAction(nameof(All));

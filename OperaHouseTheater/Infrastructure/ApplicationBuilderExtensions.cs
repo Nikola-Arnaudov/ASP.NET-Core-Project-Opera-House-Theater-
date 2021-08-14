@@ -1,13 +1,13 @@
 ﻿namespace OperaHouseTheater.Infrastructure
 {
+    using System;
+    using System.Linq;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using System;
-    using System.Linq;
-    using Microsoft.AspNetCore.Identity;
 
     using static WebConstants;
     using System.Threading.Tasks;
@@ -17,11 +17,6 @@
         public static IApplicationBuilder PrepareDatabase(
             this IApplicationBuilder app)
         {
-            // using var scopedServices = app.ApplicationServices.CreateScope();
-
-            //var data = scopedServices.ServiceProvider.GetService<OperaHouseTheaterDbContext>();
-
-            //new one:
             using var serviceScope = app.ApplicationServices.CreateScope();
 
             var services = serviceScope.ServiceProvider;
@@ -35,20 +30,10 @@
 
 
             SeedAdministrator(services);
-            //
-
-            //data.Database.Migrate();
-
-            //SeedPerformanceTypes(data);
-            //SeedDepartments(data);
-            //SeedEmployeeCategories(data);
-
-            //new one:
-            //
+            
             return app;
         }
 
-        //new one:
         private static void MigrateDatabase(IServiceProvider services)
         {
             var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
@@ -56,9 +41,6 @@
             data.Database.Migrate();
         }
 
-        //
-
-        //new one:
         private static void SeedAdministrator(IServiceProvider services)
         {
             var userManager = services.GetRequiredService<UserManager<User>>();
@@ -93,14 +75,11 @@
                 .GetAwaiter()
                 .GetResult();
         }
-        //
 
-        private static void SeedEmployeeCategories(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
+        private static void SeedEmployeeCategories(IServiceProvider services)
         {
-            //new one:
             var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
-            //
-
+            
             if (data.EmployeeCategories.Any())
             {
                 return;
@@ -128,13 +107,10 @@
             data.SaveChanges();
         }
 
-        public static void SeedDepartments(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
+        public static void SeedDepartments(IServiceProvider services)
         {
-            //new one:
             var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
-            //
-
-
+            
             if (data.Departments.Any())
             {
                 return;
@@ -150,12 +126,10 @@
             data.SaveChanges();
         }
 
-        public static void SeedPerformanceTypes(IServiceProvider services/*OperaHouseTheaterDbContext data*/)
+        public static void SeedPerformanceTypes(IServiceProvider services)
         {
-            //new one:
             var data = services.GetRequiredService<OperaHouseTheaterDbContext>();
-            //
-
+            
             if (data.PerformanceTypes.Any())
             {
                 return;

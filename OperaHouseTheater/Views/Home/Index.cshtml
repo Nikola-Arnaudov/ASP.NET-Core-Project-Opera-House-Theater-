@@ -1,15 +1,15 @@
 ﻿@*@model List<NewsListingViewModel>*@
 @*@model HomeViewModel*@
-@model  HomeServiceModel
+@model HomeServiceModel
 
 @{ ViewData["Title"] = "Home Page"; }
 
 
 @{ var firstEvent = Model.Events.Any() ? Model.Events[0] : null;
 
-                var secondEvent = Model.Events.Count() > 1 ? Model.Events[1] : null;
+    var secondEvent = Model.Events.Count() > 1 ? Model.Events[1] : null;
 
-                var thirdEvent = Model.Events.Count() > 2 ? Model.Events[2] : null; }
+    var thirdEvent = Model.Events.Count() > 2 ? Model.Events[2] : null; }
 
 
 <section class="page-home_events">
@@ -19,62 +19,65 @@
     <div class="row">
         @if (!Model.Events.Any())
         {
-<div class="jumbotron text-center">
-    <h1 class="display-4">Welcome to Opera House Theater!</h1>
-    <p class="lead">There are no events for now.</p>
-    <hr class="my-4">
-    <a asp-controller="Event" asp-action="Create" class="btn btn-primary align-content-center" role="button">Add event</a>
-</div> }
-else
-{
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        @if (firstEvent != null)
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Welcome to Opera House Theater!</h1>
+                <p class="lead">There are no events for now.</p>
+                <hr class="my-4">
+                @if (User.IsAdmin())
+                {
+                    <a asp-controller="Event" asp-action="Create" class="btn btn-primary align-content-center" role="button">Add event</a>
+                }
+            </div> }
+        else
         {
-<div class="carousel-item active">
-    <img src="@firstEvent.ImageUrl" class="d-block w-100" alt="...">
-    <div class="carousel-caption d-none d-md-block">
-        <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@firstEvent.Id">
-            <h5>@firstEvent.EventName</h5>
-            <p>@firstEvent.PerformanceType от @firstEvent.Composer</p>
-            <p>@firstEvent.Date.ToString("d")</p>
-        </a>
-    </div>
-</div>}
-        @if (secondEvent != null)
-        {
-<div class="carousel-item">
-    <img src="@secondEvent.ImageUrl" class="d-block w-100" alt="...">
-    <div class="carousel-caption d-none d-md-block">
-        <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@secondEvent.Id">
-            <h5>@secondEvent.EventName</h5>
-            <p>@secondEvent.PerformanceType от @secondEvent.Composer</p>
-            <p>@secondEvent.Date.ToString("d")</p>
-        </a>
-    </div>
-</div>}
-        @if (thirdEvent != null)
-        {
-<div class="carousel-item">
-    <img src="@thirdEvent.ImageUrl" class="d-block w-100" alt="...">
-    <div class="carousel-caption d-none d-md-block">
-        <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@thirdEvent.Id">
-            <h5>@thirdEvent.EventName</h5>
-            <p>@thirdEvent.PerformanceType от @thirdEvent.Composer</p>
-            <p>@thirdEvent.Date.ToString("d")</p>
-        </a>
-    </div>
-</div>}
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>}
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @if (firstEvent != null)
+                    {
+                        <div class="carousel-item active">
+                            <img src="@firstEvent.ImageUrl" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@firstEvent.Id">
+                                    <h5>@firstEvent.EventName</h5>
+                                    <p>@firstEvent.PerformanceType от @firstEvent.Composer</p>
+                                    <p>@firstEvent.Date.ToString("d")</p>
+                                </a>
+                            </div>
+                        </div>}
+                    @if (secondEvent != null)
+                    {
+                        <div class="carousel-item">
+                            <img src="@secondEvent.ImageUrl" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@secondEvent.Id">
+                                    <h5>@secondEvent.EventName</h5>
+                                    <p>@secondEvent.PerformanceType от @secondEvent.Composer</p>
+                                    <p>@secondEvent.Date.ToString("d")</p>
+                                </a>
+                            </div>
+                        </div>}
+                    @if (thirdEvent != null)
+                    {
+                        <div class="carousel-item">
+                            <img src="@thirdEvent.ImageUrl" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@thirdEvent.Id">
+                                    <h5>@thirdEvent.EventName</h5>
+                                    <p>@thirdEvent.PerformanceType от @thirdEvent.Composer</p>
+                                    <p>@thirdEvent.Date.ToString("d")</p>
+                                </a>
+                            </div>
+                        </div>}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>}
     </div>
 </section>
 <section class="page-home__news">
@@ -84,26 +87,29 @@ else
     <div class="row">
         @if (!Model.News.Any())
         {
-<div class="jumbotron text-center">
-    <h1 class="display-4">Welcome to Opera House Theater!</h1>
-    <p class="lead">There are no news for now.</p>
-    <hr class="my-4">
-    <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
-</div> }
-else
-{
-@foreach (var news in Model.News)
-{
-<div class="col-md-4">
-    <div class="card shadow">
-        <img class="card-img-top" src="@news.ImageUrl" alt="...">
-        <div class="card-body text-center">
-            <span>Opera House Theater</span>
-            <h5 class="card-title text-center" style="color:#ba9765">@news.Title</h5>
-            <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
-        </div>
-    </div>
-</div>}}
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Welcome to Opera House Theater!</h1>
+                <p class="lead">There are no news for now.</p>
+                <hr class="my-4">
+                @if (User.IsAdmin())
+                {
+                    <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
+                }
+            </div> }
+        else
+        {
+            @foreach (var news in Model.News)
+            {
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <img class="card-img-top" src="@news.ImageUrl" alt="...">
+                        <div class="card-body text-center">
+                            <span>Opera House Theater</span>
+                            <h5 class="card-title text-center" style="color:#ba9765">@news.Title</h5>
+                            <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
+                        </div>
+                    </div>
+                </div>}}
     </div>
 </section>
 

@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace OperaHouseTheater.Migrations
+﻿namespace OperaHouseTheater.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AllDataTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

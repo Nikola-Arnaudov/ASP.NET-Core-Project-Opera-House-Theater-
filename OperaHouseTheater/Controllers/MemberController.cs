@@ -1,7 +1,7 @@
 ﻿namespace OperaHouseTheater.Controllers.Member
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Member;
     using OperaHouseTheater.Services.Members;
@@ -18,7 +18,8 @@
         }
 
         [Authorize]
-        public IActionResult Become() => View();
+        public IActionResult Become() 
+            => View();
 
         [Authorize]
         [HttpPost]
@@ -30,7 +31,7 @@
 
             if (userIdAlreadyMember)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "You are already a member.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -50,7 +51,5 @@
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-
-
     }
 }

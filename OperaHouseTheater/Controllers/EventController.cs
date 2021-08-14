@@ -29,7 +29,7 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -47,14 +47,14 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
 
             if (!this.events.GetPerformanceTitles().Any(p => p.Id == eventInput.PerformanceId))
             {
-                this.ModelState.AddModelError(nameof(eventInput.PerformanceId), "This performance does not exist.");
+                this.ModelState.AddModelError(nameof(eventInput.PerformanceId), "This performance doesn't exist.");
             }
 
             if (DateTime.Compare(eventInput.Date, DateTime.Now) <= 0)
@@ -98,7 +98,7 @@
 
             if (eventData == null)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Invalid event.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -112,19 +112,31 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
 
-            var eventExist = this.events.Delete(id);
+            var eventExist = this.events.EventExist(id);
 
             if (eventExist == false)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Event with that id it doesn't exist.";
 
                 return RedirectToAction("Error", "Home");
             }
+
+            //TODO : error if the event.date <= date.now
+            var ticketSoldForEvent = this.events.EventTicketsExist(id);
+
+            if (ticketSoldForEvent)
+            {
+                TempData["ErrorMessage"] = "There are sold tickets for this event. You can't delete it before it's over.";
+
+                return RedirectToAction("Error", "Home");
+            }
+
+            this.events.Delete(id);
 
             return RedirectToAction(nameof(All));
         }
@@ -135,7 +147,7 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -154,19 +166,19 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
 
             if (!this.events.GetPerformanceTitles().Any(x => x.Id == role.PerformanceId))
             {
-                this.ModelState.AddModelError(nameof(role.PerformanceId), "This Performance does not exist.");
+                this.ModelState.AddModelError(nameof(role.PerformanceId), "This performance doesn't exist.");
             }
 
             if (!this.events.RolesPerformanceExist(role.RoleId))
             {
-                this.ModelState.AddModelError(nameof(role.RoleId), "This role does not exist.");
+                this.ModelState.AddModelError(nameof(role.RoleId), "This role doesn't exist.");
             }
 
             if (!ModelState.IsValid)
@@ -188,17 +200,17 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
                 return RedirectToAction("Error", "Home");
             }
 
             var crrEvent = this.events.DeleteEventRole(id);
 
-            //TODO Message
-
             if (crrEvent == 0)
             {
+                TempData["ErrorMessage"] = "This event role doesn't exist.";
+
                 return RedirectToAction("Error", "Home");
             }
 

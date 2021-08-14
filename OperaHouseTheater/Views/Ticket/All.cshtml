@@ -11,8 +11,8 @@
             <h1 class="display-4">Hello, @Model.MemberName!</h1>
             <p class="lead">You don't have any tickets for now.</p>
             <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            <p>You can go to Schedule page and find out all our events that are comming.</p>
+            <a class="btn btn-primary btn-lg" asp-action="All" asp-controller="Event" role="button">Schedule</a>
         </div>
     }
     else
@@ -32,6 +32,7 @@
                         <p class="col font-weight-bold">Amount: @ticket.Amount.00</p>
                     </div>
                     <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Details</a>
+                    <a asp-controller="Ticket" asp-action="Return" asp-route-id="@ticket.Id" class="btn btn-warning">Return ticket</a>
                     @if (ticket.Date < DateTime.Today)
                     {
                         <div class="badge badge-warning text-wrap" style="width: 9rem;">
@@ -45,10 +46,7 @@
                 </div>
             </div>
         }
-
-
     }
-
 </div>
 
 

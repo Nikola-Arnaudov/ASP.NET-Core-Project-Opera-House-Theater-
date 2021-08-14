@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace OperaHouseTheater.Migrations
+﻿namespace OperaHouseTheater.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+
     public partial class UserFullNameColumn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

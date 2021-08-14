@@ -1,69 +1,54 @@
 ﻿namespace OperaHouseTheater.Controllers.PerformanceRole
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
     using OperaHouseTheater.Models.Performance;
     using OperaHouseTheater.Services.Performances;
     using OperaHouseTheater.Services.Roles;
+    using OperaHouseTheater.Infrastructure;
 
     public class RoleController : Controller
     {
-        //private readonly OperaHouseTheaterDbContext data;
         private readonly IRoleService roles;
         private readonly IPerformanceService performances;
 
-        public RoleController(/*OperaHouseTheaterDbContext data,*/
+        public RoleController(
             IRoleService roles,
             IPerformanceService performances)
-        { 
-            //this.data = data;
+        {
             this.roles = roles;
             this.performances = performances;
         }
 
         [Authorize]
-        //only Admin
-        public IActionResult AddRole() 
-            => View();
-        //public IActionResult AddRole() => View(new AddRoleFormModel
-        //{
-        //    PerformanceTitles = this.GetPerformanceTitles()
-        //});
+        public IActionResult AddRole()
+        {
+            if (!User.IsAdmin())
+            {
+                TempData["ErrorMessage"] = "Аccess denied.";
 
+                return RedirectToAction("Error", "Home");
+            }
 
+            return View();
+        }
 
         [HttpPost]
         [Authorize]
         //only Admin
         public IActionResult AddRole(AddRoleFormModel role)
         {
-            if (!this.performances.PerformanceExistById(role.PerformanceId)/*!this.data.Performances.Any(p => p.Id == role.PerformanceId)*/)
+            if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
 
-                return BadRequest();
-                //this.ModelState.AddModelError(nameof(role.PerformanceTitles), "This performance does not exist.");
+                return RedirectToAction("Error", "Home");
             }
 
             if (!ModelState.IsValid)
             {
-                //role.PerformanceTitles = this.GetPerformanceTitles();
-
                 return View(role);
             }
-
-            //var roleData = new Role
-            //{
-            //    RoleName = role.Name,
-            //    PerformanceId = role.PerformanceId
-            //};
-
-            //this.data.RolesPerformance.Add(roleData);
-            //this.data.SaveChanges();
 
             this.roles.Add(role.Name, role.PerformanceId);
 
@@ -72,33 +57,25 @@
 
         [Authorize]
         //only Admin
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
+            if (!User.IsAdmin())
+            {
+                TempData["ErrorMessage"] = "Аccess denied.";
+
+                return RedirectToAction("Error", "Home");
+            }
+
             var performanceId = this.roles.Delete(id);
 
             if (performanceId == 0)
             {
-                //TODO Message
+                TempData["ErrorMessage"] = "Role with this id it doesn't exist.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
-
-            //var performanceId = role.PerformanceId;
-
-            //this.data.RolesPerformance.Remove(role);
-            //this.data.SaveChanges();
 
             return Redirect($"/Performance/Details/{performanceId}");
         }
-
-        //private IEnumerable<PerformanceTitleViewModel> GetPerformanceTitles()
-        //   => this.data
-        //       .Performances
-        //       .Select(p => new PerformanceTitleViewModel
-        //       {
-        //           Id = p.Id,
-        //           Title = p.Title
-        //       })
-        //       .ToList();
     }
 }

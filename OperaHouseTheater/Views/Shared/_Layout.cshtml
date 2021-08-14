@@ -4,9 +4,6 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@*@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager*@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,8 +38,11 @@
                                 <a class="dropdown-item" asp-controller="Employee" asp-action="BalletEmployees">Балет</a>
                                 <a class="dropdown-item" asp-controller="Employee" asp-action="OperaEmployees">Опера</a>
                                 <a class="dropdown-item" asp-controller="Employee" asp-action="ManagementEmployees">Мениджмънд</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Employee" asp-action="Add">Добави служител</a>
+                                @if (User.IsAdmin())
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Employee" asp-action="Add">Добави служител</a>
+                                }
                             </div>
                         </li>
                         <li class="nav-item">

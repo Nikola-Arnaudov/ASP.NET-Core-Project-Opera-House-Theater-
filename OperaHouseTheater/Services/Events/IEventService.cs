@@ -30,6 +30,10 @@
 
         bool RolesPerformanceExist(int id);
 
-        //bool UserIsAdmin(string userId);
+        bool EventExist(int id);
+
+        bool EventTicketsExist(int id);
+
+        bool EventIsOver(int id);
     }
 }

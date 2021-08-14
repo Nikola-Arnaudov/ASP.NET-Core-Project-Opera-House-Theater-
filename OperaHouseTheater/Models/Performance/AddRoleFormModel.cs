@@ -15,6 +15,5 @@
 
         public int PerformanceId { get; set; }
 
-        //public IEnumerable<PerformanceTitleViewModel> PerformanceTitles { get; set; }
     }
 }

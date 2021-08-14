@@ -1,36 +1,31 @@
 ﻿namespace OperaHouseTheater.Controllers.Ticket
 {
-    using Microsoft.AspNetCore.Authorization;
+    using System;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using OperaHouseTheater.Controllers.Member;
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Data.Models;
     using OperaHouseTheater.Infrastructure;
     using OperaHouseTheater.Models.Ticket;
     using OperaHouseTheater.Services.Events;
     using OperaHouseTheater.Services.Members;
     using OperaHouseTheater.Services.Performances;
     using OperaHouseTheater.Services.Tickets;
-    using System;
-    using System.Linq;
 
     using static WebConstants;
 
     public class TicketController : Controller
     {
-        //private readonly OperaHouseTheaterDbContext data;
         private readonly IMemberService members;
         private readonly ITicketService tickets; 
         private readonly IEventService events;
         private readonly IPerformanceService performances;
 
-        public TicketController(/*OperaHouseTheaterDbContext data,*/
+        public TicketController(
             ITicketService tickets, 
             IMemberService members,
             IEventService events, 
             IPerformanceService performances)
         {
-            //this.data = data;
             this.tickets = tickets;
             this.members = members;
             this.events = events;
@@ -40,27 +35,19 @@
         [Authorize]
         public IActionResult Buy(int id)
         {
-            //var memberId = this.data
-            //    .Members
-            //    .Where(m => m.UserId == this.User.GetId())
-            //    .Select(m => m.Id)
-            //    .FirstOrDefault();
-
             var isMember = this.members.UserIsMember(this.User.GetId());
 
             if (!isMember && !User.IsAdmin())
             {
-                //TODO
-                //this.TempData
-
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
             var crrEvent = this.events.GetEventById(id); 
 
-            //TODO: Error message
             if (crrEvent == null)
             {
+                TempData["ErrorMessage"] = "Тhe event doesn't exist.";
+
                 return RedirectToAction("Error","Home");
             }
 
@@ -71,7 +58,6 @@
                 Title = eventPerformance.Title,
                 Composer = eventPerformance.Composer,
                 ImageUrl = eventPerformance.ImageUrl,
-                //PerformanceType = performanceType,
                 PerformanceType = eventPerformance.PerformanceType,
                 Date = crrEvent.Date,
                 FreeSeats = crrEvent.FreeSeats,
@@ -88,9 +74,6 @@
         {
             if (!this.members.UserIsMember(this.User.GetId()) && !User.IsAdmin())
             {
-                //TODO
-                //this.TempData
-
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
 
@@ -116,29 +99,6 @@
 
             var userId = this.User.GetId();
 
-            //var member = this.data
-            //    .Members
-            //    .FirstOrDefault(x => x.UserId == userId);
-
-            //var ticketData = new Ticket
-            //{
-            //    Amount = ticket.TicketPrice * ticket.SeatsCount,
-            //    Composer = ticket.Composer,
-            //    Title = ticket.Title,
-            //    SeatsCount = ticket.SeatsCount,
-            //    Date = ticket.Date,
-            //    PerformanceType = ticket.PerformanceType,
-            //    EventId = ticket.CurrEventId,
-            //    MemberId = member.Id
-            //};
-
-            //var crrEvent = this.data.Events.FirstOrDefault(x => x.Id == ticketData.EventId);
-            //crrEvent.FreeSeats -= ticket.SeatsCount;
-            //data.SaveChanges();
-
-            //this.data.Tickets.Add(ticketData);
-            //this.data.SaveChanges();
-
             this.tickets.Buy(userId, 
                 ticket.TicketPrice,
                 ticket.SeatsCount,
@@ -156,57 +116,57 @@
         {
             var myTickets = this.tickets.All(this.User.GetId());
 
-            //var member = this.data
-            //    .Members
-            //    .FirstOrDefault(m => m.UserId == this.User.GetId());
+            return View(myTickets);
+        }
 
-            if (myTickets == null)
+        public IActionResult Return(int id)
+        {
+            if (!this.tickets.TicketExist(id))
             {
-                //TODO Error Message
+                TempData["ErrorMessage"] = "Invalid ticket.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
-            //var myTicketsData = new MyTicketsViewModel
-            //{
-            //    Id = member.Id,
-            //    MemberName = member.MemberName,
-            //    Tickets = this.data.Tickets
-            //            .Where(t => t.MemberId == member.Id)
-            //            .OrderBy(t => t.Date)
-            //            .Select(t => new TicketListingViewModel
-            //            {
-            //                SeatsCount = t.SeatsCount,
-            //                Amount = t.Amount,
-            //                Date = t.Date,
-            //                Title = t.Title,
-            //                Id = t.Id,
-            //                EventId = t.EventId
-            //            })
-            //            .ToList()
-            //};
+            var memberId = this.members.GetMemberId(this.User.GetId());
 
-            return View(myTickets);
+            if (!this.tickets.IsCurrMembersTicket(id,memberId))
+            {
+                TempData["ErrorMessage"] = "Invalid ticket.";
+
+                return RedirectToAction("Error", "Home");
+            }
+
+            var ticketReturned = this.tickets.Return(id);
+
+            if (ticketReturned == false)
+            {
+                TempData["ErrorMessage"] = "This ticket can't be returned.";
+
+                return RedirectToAction("Error", "Home");
+            }
+
+            return RedirectToAction(nameof(All), "Ticket");
         }
 
         public IActionResult Delete(int id)
         {
             var memberId = this.members.GetMemberId(this.User.GetId());
 
-            if (!this.tickets.IsCurrMembersTicket(id,memberId))
+            if (!this.tickets.IsCurrMembersTicket(id, memberId))
             {
-                //TODO Message
+                TempData["ErrorMessage"] = "Invalid ticket.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             var ticketExist = this.tickets.Delete(id);
 
             if (ticketExist == false)
             {
-                //TODO Message
+                TempData["ErrorMessage"] = "Can't delete his ticket, because it still not expired.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
 
             return RedirectToAction(nameof(All), "Ticket");

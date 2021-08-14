@@ -7,11 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class TicketService : ITicketService 
+    public class TicketService : ITicketService
     {
         private readonly OperaHouseTheaterDbContext data;
 
-        public TicketService(OperaHouseTheaterDbContext data) 
+        public TicketService(OperaHouseTheaterDbContext data)
             => this.data = data;
 
         public TicketQueryServiceModel All(string userId)
@@ -58,7 +58,7 @@
             string performanceType,
             int currEventId)
         {
-            
+
             var member = this.data
                 .Members
                 .FirstOrDefault(x => x.UserId == userId);
@@ -83,27 +83,52 @@
             this.data.SaveChanges();
         }
 
-        public bool Delete(int id)
+        public bool Return(int id)
         {
             var ticket = this.data.Tickets.FirstOrDefault(t => t.Id == id);
+
+            var currEvent = this.data.Events.FirstOrDefault(e => e.Id == ticket.EventId);
 
             if (ticket == null)
             {
                 return false;
             }
-            else
+
+            if (ticket.Date <= DateTime.UtcNow)
             {
-                this.data.Tickets.Remove(ticket);
-                this.data.SaveChanges();
+                return false;
             }
+
+            currEvent.FreeSeats += ticket.SeatsCount;
+            this.data.SaveChanges();
+
+            this.data.Tickets.Remove(ticket);
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public bool Delete(int id)
+        {
+            var ticket = this.data.Tickets.FirstOrDefault(t => t.Id == id);
+
+            if (ticket.Date >= DateTime.Today)
+            {
+                return false;
+            }
+
+            this.data.Tickets.Remove(ticket);
+            this.data.SaveChanges();
 
             return true;
         }
 
         public bool IsCurrMembersTicket(int ticketId, int memberId)
-            => this.data.Tickets.Any(t => t.Id == ticketId && t.MemberId == memberId);
+            => this.data
+            .Tickets
+            .Any(t => t.Id == ticketId && t.MemberId == memberId);
 
-        public bool TicketsExists(int performanceId)
+        public bool PerformanceTicketsExists(int performanceId)
         {
             var events = this.data.Events.Where(e => e.PerformanceId == performanceId);
 
@@ -133,7 +158,7 @@
             return false;
         }
 
-        public void CleareExpiredTickets(int performanceId) 
+        public void CleareExpiredTickets(int performanceId)
         {
             var events = this.data.Events.Where(e => e.PerformanceId == performanceId);
 
@@ -149,6 +174,9 @@
             this.data.SaveChanges();
         }
 
-        
+        public bool TicketExist(int id)
+            => this.data
+            .Tickets
+            .Any(t => t.Id == id);
     }
 }

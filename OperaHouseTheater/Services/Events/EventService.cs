@@ -68,9 +68,6 @@
                .Events
                .FirstOrDefault(x => x.Id == id);
 
-
-            //TODO: view with error message
-
             if (crrEvent == null)
             {
                 return null;
@@ -126,10 +123,15 @@
                 .FirstOrDefault(x => x.Id == id);
 
             //TODO: if news is null...
-            if (crrEvent == null)
-            {
-                return false;
-            }
+            //if (crrEvent == null)
+            //{
+            //    return false;
+            //}
+
+            //if (crrEvent.Date <= DateTime.UtcNow)
+            //{
+            //    return false;
+            //}
 
             var eventRoles = this.data
                 .EventRoles
@@ -137,6 +139,14 @@
                 .ToList();
 
             this.data.EventRoles.RemoveRange(eventRoles);
+            this.data.SaveChanges();
+
+            var ticketsForTheEvent = this.data
+                .Tickets
+                .Where(t => t.EventId == id)
+                .ToList();
+
+            this.data.Tickets.RemoveRange(ticketsForTheEvent);
             this.data.SaveChanges();
 
             this.data.Events.Remove(crrEvent);
@@ -147,10 +157,6 @@
 
         public void SetRole(int roleId, int employeeId, int eventId)
         {
-            //var roledataroleId = roleId;
-            //var roledatapergormanceeId = performanceId;
-            //var roledataEventId = role.EventId;
-
             var roleData = new EventRole
             {
                 RoleId = roleId,
@@ -225,11 +231,19 @@
             })
             .FirstOrDefault();
 
-        //public bool UserIsAdmin(string userId)
-        //    => this.data
-        //        .Admins
-        //        .Any(x => x.UserId == userId);
+        public bool EventExist(int id)
+            => this.data
+            .Events
+            .Any(e => e.Id == id);
 
-        
+        public bool EventTicketsExist(int id)
+            => this.data
+            .Tickets
+            .Any(t => t.EventId == id);
+
+        public bool EventIsOver(int id)
+            => this.data.Events
+            .Where(e => e.Id == id && e.Date > DateTime.UtcNow)
+            .Any();
     }
 }

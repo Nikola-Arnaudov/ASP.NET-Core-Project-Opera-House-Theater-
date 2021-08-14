@@ -1,4 +1,5 @@
 ﻿@model PerformanceDetailsServiceModel
+@*@model  PerformanceDetailsViewModel*@
 
 @inject IMemberService Members
 
@@ -61,17 +62,28 @@
 
         <div class="rom mb-2"></div>
         <h3 class="text-center mb-4">Comments</h3>
-        @{
-            var userIsMember = Members.UserIsMember(User.GetId());
-        }
-        @if (userIsMember || User.IsInRole(AdministratorRoleName))
+
+        @*new one:*@ 
+        <div class="" style="text-align: center">
+            <a asp-controller="Comment"
+               asp-action="Create"
+               asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+        </div>
+        @*@if (User.Claims.Any())
         {
-            <div class="" style="text-align: center">
-                <a asp-controller="Comment" 
-                   asp-action="Create" 
-                   asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
-            </div>
-        }
+            var userId = User.GetId();
+
+            var userIsMember = Members.UserIsMember(userId);
+
+            @if (userIsMember || User.IsInRole(AdministratorRoleName))
+            {
+                <div class="" style="text-align: center">
+                    <a asp-controller="Comment"
+                       asp-action="Create"
+                       asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+                </div>
+            }
+        }*@
         <div style="height:300px;overflow-y:scroll">
             @if (!Model.Comments.Any())
             {
@@ -92,8 +104,8 @@
                             <p class="card-text">@comment.Content</p>
                             @if (comment.CreatorId == memberId || User.IsAdmin())
                             {
-                                <a asp-controller="Comment" asp-action="Delete" 
-                                   asp-route-id="@comment.Id" 
+                                <a asp-controller="Comment" asp-action="Delete"
+                                   asp-route-id="@comment.Id"
                                    class="btn btn-outline-danger float-right">Delete</a>
                             }
                         </div>

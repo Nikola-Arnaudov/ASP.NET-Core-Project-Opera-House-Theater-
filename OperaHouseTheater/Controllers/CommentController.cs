@@ -31,9 +31,7 @@
 
             if (memberId == 0 && !User.IsAdmin())
             {
-                //TODO
-                //this.TempData
-
+                TempData["ErrorMessage"] = "You should become member if you want to add comments or buy some tickets.";
 
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
@@ -43,6 +41,8 @@
             //TODO: Error message
             if (crrPerformance == 0)
             {
+                TempData["ErrorMessage"] = "That performance doesn't exist.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -65,7 +65,7 @@
             if (memberId == 0 && !User.IsAdmin())
             {
                 //TODO
-                //this.TempData
+                TempData["ErrorMessage"] = "You should become member if you want to add comments or buy some tickets.";
 
                 return RedirectToAction(nameof(MemberController.Become), "Member");
             }
@@ -88,16 +88,16 @@
 
             var comment = this.comments.GetCommentById(id);
 
-            if (comment == null)
+            if (comment.MemberId != memberId && !User.IsAdmin())
             {
-                //TODO: Error message
+                TempData["ErrorMessage"] = "You can only delete your own comments.";
 
                 return RedirectToAction("Error", "Home");
             }
 
-            if (comment.MemberId != memberId && !User.IsAdmin())
+            if (comment == null)
             {
-                //TODO: Error message
+                TempData["ErrorMessage"] = "This is an invalid comment.";
 
                 return RedirectToAction("Error", "Home");
             }
@@ -106,6 +106,5 @@
 
             return Redirect($"/Performance/Details/{comment.PerformanceId}");
         }
-
     }
 }

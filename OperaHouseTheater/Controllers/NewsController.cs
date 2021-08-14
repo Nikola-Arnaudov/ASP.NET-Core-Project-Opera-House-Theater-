@@ -1,25 +1,21 @@
 ﻿namespace OperaHouseTheater.Controllers.News
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using OperaHouseTheater.Models.News;
     using OperaHouseTheater.Services.News;
-    using Microsoft.AspNetCore.Authorization;
-    using OperaHouseTheater.Services.Admins;
     using OperaHouseTheater.Infrastructure;
 
     public class NewsController : Controller
     {
         private readonly INewsService news;
-        private readonly IAdminService admins;
 
-        public NewsController(INewsService news,
-            IAdminService admins)
+        public NewsController(INewsService news)
         {
             this.news = news;
-            this.admins = admins;
         }
 
-        public IActionResult All([FromQuery]AllNewsQueryModel query)
+        public IActionResult All([FromQuery] AllNewsQueryModel query)
         {
             var queryResult = this.news.All(
                 query.SearchTerm,
@@ -33,11 +29,12 @@
 
         [Authorize]
         //only Admin
-        public IActionResult Add() 
+        public IActionResult Add()
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "Аccess denied.";
+
                 return RedirectToAction("Error", "Home");
             }
 
@@ -51,8 +48,9 @@
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
-                return BadRequest();
+                TempData["ErrorMessage"] = "Аccess denied.";
+
+                return RedirectToAction("Error", "Home");
             }
 
             if (!ModelState.IsValid)
@@ -65,18 +63,17 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult Details(int id) 
+        public IActionResult Details(int id)
         {
             var news = this.news.GetNewsById(id);
 
-            //TODO: if news is null...
             if (news == null)
             {
-                //TODO Error message
+                TempData["ErrorMessage"] = "This news doesn't exist.";
 
-                return BadRequest();
+                return RedirectToAction("Error", "Home");
             }
-                
+
             var newsData = new NewsServiceModel
             {
                 Content = news.Content,
@@ -90,20 +87,22 @@
 
         [Authorize]
         //only Admin
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
             if (!User.IsAdmin())
             {
-                //TODO Error message
-                return BadRequest();
+                TempData["ErrorMessage"] = "Аccess denied.";
+
+                return RedirectToAction("Error", "Home");
             }
 
             var news = this.news.GetNewsById(id);
 
-            //TODO: if news is null...
             if (news == null)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = "News with this id doesn't exist.";
+
+                return RedirectToAction("Error", "Home");
             }
 
             this.news.Delete(id);
