@@ -28,5 +28,7 @@
         IEnumerable<EmployeeDepartmentServiceModel> GetEmployeeDepartments();
 
         bool UserIsAdmin(string userId);
+
+        bool EmployeeIsInEventRole(int id);
     }
 }

@@ -85,6 +85,8 @@ namespace OperaHouseTheater
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Home/Error", "?code={0}");
+
             app
                 .UseHttpsRedirection()
                 .UseStaticFiles()
@@ -93,9 +95,18 @@ namespace OperaHouseTheater
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                    //new one: /{area}/{controller}/{action}/{id?}
+
+                    endpoints.MapControllerRoute(
+                        name: "Areas",
+                        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                    //
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });
+
+            
         }
     }
 }

@@ -1,24 +1,25 @@
-﻿namespace OperaHouseTheater.Controllers.PerformanceRole
+﻿namespace OperaHouseTheater.Areas.Admin.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using OperaHouseTheater.Models.Performance;
-    using OperaHouseTheater.Services.Performances;
+    using Microsoft.AspNetCore.Mvc;
     using OperaHouseTheater.Services.Roles;
     using OperaHouseTheater.Infrastructure;
+    using OperaHouseTheater.Models.Performance;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
+    using static AdminConstants;
+
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public class RoleController : Controller
     {
         private readonly IRoleService roles;
-        private readonly IPerformanceService performances;
 
-        public RoleController(
-            IRoleService roles,
-            IPerformanceService performances)
-        {
-            this.roles = roles;
-            this.performances = performances;
-        }
+        public RoleController(IRoleService roles)
+            => this.roles = roles;
 
         [Authorize]
         public IActionResult AddRole()
@@ -27,7 +28,7 @@
             {
                 TempData["ErrorMessage"] = "Аccess denied.";
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Home", new { area = "" });
             }
 
             return View();
@@ -42,7 +43,7 @@
             {
                 TempData["ErrorMessage"] = "Аccess denied.";
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Home", new { area = "" });
             }
 
             if (!ModelState.IsValid)
@@ -63,7 +64,7 @@
             {
                 TempData["ErrorMessage"] = "Аccess denied.";
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Home", new { area = "" });
             }
 
             var performanceId = this.roles.Delete(id);
@@ -72,10 +73,12 @@
             {
                 TempData["ErrorMessage"] = "Role with this id it doesn't exist.";
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Home", new { area = "" });
             }
 
             return Redirect($"/Performance/Details/{performanceId}");
         }
+
+
     }
 }

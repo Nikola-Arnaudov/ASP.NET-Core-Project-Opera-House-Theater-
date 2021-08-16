@@ -147,6 +147,9 @@
                 .Admins
                 .Any(x => x.UserId == userId);
 
-
+        public bool EmployeeIsInEventRole(int id)
+            => this.data
+            .EventRoles
+            .Any(er => er.EmployeeId == id);
     }
 }

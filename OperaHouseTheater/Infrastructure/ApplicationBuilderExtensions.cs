@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,8 @@
     using OperaHouseTheater.Data.Models;
 
     using static WebConstants;
-    using System.Threading.Tasks;
+    using static Areas.Admin.AdminConstants;
+
 
     public static class ApplicationBuilderExtensions
     {

@@ -14,7 +14,7 @@
 
 <section class="page-home_events">
     <h2 class="border-bottom">
-        <a class="nav-link text-center text-secondary text-info" asp-controller="Event" asp-action="All">Програма</a>
+        <a class="nav-link text-center text-secondary text-info" asp-area="" asp-controller="Event" asp-action="All">Програма</a>
     </h2>
     <div class="row">
         @if (!Model.Events.Any())
@@ -25,7 +25,7 @@
                 <hr class="my-4">
                 @if (User.IsAdmin())
                 {
-                    <a asp-controller="Event" asp-action="Create" class="btn btn-primary align-content-center" role="button">Add event</a>
+                    <a asp-area="Admin" asp-controller="Event" asp-action="Create" class="btn btn-primary align-content-center" role="button">Add event</a>
                 }
             </div> }
         else
@@ -37,7 +37,7 @@
                         <div class="carousel-item active">
                             <img src="@firstEvent.ImageUrl" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
-                                <a style="color:#ba9765" asp-action="Details" asp-controller="Event" asp-route-id="@firstEvent.Id">
+                                <a style="color:#ba9765" asp-area="" asp-action="Details" asp-controller="Event" asp-route-id="@firstEvent.Id">
                                     <h5>@firstEvent.EventName</h5>
                                     <p>@firstEvent.PerformanceType от @firstEvent.Composer</p>
                                     <p>@firstEvent.Date.ToString("d")</p>
@@ -93,7 +93,7 @@
                 <hr class="my-4">
                 @if (User.IsAdmin())
                 {
-                    <a asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
+                    <a asp-area="Admin" asp-controller="News" asp-action="Add" class="btn btn-primary align-content-center" role="button">Add news</a>
                 }
             </div> }
         else

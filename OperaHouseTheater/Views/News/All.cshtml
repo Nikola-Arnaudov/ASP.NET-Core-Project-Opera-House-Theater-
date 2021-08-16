@@ -5,7 +5,7 @@
 <div class="mt-3"></div>
 <h2 class="text-center text-info">Новини</h2>
 
-<a class="nav-link shadow btn-primary m-4 text-center " asp-area="" asp-controller="News" asp-action="Add">
+<a class="nav-link shadow btn-primary m-4 text-center " asp-area="Admin" asp-controller="News" asp-action="Add">
     + Добави новина
 </a>
 
@@ -35,8 +35,8 @@
                 <div class="card-body text-center">
                     <span>Opera House Theater</span>
                     <h5 style="color:#ba9765" class="card-title text-center">@news.Title</h5>
-                    <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
-                    <a asp-controller="News" asp-action="Delete" asp-route-id="@news.Id" class="btn btn-danger">Delete</a>
+                    <a asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
+                    <a asp-area="Admin" asp-controller="News" asp-action="Delete" asp-route-id="@news.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>

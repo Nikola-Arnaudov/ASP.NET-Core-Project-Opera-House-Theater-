@@ -35,13 +35,13 @@
                                 Състав
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Employee" asp-action="BalletEmployees">Балет</a>
-                                <a class="dropdown-item" asp-controller="Employee" asp-action="OperaEmployees">Опера</a>
-                                <a class="dropdown-item" asp-controller="Employee" asp-action="ManagementEmployees">Мениджмънд</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="BalletEmployees">Балет</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="OperaEmployees">Опера</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="ManagementEmployees">Мениджмънд</a>
                                 @if (User.IsAdmin())
                                 {
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="Employee" asp-action="Add">Добави служител</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Employee" asp-action="Add">Добави служител</a>
                                 }
                             </div>
                         </li>

@@ -13,7 +13,7 @@
 
 @if (User.IsAdmin())
 {
-    <a class="nav-link shadow btn-primary m-4 text-center" asp-controller="Event" asp-action="Create">
+    <a class="nav-link shadow btn-primary m-4 text-center" asp-area="Admin" asp-controller="Event" asp-action="Create">
         + Добави представление в календара
     </a>
 }

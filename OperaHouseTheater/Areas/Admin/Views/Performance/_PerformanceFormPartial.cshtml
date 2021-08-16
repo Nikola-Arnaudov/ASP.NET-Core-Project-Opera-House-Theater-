@@ -1,0 +1,43 @@
+﻿@model  PerformanceFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">Добавяне на спектакъл</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Title">Заглавие</label>
+                    <input asp-for="Title" class="form-control" placeholder="Името на спектакъла...">
+                    <span asp-validation-for="Title" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Composer">Композитор</label>
+                    <input asp-for="Composer" class="form-control" placeholder="Име на композитора...">
+                    <span asp-validation-for="Composer" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Synopsis">Либрето</label>
+                    <textarea asp-for="Synopsis" class="form-control" rows="5" placeholder="Либрето..."></textarea>
+                    <span asp-validation-for="Synopsis" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Снимка</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="https://picture.Url...">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PerformanceTypeId"></label>
+                    <select asp-for="PerformanceTypeId" class="form-control">
+                        <option value="0">Избери тип</option>
+                        @foreach (var type in Model.PerformanceTypes)
+                        {
+                            <option value="@type.Id">@type.TypeName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="PerformanceTypeId" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>

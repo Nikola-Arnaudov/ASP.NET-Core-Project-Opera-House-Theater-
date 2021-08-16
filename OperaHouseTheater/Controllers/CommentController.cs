@@ -24,7 +24,7 @@
         }
 
         [Authorize]
-        //only Admin and member
+        //only member
         public IActionResult Create(int id) 
         {
             var memberId = this.members.GetMemberId(this.User.GetId());
@@ -34,6 +34,13 @@
                 TempData["ErrorMessage"] = "You should become member if you want to add comments or buy some tickets.";
 
                 return RedirectToAction(nameof(MemberController.Become), "Member");
+            }
+
+            if (User.IsAdmin())
+            {
+                TempData["ErrorMessage"] = "Only member can add comments";
+
+                return RedirectToAction("Error", "Home");
             }
 
             var crrPerformance = this.comments.CurrentPerformanceExist(id);
@@ -64,7 +71,6 @@
 
             if (memberId == 0 && !User.IsAdmin())
             {
-                //TODO
                 TempData["ErrorMessage"] = "You should become member if you want to add comments or buy some tickets.";
 
                 return RedirectToAction(nameof(MemberController.Become), "Member");
@@ -88,13 +94,6 @@
 
             var comment = this.comments.GetCommentById(id);
 
-            if (comment.MemberId != memberId && !User.IsAdmin())
-            {
-                TempData["ErrorMessage"] = "You can only delete your own comments.";
-
-                return RedirectToAction("Error", "Home");
-            }
-
             if (comment == null)
             {
                 TempData["ErrorMessage"] = "This is an invalid comment.";
@@ -102,6 +101,12 @@
                 return RedirectToAction("Error", "Home");
             }
 
+            if (comment.MemberId != memberId && !User.IsAdmin())
+            {
+                TempData["ErrorMessage"] = "You can only delete your own comments.";
+
+                return RedirectToAction("Error", "Home");
+            }
             this.comments.Delete(id);
 
             return Redirect($"/Performance/Details/{comment.PerformanceId}");

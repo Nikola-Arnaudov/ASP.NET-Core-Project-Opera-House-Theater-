@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <label asp-for="RoleId" class="text-center">Роля</label>
                     <select asp-for="RoleId" class="form-control">
-                        <option value="Избери спектакъл">Избери роля</option>
+                        <option value="Избери роля">Избери роля</option>
                         @foreach (var role in Model.Roles)
                         {
                             <option value="@role.Id">@role.RoleName</option>
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label asp-for="EmployeeId" class="text-center">Изпълнител</label>
                     <select asp-for="EmployeeId" class="form-control">
-                        <option value="Избери спектакъл">Избери роля</option>
+                        <option value="Избери изпълнител">Избери изпълнител</option>
                         @foreach (var employee in Model.Employees)
                         {
                             <option value="@employee.Id">@employee.FirstName @employee.LastName - @employee.Category</option>

@@ -7,7 +7,7 @@
 
     public class SetEventRoleFormModel
     {
-        [Display(Name = "Заглавие")]
+        [Display(Name = "Role")]
         [Required(ErrorMessage = "This field is required.")]
         public int RoleId { get; set; }
 
@@ -15,6 +15,8 @@
 
         public int EventId { get; set; }
 
+        [Display(Name = "Actor")]
+        [Required(ErrorMessage = "This field is required.")]
         public int EmployeeId { get; set; }
 
         public IEnumerable<EventRoleServiceDropdownModel> Roles { get; set; }

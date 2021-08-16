@@ -8,7 +8,15 @@
         <h3>Ooops... Error.</h3>
     </div>
     <div class="card-body">
-        <h4 class="card-title text-danger">@Model.Message</h4>
-        <p class="card-text text-danger">An error occurred while processing your request. Please contact with our website support.</p>
+        @if (Model.Message != null)
+        {
+            <h4 class="card-title text-danger">@Model.Message</h4>
+        }
+        else
+        {
+            <h1 class="text-center text-dark">404</h1>
+            <h3 class="text-center  text-danger">PAGE NOT FOUND</h3>
+        }
+        <p class="card-text text-center text-danger">An error occurred while processing your request. Please contact with our website support.</p>
     </div>
 </div>
