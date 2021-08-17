@@ -11,7 +11,7 @@
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
+//#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
@@ -802,7 +802,7 @@
                 {
                     b.Navigation("Performances");
                 });
-#pragma warning restore 612, 618
+//#pragma warning restore 612, 618
         }
     }
 }

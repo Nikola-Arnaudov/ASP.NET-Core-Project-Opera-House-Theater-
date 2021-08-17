@@ -72,21 +72,6 @@
                    asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
             </div>
         }
-        @*@if (User.Claims.Any())
-        {
-            var userId = User.GetId();
-
-            var userIsMember = Members.UserIsMember(userId);
-
-            @if (userIsMember || User.IsInRole(AdministratorRoleName))
-            {
-                <div class="" style="text-align: center">
-                    <a asp-controller="Comment"
-                       asp-action="Create"
-                       asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
-                </div>
-            }
-        }*@
         <div style="height:300px;overflow-y:scroll">
             @if (!Model.Comments.Any())
             {

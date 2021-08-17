@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using OperaHouseTheater.Data.Models;
+    using System;
 
     public class OperaHouseTheaterDbContext : IdentityDbContext<User>
     {
@@ -38,24 +39,8 @@
 
         public DbSet<Ticket> Tickets { get; set; }
 
-        //public DbSet<User> Users { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder
-            //    .Entity<Admin>()
-            //    .HasOne<IdentityUser>()
-            //    .WithOne()
-            //    .HasForeignKey<Admin>(a => a.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //builder
-            //    .Entity<Member>()
-            //    .HasOne<IdentityUser>()
-            //    .WithOne()
-            //    .HasForeignKey<Member>(a => a.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
             builder
                 .Entity<Admin>()
                 .HasOne<User>()

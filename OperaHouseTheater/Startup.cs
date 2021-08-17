@@ -28,7 +28,6 @@ namespace OperaHouseTheater
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -48,6 +47,8 @@ namespace OperaHouseTheater
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<OperaHouseTheaterDbContext>();
 
+            services.AddMemoryCache();
+
             services.AddControllersWithViews();
 
             services.AddTransient<INewsService, NewsService>();
@@ -65,11 +66,6 @@ namespace OperaHouseTheater
 
         }
         
-        //some new changes
-
-        //some new changes
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.PrepareDatabase();
@@ -95,18 +91,13 @@ namespace OperaHouseTheater
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
-                    //new one: /{area}/{controller}/{action}/{id?}
-
                     endpoints.MapControllerRoute(
                         name: "Areas",
                         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-                    //
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });
-
-            
         }
     }
 }

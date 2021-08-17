@@ -1,11 +1,9 @@
 ﻿namespace OperaHouseTheater.Services.Employees
 {
-    using Microsoft.AspNetCore.Authorization;
+    using System.Linq;
+    using System.Collections.Generic;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using OperaHouseTheater.Models.Employee;
-    using System.Collections.Generic;
-    using System.Linq;
     public class EmployeeService : IEmployeeService
     {
         private readonly OperaHouseTheaterDbContext data;
@@ -90,7 +88,6 @@
             return employeeData;
         }
 
-        
         public bool Delete(int id)
         {
             var employee = this.data.Employees

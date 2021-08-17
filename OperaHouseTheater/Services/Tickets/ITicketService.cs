@@ -2,7 +2,6 @@
 {
     using System;
 
-
     public interface ITicketService
     {
         TicketQueryServiceModel All(string userId);

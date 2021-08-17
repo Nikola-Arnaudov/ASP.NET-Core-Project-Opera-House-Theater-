@@ -34,13 +34,6 @@
             this.data.SaveChanges();
         }
 
-        //public int GetMemberId(string userId)
-        //    => this.data
-        //        .Members
-        //        .Where(m => m.UserId == userId)
-        //        .Select(m => m.Id)
-        //        .FirstOrDefault();
-
         public int CurrentPerformanceExist(int id)
             => this.data.Performances.FirstOrDefault(p => p.Id == id).Id;
 

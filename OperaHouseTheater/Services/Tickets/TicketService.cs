@@ -1,11 +1,9 @@
 ﻿namespace OperaHouseTheater.Services.Tickets
 {
+    using System;
+    using System.Linq;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class TicketService : ITicketService
     {
@@ -22,8 +20,6 @@
 
             if (member == null)
             {
-                //TODO Error Message
-
                 return null;
             }
 

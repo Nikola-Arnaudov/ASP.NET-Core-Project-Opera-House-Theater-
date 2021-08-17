@@ -25,8 +25,6 @@
 
         bool Delete(int id);
 
-        //bool TicketsExists(int id);
-
         IEnumerable<PerformanceTypeServiceModel> GetPerformanceTypes();
 
         bool PerformanceExistById(int id);

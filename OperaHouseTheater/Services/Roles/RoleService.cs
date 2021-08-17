@@ -1,11 +1,8 @@
 ﻿namespace OperaHouseTheater.Services.Roles
 {
+    using System.Linq;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class RoleService : IRoleService
     {

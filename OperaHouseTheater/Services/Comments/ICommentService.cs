@@ -1,7 +1,7 @@
-﻿using OperaHouseTheater.Data.Models;
-
-namespace OperaHouseTheater.Services.Comments
+﻿namespace OperaHouseTheater.Services.Comments
 {
+    using OperaHouseTheater.Data.Models;
+
     public interface ICommentService
     {
 
@@ -10,8 +10,6 @@ namespace OperaHouseTheater.Services.Comments
         void Delete(int id);
 
         int CurrentPerformanceExist(int id);
-
-        //int GetMemberId(string userId);
 
         Comment GetCommentById(int id);
     }

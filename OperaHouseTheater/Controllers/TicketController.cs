@@ -171,6 +171,5 @@
 
             return RedirectToAction(nameof(All), "Ticket");
         }
-
     }
 }

@@ -4,7 +4,6 @@
     using OperaHouseTheater.Models.Event;
     using OperaHouseTheater.Services.News;
 
-
     public class HomeViewModel
     {
         public List<EventsListingViewModel> Events { get; set; }

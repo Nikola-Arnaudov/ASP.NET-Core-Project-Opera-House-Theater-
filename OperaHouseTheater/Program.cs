@@ -1,6 +1,5 @@
 namespace OperaHouseTheater
 {
-
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
 

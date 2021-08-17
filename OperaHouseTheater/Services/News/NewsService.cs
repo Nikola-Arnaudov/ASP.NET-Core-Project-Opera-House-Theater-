@@ -4,15 +4,12 @@
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
 
-
     public class NewsService : INewsService
     {
         private readonly OperaHouseTheaterDbContext data;
 
         public NewsService(OperaHouseTheaterDbContext data) 
             => this.data = data;
-
-       
 
         public NewsQueryServiceModel All(
             string searchTerm,

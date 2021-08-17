@@ -1,10 +1,7 @@
 ﻿namespace OperaHouseTheater.Services.Admins
 {
-    using OperaHouseTheater.Data;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
+    using OperaHouseTheater.Data;
 
     public class AdminService : IAdminService
     {

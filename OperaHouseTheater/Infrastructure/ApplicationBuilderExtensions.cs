@@ -13,7 +13,6 @@
     using static WebConstants;
     using static Areas.Admin.AdminConstants;
 
-
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder PrepareDatabase(
@@ -25,11 +24,9 @@
 
             MigrateDatabase(services);
 
-
             SeedPerformanceTypes(services);
             SeedDepartments(services);
             SeedEmployeeCategories(services);
-
 
             SeedAdministrator(services);
             

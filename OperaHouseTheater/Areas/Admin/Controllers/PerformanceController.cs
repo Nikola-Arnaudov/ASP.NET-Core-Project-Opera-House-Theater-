@@ -26,7 +26,7 @@
         }
 
         //public IActionResult Index() => View();
-
+        [Authorize]
         public IActionResult Create()
         {
             if (!User.IsAdmin())

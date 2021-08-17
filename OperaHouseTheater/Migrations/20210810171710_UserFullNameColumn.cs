@@ -2,7 +2,6 @@
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-
     public partial class UserFullNameColumn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

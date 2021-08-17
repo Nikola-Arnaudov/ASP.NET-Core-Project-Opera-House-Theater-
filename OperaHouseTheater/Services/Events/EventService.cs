@@ -1,12 +1,11 @@
 ﻿namespace OperaHouseTheater.Services.Events
 {
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using OperaHouseTheater.Models.Event;
     using OperaHouseTheater.Services.Events.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using static Data.DataConstants;
 
@@ -122,17 +121,6 @@
             var crrEvent = this.data.Events
                 .FirstOrDefault(x => x.Id == id);
 
-            //TODO: if news is null...
-            //if (crrEvent == null)
-            //{
-            //    return false;
-            //}
-
-            //if (crrEvent.Date <= DateTime.UtcNow)
-            //{
-            //    return false;
-            //}
-
             var eventRoles = this.data
                 .EventRoles
                 .Where(er => er.EventId == id)
@@ -172,8 +160,6 @@
         {
             var crrEventRole = this.data.EventRoles
                 .FirstOrDefault(e => e.Id == id);
-
-            //TODO Message
 
             if (crrEventRole == null)
             {

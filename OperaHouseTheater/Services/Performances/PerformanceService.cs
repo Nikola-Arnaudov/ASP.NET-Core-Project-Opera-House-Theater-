@@ -1,13 +1,10 @@
 ﻿namespace OperaHouseTheater.Services.Performances
 {
+    using System.Linq;
+    using System.Collections.Generic;
     using OperaHouseTheater.Data;
     using OperaHouseTheater.Data.Models;
-    using OperaHouseTheater.Services.Events;
     using OperaHouseTheater.Services.Performances.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class PerformanceService : IPerformanceService
     {

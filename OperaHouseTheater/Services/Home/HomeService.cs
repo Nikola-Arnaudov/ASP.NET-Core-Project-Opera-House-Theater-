@@ -1,12 +1,9 @@
 ﻿namespace OperaHouseTheater.Services.Home
 {
-    using OperaHouseTheater.Data;
-    using OperaHouseTheater.Services.Home.Models;
-    using OperaHouseTheater.Services.News;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
+    using OperaHouseTheater.Data;
+    using OperaHouseTheater.Services.News;
+    using OperaHouseTheater.Services.Home.Models;
 
     public class HomeService : IHomeService
     {
