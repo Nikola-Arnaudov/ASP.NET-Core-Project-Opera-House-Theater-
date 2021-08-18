@@ -34,8 +34,8 @@
             this.data.SaveChanges();
         }
 
-        public int CurrentPerformanceExist(int id)
-            => this.data.Performances.FirstOrDefault(p => p.Id == id).Id;
+        public bool CurrentPerformanceExist(int id)
+            => this.data.Performances.Any(p => p.Id == id);
 
         public Comment GetCommentById(int id)
             => this.data.Comments.FirstOrDefault(c => c.Id == id);

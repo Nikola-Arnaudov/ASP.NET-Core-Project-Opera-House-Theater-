@@ -43,10 +43,10 @@
                 return RedirectToAction("Error", "Home");
             }
 
-            var crrPerformance = this.comments.CurrentPerformanceExist(id);
+            var crrPerformanceExist = this.comments.CurrentPerformanceExist(id);
 
             //TODO: Error message
-            if (crrPerformance == 0)
+            if (!crrPerformanceExist)
             {
                 TempData["ErrorMessage"] = "That performance doesn't exist.";
 
@@ -56,7 +56,7 @@
             var commentData = new CreateCommentFormModel
             {
                 MemberId = memberId,
-                PerformanceId = crrPerformance
+                PerformanceId = id
             };
 
             return View(commentData);

@@ -9,7 +9,7 @@
 
         void Delete(int id);
 
-        int CurrentPerformanceExist(int id);
+        bool CurrentPerformanceExist(int id);
 
         Comment GetCommentById(int id);
     }
