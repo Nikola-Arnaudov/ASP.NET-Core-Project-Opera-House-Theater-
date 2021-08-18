@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label asp-for="CategoryId">Категория</label>
                     <select asp-for="CategoryId" class="form-control">
-                        <option value="0">Chose category...</option>
+                        <option value="0">Избери категория...</option>
                         @foreach (var category in Model.EmployeeCategories)
                         {
                             <option value="@category.Id">@category.CategoryName</option>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label asp-for="DepartmentId">Отдел</label>
                     <select asp-for="DepartmentId" class="form-control">
-                        <option value="0">Chose department...</option>
+                        <option value="0">Избери отдел...</option>
                         @foreach (var department in Model.EmployeeDepartments)
                         {
                             <option value="@department.Id">@department.DepartmentName</option>

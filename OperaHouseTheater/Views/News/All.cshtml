@@ -14,8 +14,8 @@
     <div class="row mb-2 ">
         <div class="col float-right">
             <div style="float:right" class="form-group col-md-3 text-right">
-                <label asp-for="SearchTerm" class="text-right"></label>
-                <input asp-for="SearchTerm" class="form-control" placeholder="Some text" />
+                <label asp-for="SearchTerm" class="text-right">Търсене</label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Текст" />
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
 
 @if (!Model.News.Any())
 {
-    <h3 class="text-center">There are no news found by the given text.</h3>
+    <h3 class="text-center">Няма намерени новини.</h3>
 }
 
 <div class="row">
@@ -37,7 +37,7 @@
                     <span>Opera House Theater</span>
                     <h5 style="color:#ba9765" class="card-title text-center">@news.Title</h5>
                     <a asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="btn btn-info">Виж повече</a>
-                    <a asp-area="Admin" asp-controller="News" asp-action="Delete" asp-route-id="@news.Id" class="btn btn-danger">Delete</a>
+                    <a asp-area="Admin" asp-controller="News" asp-action="Delete" asp-route-id="@news.Id" class="btn btn-danger">Изтрии</a>
                 </div>
             </div>
         </div>

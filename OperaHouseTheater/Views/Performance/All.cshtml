@@ -16,9 +16,9 @@
     <div class="row mb-2 ">
         <div class="form-group col-md-3 text-right">
             <div class="form-group">
-                <label asp-for="Type"></label>
+                <label asp-for="Type">Избери тип</label>
                 <select asp-for="Type" class="form-control" id="select-option">
-                    <option value="@null">All</option>
+                    <option value="@null">Всички</option>
                     @foreach (var type in Model.Types)
                     {
                         <option value="@type">@type</option>
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div style="float:right" class="form-group col-md-3 text-right">
-            <label asp-for="SearchTerm" class="text-right"></label>
-            <input asp-for="SearchTerm" class="form-control" placeholder="Some text" />
+            <label asp-for="SearchTerm" class="text-right">Търсене</label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Текст..." />
         </div>
     </div>
 </form>
@@ -37,7 +37,7 @@
 <div class="row">
     @if (!Model.Performances.Any())
     {
-        <h3>We are sorry, but there is no such performance according to the given criteria.</h3>
+        <h3>Съжаляваме, но няма спектакъл с тези критерии.</h3>
     }
     @foreach (var performance in Model.Performances)
     {
@@ -51,8 +51,8 @@
                         <a asp-controller="Performance" asp-action="Details" asp-route-id="@performance.Id" class="btn btn-info">Виж повече</a>
                         @if (User.IsAdmin())
                         {
-                            <a asp-area="Admin" asp-controller="Performance" asp-action="Edit" asp-route-id="@performance.Id" class="btn btn-warning">Edit</a>
-                            <a asp-area="Admin" asp-controller="Performance" asp-action="Delete" asp-route-id="@performance.Id" class="btn btn-danger">Delete</a>
+                            <a asp-area="Admin" asp-controller="Performance" asp-action="Edit" asp-route-id="@performance.Id" class="btn btn-warning">Редактирай</a>
+                            <a asp-area="Admin" asp-controller="Performance" asp-action="Delete" asp-route-id="@performance.Id" class="btn btn-danger">Изтрии</a>
                         }
                     </div>
                 </div>

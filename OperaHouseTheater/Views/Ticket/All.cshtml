@@ -1,18 +1,18 @@
 ﻿@*@model MyTicketsViewModel*@
 @model TicketQueryServiceModel
 
-@{ ViewBag.Title = "My tickets"; }
+@{ ViewBag.Title = "Моите билети"; }
 
 <div class="container">
     <h2 class="text-center mb-4">@ViewBag.Title</h2>
     @if (!Model.Tickets.Any())
     {
         <div class="jumbotron">
-            <h1 class="display-4">Hello, @Model.MemberName!</h1>
-            <p class="lead">You don't have any tickets for now.</p>
+            <h1 class="display-4">Здравейте, @Model.MemberName!</h1>
+            <p class="lead">Нямате билети за сега.</p>
             <hr class="my-4">
-            <p>You can go to Schedule page and find out all our events that are comming.</p>
-            <a class="btn btn-primary btn-lg" asp-action="All" asp-controller="Event" role="button">Schedule</a>
+            <p>Можете да разгледате предстоящите ни спектакли в календара.</p>
+            <a class="btn btn-primary btn-lg" asp-action="All" asp-controller="Event" role="button">Календар</a>
         </div>
     }
     else
@@ -27,18 +27,18 @@
                     <h3 class="card-title mb-2 font-weight-bold font-italic">@ticket.Title</h3>
                     <p class="card-text"></p>
                     <div class="row">
-                        <p class="col font-weight-bold font-italic">Date: @ticket.Date.ToString("d") 19:00</p>
-                        <p class="col font-weight-bold">Places: @ticket.SeatsCount</p>
-                        <p class="col font-weight-bold">Amount: @ticket.Amount.00</p>
+                        <p class="col font-weight-bold font-italic">Дата: @ticket.Date.ToString("d") 19:00</p>
+                        <p class="col font-weight-bold">Места: @ticket.SeatsCount</p>
+                        <p class="col font-weight-bold">Цена: @ticket.Amount.00</p>
                     </div>
-                    <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Details</a>
-                    <a asp-controller="Ticket" asp-action="Return" asp-route-id="@ticket.Id" class="btn btn-warning">Return ticket</a>
+                    <a asp-controller="Event" asp-action="Details" asp-route-id="@ticket.EventId" class="btn btn-info">Детайли</a>
+                    <a asp-controller="Ticket" asp-action="Return" asp-route-id="@ticket.Id" class="btn btn-warning">Върни билета</a>
                     @if (ticket.Date < DateTime.Today)
                     {
                         <div class="badge badge-warning text-wrap" style="width: 9rem;">
                             The ticket has expired.
                         </div>
-                        <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger">Delete</a>
+                        <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger">Изтрий</a>
                     }
                 </div>
                 <div class="card-footer text-muted" style="background-color:antiquewhite">

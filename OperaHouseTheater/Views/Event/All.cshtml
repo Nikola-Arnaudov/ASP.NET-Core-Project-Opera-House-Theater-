@@ -22,9 +22,9 @@
     <div class="row mb-2 ">
         <div class="form-group col-md-3 text-right">
             <div class="form-group">
-                <label asp-for="Type"></label>
+                <label asp-for="Type">Избери тип</label>
                 <select asp-for="Type" class="form-control">
-                    <option value="@null">All</option>
+                    <option value="@null">Всички</option>
                     @foreach (var type in Model.Types)
                     {
                         <option value="@type">@type</option>
@@ -33,8 +33,8 @@
             </div>
         </div>
         <div style="float:right" class="form-group col-md-3 text-right">
-            <label asp-for="SearchTerm" class="text-right"></label>
-            <input asp-for="SearchTerm" class="form-control" placeholder="Some text" />
+            <label asp-for="SearchTerm" class="text-right">Търсене</label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Текст..." />
         </div>
     </div>
 </form>
@@ -61,11 +61,11 @@
                     <a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Виж повече</a>
                     @if (User.IsAdmin())
                     {
-                        <a asp-controller="Event" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-controller="Event" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Изтрии</a>
                     }
                     else
                     {
-                        <a asp-controller="Ticket" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Buy ticket</a>
+                        <a asp-controller="Ticket" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Купи билет</a>
                     }
                 </div>
             </div>

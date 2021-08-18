@@ -11,10 +11,10 @@
             <h3 class="card-title">@Model.Title</h3>
             <h6 class="card-title">@Model.PerformanceType от @Model.Composer</h6>
             <h6 class="card-title">Дата: @Model.Date.ToString("d") 19:00</h6>
-            <p class="card-text">Free seats: @Model.FreeSeats</p>
-            <p class="card-text">Ticket price: @Model.TicketPrice.00</p>
+            <p class="card-text">Свободни места: @Model.FreeSeats</p>
+            <p class="card-text">Цена на билет: @Model.TicketPrice.00</p>
             <div class="container">
-                <h2 class="heading-margin text-center">Buy ticket</h2>
+                @*<h2 class="heading-margin text-center">Buy ticket</h2>*@
 
                 <div class="form-group" style="display:none">
                     <label asp-for="Title" class="text-center">Заглавие</label>
@@ -65,7 +65,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="SeatsCount">Tickets you want?</label>
+                    <label asp-for="SeatsCount">Брои места?</label>
                     <select asp-for="SeatsCount" class="form-control">
                         @for (int i = 0; i <= 50; i++)
                         {

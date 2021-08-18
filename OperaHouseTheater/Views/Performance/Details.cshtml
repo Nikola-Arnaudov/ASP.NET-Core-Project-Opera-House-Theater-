@@ -53,7 +53,7 @@
                             <h5>@role.RoleName</h5>
                         </div>
                         <div class="col">
-                            <a asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                            <a asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger">Изтрии</a>
                         </div>
                     </div>
                 }
@@ -61,7 +61,7 @@
         }
 
         <div class="rom mb-2"></div>
-        <h3 class="text-center mb-4">Comments</h3>
+        <h3 class="text-center mb-4">Коментари</h3>
 
         @*new one:*@
         @if (!User.IsAdmin())
@@ -69,14 +69,14 @@
             <div class="" style="text-align: center">
                 <a asp-controller="Comment"
                    asp-action="Create"
-                   asp-route-id="@Model.Id" class="btn btn-outline-primary">Add Comment</a>
+                   asp-route-id="@Model.Id" class="btn btn-outline-primary">Добави коментар</a>
             </div>
         }
         <div style="height:300px;overflow-y:scroll">
             @if (!Model.Comments.Any())
             {
-                <h3 class="text-center mb-2">There are still no comments for this performance.</h3>
-                <h5 class="text-center">You can be the first one with comment here!</h5>
+                <h3 class="text-center mb-2">Все още няма мнения за този спектакъл.</h3>
+                <h5 class="text-center">Бъдете първия оставил коментар!</h5>
             }
             else
             {
@@ -94,7 +94,7 @@
                             {
                                 <a asp-controller="Comment" asp-action="Delete"
                                    asp-route-id="@comment.Id"
-                                   class="btn btn-outline-danger float-right">Delete</a>
+                                   class="btn btn-outline-danger float-right">Изтрии</a>
                             }
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 ﻿@model CreateCommentFormModel
 
-@{ViewBag.Title = "Add Comment"; }
+@{ViewBag.Title = "Добави коментар"; }
 
 <div class="container">
     <div class="row">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Text"></label>
-                    <textarea asp-for="Text" class="form-control" rows="3" placeholder="You comment here... :)"></textarea>
+                    <textarea asp-for="Text" class="form-control" rows="3" placeholder="Текст... :)"></textarea>
                     <span asp-validation-for="Text" class="small text-danger"></span>
                 </div>
                 <input class="btn btn-primary float-right" type="submit" value="Send" />
