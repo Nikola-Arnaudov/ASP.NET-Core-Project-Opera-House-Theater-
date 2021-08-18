@@ -1,1 +1,3 @@
-# Opera House Theater
+<p align="center">
+    # Opera House Theater
+</p>
